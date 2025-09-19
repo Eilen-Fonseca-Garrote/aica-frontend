@@ -1,4 +1,4 @@
 ## Frontend del Sistema de Recursos Humanos de Aica 
 
-# PP ---> techs: Next.js & React 
+# PP2 ---> techs: Next.js & React 
 
