@@ -1,0 +1,16 @@
+stages:
+  - deploy
+
+deploy-dev:
+  stage: deploy
+  tags:
+    - personal-front-melani
+  only:
+    - Melani
+  script:
+    - docker build -t personal-front:deployment .
+    - docker container rm personal-front -f
+    - docker image rm personal-front:latest -f
+    - docker tag personal-front:deployment personal-front:latest
+    - docker rmi personal-front:deployment
+    - docker-compose up -d
