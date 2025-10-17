@@ -1,5 +1,4 @@
-import PromedioPage from "./promedios/promedioPage";
-
+import PromedioPage from "./promedio/promedioPage";
 export default function Home() {
   return (
     <PromedioPage />
