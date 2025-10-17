@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+    web:
+        image: personal-front
+        container_name: personal-front
+        restart: always
+        build:
+            context: .
+        ports:
+            - 9035:3000
