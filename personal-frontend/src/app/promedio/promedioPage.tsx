@@ -4,8 +4,9 @@ import { useState } from 'react';
 import PromedioSection from './PromedioSection';
 import PromedioMensualForm from './PromedioMensualForm';
 import PromedioDiarioForm from './PromedioDiarioForm';
-import PromedioMensualResult, { PromedioData, TotalData } from "./PromedioMensualResult";
+import PromedioMensualResult from "./PromedioMensualResult";
 import PromedioDiarioResult, { PromedioDiario } from "./PromedioDiarioResult";
+import { Promedio, Totales } from './types';
 
 export default function PromedioPage() {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -16,25 +17,66 @@ export default function PromedioPage() {
   const [fechaDiario, setFechaDiario] = useState("");
   const [direccionFuncional, setDireccionFuncional] = useState("0");
 
-  const [mensualData, setMensualData] = useState<PromedioData[]>([]);
-  const [mensualTotal, setMensualTotal] = useState<TotalData | null>(null);
+  const [mensualData, setMensualData] = useState<Promedio[]>([]);
+  const [mensualTotal, setMensualTotal] = useState<Totales | null>(null);
   const [diarioData, setDiarioData] = useState<PromedioDiario[]>([]);
+
+  const apiBase = process.env.REACT_APP_API_URL;
 
   const direcciones = [
     { unidad: 'Dirección 1', valor: 'D1' },
     { unidad: 'Dirección 2', valor: 'D2' },
   ];
 
-  const handlePromedioMensual = () => {
-    setMensualData([{ Unidad: "AICA", HPromFisic: 10, HPromFMuj: 5, HPromTot: 15, HPromMuj: 8 }]);
-    setMensualTotal({ totalFisico: 10, totalFisicoMuj: 5, totalPromedio: 15, totalPromedioMujeres: 8 });
+  const safeFetch = async <T,>(
+    url: string,
+    fallbackData: T
+  ): Promise<T> => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("API error");
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.warn("API no disponible, usando datos de prueba:", err);
+      return fallbackData;
+    }
   };
 
-  const handlePromedioDiario = () => {
-    setDiarioData([
+  const handlePromedioMensual = async () => {
+    const url = `${apiBase}/calcularPromedio/promedioMensual?ueb=${uebMensual}&fecha=${fechaMensual}`;
+
+    const mockMensual: Promedio[] = [
+      { Unidad: "AICA", HPromFisic: 10, HPromFMuj: 5, HPromTot: 15, HPromMuj: 8 },
+    ];
+    const mockTotal: Totales = {
+      totalFisico: 10,
+      totalFisicoMuj: 5,
+      totalPromedio: 15,
+      totalPromedioMujeres: 8,
+    };
+
+    const data = await safeFetch<{ promedio: Promedio[]; total: Totales }>(
+      url,
+      { promedio: mockMensual, total: mockTotal }
+    );
+
+    setMensualData(data.promedio);
+    setMensualTotal(data.total);
+  };
+
+  const handlePromedioDiario = async () => {
+    const url = `${apiBase}/calcularPromedio/promedioDiarioRango?ueb=${uebDiario}&fecha=${fechaDiario}&dir=${direccionFuncional}`;
+
+    const mockDiario: PromedioDiario[] = [
       { Fecha: "2025-10-01", HPDTT: 20, HPDTM: 8 },
       { Fecha: "2025-10-02", HPDTT: 18, HPDTM: 7 },
-    ]);
+    ];
+
+    const data = await safeFetch<PromedioDiario[]>(url, mockDiario);
+    setMensualData([]);
+    setMensualTotal(null);
+    setDiarioData(data);
   };
 
   const imprimirPromedioMensual = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -91,7 +133,7 @@ export default function PromedioPage() {
 
             <div className="rounded-lg border border-gray-200 shadow-sm p-4">
               {mensualData.length > 0 && mensualTotal ? (
-                <PromedioMensualResult promedio={mensualData} total={mensualTotal} title="Promedio Mensual" />
+                <PromedioMensualResult promedio={mensualData} total={mensualTotal}/>
               ) : diarioData.length > 0 ? (
                 <PromedioDiarioResult promedio={diarioData} />
               ) : (
