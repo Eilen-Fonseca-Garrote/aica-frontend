@@ -9,8 +9,9 @@ deploy-dev:
     - Melani
   script:
     - docker build -t personal-front:deployment .
-    - docker container rm personal-front -f
-    - docker image rm personal-front:latest -f
+    - docker-compose down
+    - docker container rm personal-front
+    - docker image rm personal-front:latest
     - docker tag personal-front:deployment personal-front:latest
     - docker rmi personal-front:deployment
     - docker-compose up -d
