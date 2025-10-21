@@ -4,11 +4,11 @@ import type React from "react"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Download, Minus, ArrowLeft } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useRouter } from "next/navigation"
-import {Select} from "@/components/ui/select"
 
 export default function TrabajadoresInterruptos() {
   const router = useRouter()
@@ -67,11 +67,18 @@ export default function TrabajadoresInterruptos() {
           </button>
         </div>
 
-        {/* Filtros y acciones */}
+        {/* Filters and Actions */}
         <div className="mb-6 rounded-b-lg bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center gap-4">
             <Select value={direccion} onValueChange={setDireccion}>
-  
+              <SelectTrigger className="w-[280px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="LIORAD">LIORAD</SelectItem>
+                <SelectItem value="UEB1">UEB1</SelectItem>
+                <SelectItem value="UEB2">UEB2</SelectItem>
+              </SelectContent>
             </Select>
 
             <Input
@@ -91,7 +98,7 @@ export default function TrabajadoresInterruptos() {
           </div>
         </div>
 
-        {/* Tabla de Datos */}
+        {/* Data Table */}
         <div className="rounded-lg bg-white shadow-sm">
           <Table>
             <TableHeader>
