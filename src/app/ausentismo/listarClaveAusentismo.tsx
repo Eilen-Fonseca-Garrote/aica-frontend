@@ -4,16 +4,16 @@ import type React from "react"
 
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Minus, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import AusentismoActions from "./ausentismoActions"
-import {Select} from "@/components/ui/select"
 
 export default function ListarClaveAusentismo() {
   const router = useRouter()
 
   const [selectedUEB, setSelectedUEB] = useState("AICA")
-  const [mesAno, setMesAno] = useState("09-2025")
+  const [mesAno, setMesAno] = useState("09-2022")
   const [leftFilter, setLeftFilter] = useState("")
   const [rightFilter, setRightFilter] = useState("")
 
@@ -81,13 +81,21 @@ export default function ListarClaveAusentismo() {
         </button>
       </div>
 
-      {/*Contenido Main */}
+      {/* Main Content */}
       <div className="p-6">
         <div className="grid grid-cols-2 gap-6 mb-6">
           {/* Left Section - Seleccionar UEB */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Seleccionar UEB</label>
             <Select value={selectedUEB} onValueChange={setSelectedUEB}>
+              <SelectTrigger className="w-full bg-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="AICA">AICA</SelectItem>
+                <SelectItem value="UEB1">UEB1</SelectItem>
+                <SelectItem value="UEB2">UEB2</SelectItem>
+              </SelectContent>
             </Select>
 
             <div className="mt-3 text-xs text-gray-600">
@@ -120,7 +128,7 @@ export default function ListarClaveAusentismo() {
             </div>
           </div>
 
-          {/*Sección Derecha - Mes y Año */}
+          {/* Right Section - Mes y Año */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Mes y Año</label>
             <Input type="text" value={mesAno} onChange={(e) => setMesAno(e.target.value)} className="w-full bg-white" />
@@ -160,7 +168,7 @@ export default function ListarClaveAusentismo() {
           <AusentismoActions onCalculate={handleCalculate} onDownload={handleDownload} />
         </div>
 
-        {/* Tablas de Resultados */}
+        {/* Results Table */}
         <div>
           <h2 className="text-lg font-medium text-gray-900 mb-4">Claves de Ausentismo</h2>
           <div className="border border-gray-300 rounded bg-white overflow-hidden">
