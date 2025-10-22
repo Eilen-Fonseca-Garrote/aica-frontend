@@ -6,7 +6,7 @@ deploy-dev:
   tags:
     - personal-front-melani
   only:
-    - Melani
+    - development
   script:
     - docker build -t personal-front:deployment .
     - docker-compose down
