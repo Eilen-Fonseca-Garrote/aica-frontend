@@ -53,10 +53,8 @@ export default function TrabajadoresInterruptos() {
         <div className="mb-4 flex items-center justify-between rounded-t-lg bg-[#28a745] px-4 py-3">
           <div className="flex items-center gap-3">
             <Button
-              variant="ghost"
-              size="sm"
+              className="ghost text-white hover:bg-green-600 hover:text-white text-sm"
               onClick={() => router.push("/")}
-              className="text-white hover:bg-green-600 hover:text-white"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
@@ -71,13 +69,13 @@ export default function TrabajadoresInterruptos() {
         <div className="mb-6 rounded-b-lg bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center gap-4">
             <Select value={direccion} onValueChange={setDireccion}>
-              <SelectTrigger className="w-[280px]">
+              <SelectTrigger className="w-[280px]" onClickAction={() => {}}>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="LIORAD">LIORAD</SelectItem>
-                <SelectItem value="UEB1">UEB1</SelectItem>
-                <SelectItem value="UEB2">UEB2</SelectItem>
+              <SelectContent isOpen={true}>
+                <SelectItem value="LIORAD" onSelectAction={() => {}}>LIORAD</SelectItem>
+                <SelectItem value="UEB1" onSelectAction={() => {}}>UEB1</SelectItem>
+                <SelectItem value="UEB2" onSelectAction={() => {}}>UEB2</SelectItem>
               </SelectContent>
             </Select>
 
