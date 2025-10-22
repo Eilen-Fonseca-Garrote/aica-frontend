@@ -88,14 +88,13 @@ export default function ListarClaveAusentismo() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Seleccionar UEB</label>
             <Select value={selectedUEB} onValueChange={setSelectedUEB}>
-              <SelectTrigger className="w-full bg-white">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="AICA">AICA</SelectItem>
-                <SelectItem value="UEB1">UEB1</SelectItem>
-                <SelectItem value="UEB2">UEB2</SelectItem>
-              </SelectContent>
+            <SelectTrigger className="w-[280px]" onClickAction={() => {}}><SelectValue />
+                          </SelectTrigger>
+                          <SelectContent isOpen={true}>
+                            <SelectItem value="LIORAD" onSelectAction={() => {}}>LIORAD</SelectItem>
+                            <SelectItem value="UEB1" onSelectAction={() => {}}>UEB1</SelectItem>
+                            <SelectItem value="UEB2" onSelectAction={() => {}}>UEB2</SelectItem>
+                          </SelectContent>
             </Select>
 
             <div className="mt-3 text-xs text-gray-600">
