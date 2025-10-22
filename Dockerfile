@@ -5,7 +5,7 @@ ENV proxy http://192.168.205.251:3128
 ENV https_proxy http://192.168.205.251:3128
 WORKDIR /app
 COPY ./package.json ./
-RUN npm ci
+RUN npm install .
 COPY . .
 RUN npm run build
 CMD ["npm", "start"]
