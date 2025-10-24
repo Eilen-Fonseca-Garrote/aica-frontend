@@ -18,7 +18,7 @@ export default function ListarTrabajadoresPage() {
           </Link>
         </div>
 
-        {/* Content */}
+        {/* Contenido */}
         <div className="bg-white rounded-lg shadow p-6">
           <ListarTrabajadores />
         </div>
