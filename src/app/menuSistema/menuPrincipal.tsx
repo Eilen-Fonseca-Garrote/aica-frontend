@@ -107,7 +107,7 @@ export default function MenuPrincipal() {
               <button
            onClick={() => {
                   toggleSection("listar-trabajadores")
-                  handleNavigate("/listar-trabajadores")
+                  handleNavigate("/listarTrabajadores")
                 }}
                 className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-teal-700 transition-colors"
               >
