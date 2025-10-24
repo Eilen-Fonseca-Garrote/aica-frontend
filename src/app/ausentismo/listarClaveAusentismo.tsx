@@ -90,7 +90,7 @@ export default function ListarClaveAusentismo() {
             <Select value={selectedUEB} onValueChange={setSelectedUEB}>
             <SelectTrigger className="w-[280px]" onClickAction={() => {}}><SelectValue />
                           </SelectTrigger>
-                          <SelectContent isOpen={true}>
+                          <SelectContent>
                             <SelectItem value="LIORAD" onSelectAction={() => {}}>LIORAD</SelectItem>
                             <SelectItem value="UEB1" onSelectAction={() => {}}>UEB1</SelectItem>
                             <SelectItem value="UEB2" onSelectAction={() => {}}>UEB2</SelectItem>
