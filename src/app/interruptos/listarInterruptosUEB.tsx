@@ -65,14 +65,14 @@ export default function TrabajadoresInterruptos() {
           </button>
         </div>
 
-        {/* Filters and Actions */}
+        {/* Filtros y acciones */}
         <div className="mb-6 rounded-b-lg bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center gap-4">
             <Select value={direccion} onValueChange={setDireccion}>
               <SelectTrigger className="w-[280px]" onClickAction={() => {}}>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent isOpen={true}>
+              <SelectContent>
                 <SelectItem value="LIORAD" onSelectAction={() => {}}>LIORAD</SelectItem>
                 <SelectItem value="UEB1" onSelectAction={() => {}}>UEB1</SelectItem>
                 <SelectItem value="UEB2" onSelectAction={() => {}}>UEB2</SelectItem>
