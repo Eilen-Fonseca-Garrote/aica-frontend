@@ -135,7 +135,9 @@ export default function MenuPrincipal() {
             {/* Promedio Trabajadores */}
             <div className="bg-green-600 rounded overflow-hidden">
               <button
-                onClick={() => toggleSection("promedio-trabajadores")}
+                onClick={() => { toggleSection("promedio-trabajadores")
+                                 handleNavigate("/promedio")
+                }}
                 className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-green-700 transition-colors"
               >
                 <span className="font-medium">Promedio Trabajadores</span>
