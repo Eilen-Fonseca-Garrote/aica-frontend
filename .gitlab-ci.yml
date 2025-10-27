@@ -3,6 +3,7 @@ stages:
 
 deploy-dev:
   stage: deploy
+  environment: development
   tags:
     - personal-front-melani
   only:
