@@ -9,3 +9,5 @@ services:
             context: .
         ports:
             - 9035:3000
+        environment:
+            - REACT_APP_API_URL=$REACT_APP_API_URL
