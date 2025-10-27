@@ -8,6 +8,8 @@ deploy-dev:
   only:
     - development
   script:
+    - chmod +x ./setup_env.sh
+    - ./setup_env.sh
     - docker build -t personal-front:deployment .
     - docker-compose down
     - docker image rm personal-front:latest || true
