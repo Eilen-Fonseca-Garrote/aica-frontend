@@ -11,6 +11,7 @@ import TrabajadoresInterruptos from "../interruptos/listarInterruptosUEB"
 import ListarClaveAusentismo from "../ausentismo/listarClaveAusentismo"
 import ModeloRl4Page from "../modeloRL4/page"
 import ToggleSection from "@/app/uiLibrary/ToggleSection"
+import BuscarTrabajador from "../buscarTrabajadores/BuscarTrabajador"
 
 export default function MenuPrincipal() {
   const router = useRouter()
@@ -89,7 +90,7 @@ export default function MenuPrincipal() {
               toggleSection={toggleSection}
               color="teal"
             >
-              <p className="text-sm">Contenido de búsqueda de trabajador...</p>
+              <BuscarTrabajador/>
             </ToggleSection>
 
             <ToggleSection
