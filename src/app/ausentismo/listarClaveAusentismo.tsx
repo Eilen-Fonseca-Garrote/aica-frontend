@@ -10,8 +10,6 @@ import { useRouter } from "next/navigation"
 import AusentismoActions from "./ausentismoActions"
 
 export default function ListarClaveAusentismo() {
-  const router = useRouter()
-
   const [selectedUEB, setSelectedUEB] = useState("AICA")
   const [mesAno, setMesAno] = useState("09-2022")
   const [leftFilter, setLeftFilter] = useState("")
@@ -68,19 +66,6 @@ export default function ListarClaveAusentismo() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-[#3d9f5c] text-white px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button onClick={() => router.push("/")} className="hover:bg-[#358a4f] p-1 rounded" title="Volver al menú">
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <h1 className="text-base font-normal">Cantidad Trabajadores por Clave de Ausentismo</h1>
-        </div>
-        <button className="hover:bg-[#358a4f] p-1 rounded" title="Minimize">
-          <Minus className="w-5 h-5" />
-        </button>
-      </div>
-
       {/* Main Content */}
       <div className="p-6">
         <div className="grid grid-cols-2 gap-6 mb-6">

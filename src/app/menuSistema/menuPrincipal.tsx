@@ -1,12 +1,16 @@
 "use client"
 
-/*Menu Principal para funcionalidades*/
-
 import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { ChevronUp, LogOut, Menu } from "lucide-react"
+import { LogOut, Menu } from "lucide-react"
 import { useRouter } from "next/navigation"
+import ListarTrabajadoresPage from "../listarTrabajadores/page"
+import PromedioPage from "../promedio/PromedioPage"
+import TrabajadoresInterruptos from "../interruptos/listarInterruptosUEB"
+import ListarClaveAusentismo from "../ausentismo/listarClaveAusentismo"
+import ModeloRl4Page from "../modeloRL4/page"
+import ToggleSection from "@/app/uiLibrary/ToggleSection"
 
 export default function MenuPrincipal() {
   const router = useRouter()
@@ -60,10 +64,9 @@ export default function MenuPrincipal() {
           </div>
         </div>
 
-        {/* Spacer */}
         <div className="flex-1" />
 
-        {/* Logout Button */}
+        {/* Logout */}
         <div className="p-4">
           <Button className="w-full justify-start text-white hover:bg-gray-600">
             <LogOut className="h-4 w-4 mr-2" />
@@ -74,150 +77,77 @@ export default function MenuPrincipal() {
 
       {/* Main Content */}
       <main className="flex-1 p-8">
-        {/* Búsquedas y Listados Section */}
+        {/* Búsquedas y Listados */}
         <section className="mb-8">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Búsquedas y Listados</h2>
 
           <div className="space-y-2">
-            {/* Buscar Trabajador */}
-            <div className="bg-teal-600 rounded overflow-hidden">
-              <button
-                onClick={() => {
-                  toggleSection("buscar-trabajador")
-                  handleNavigate("/buscar-trabajador")
-                }}
-                className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-teal-700 transition-colors"
-              >
-                <span className="font-medium">Buscar Trabajador</span>
-                {expandedSections["buscar-trabajador"] ? (
-                  <ChevronUp className="h-5 w-5" />
-                ) : (
-                  <span className="text-2xl font-light">+</span>
-                )}
-              </button>
-              {expandedSections["buscar-trabajador"] && (
-                <div className="bg-white p-4 text-gray-700">
-                  <p className="text-sm">Contenido de búsqueda de trabajador...</p>
-                </div>
-              )}
-            </div>
+            <ToggleSection
+              title="Buscar Trabajador"
+              sectionKey="buscar-trabajador"
+              expandedSections={expandedSections}
+              toggleSection={toggleSection}
+              color="teal"
+            >
+              <p className="text-sm">Contenido de búsqueda de trabajador...</p>
+            </ToggleSection>
 
-            {/* Listar Trabajadores */}
-            <div className="bg-teal-600 rounded overflow-hidden">
-              <button
-           onClick={() => {
-                  toggleSection("listar-trabajadores")
-                  handleNavigate("/listarTrabajadores")
-                }}
-                className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-teal-700 transition-colors"
-              >
-                <span className="font-medium">Listar Trabajadores</span>
-                {expandedSections["listar-trabajadores"] ? (
-                  <ChevronUp className="h-5 w-5" />
-                ) : (
-                  <span className="text-2xl font-light">+</span>
-                )}
-              </button>
-              {expandedSections["listar-trabajadores"] && (
-                <div className="bg-white p-4 text-gray-700">
-                  <p className="text-sm">Contenido de listado de trabajadores...</p>
-                </div>
-              )}
-            </div>
+            <ToggleSection
+              title="Listar Trabajadores"
+              sectionKey="listar-trabajadores"
+              expandedSections={expandedSections}
+              toggleSection={toggleSection}
+              color="teal"
+            >
+              <ListarTrabajadoresPage />
+            </ToggleSection>
           </div>
         </section>
 
-        {/* Reportes Section */}
+        {/* Reportes */}
         <section>
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Reportes</h2>
 
           <div className="space-y-2">
-            {/* Promedio Trabajadores */}
-            <div className="bg-green-600 rounded overflow-hidden">
-              <button
-                onClick={() => { toggleSection("promedio-trabajadores")
-                                 handleNavigate("/promedio")
-                }}
-                className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-green-700 transition-colors"
-              >
-                <span className="font-medium">Promedio Trabajadores</span>
-                {expandedSections["promedio-trabajadores"] ? (
-                  <ChevronUp className="h-5 w-5" />
-                ) : (
-                  <span className="text-2xl font-light">+</span>
-                )}
-              </button>
-              {expandedSections["promedio-trabajadores"] && (
-                <div className="bg-white p-4 text-gray-700">
-                  <p className="text-sm">Contenido de promedio de trabajadores...</p>
-                </div>
-              )}
-            </div>
+            <ToggleSection
+              title="Promedio Trabajadores"
+              sectionKey="promedio-trabajadores"
+              expandedSections={expandedSections}
+              toggleSection={toggleSection}
+              color="green"
+            >
+              <PromedioPage />
+            </ToggleSection>
 
-            {/* Trabajadores Interruptos */}
-            <div className="bg-green-600 rounded overflow-hidden">
-              <button
-                onClick={() => {
-                  toggleSection("trabajadores-interruptos")
-                  handleNavigate("/interruptos")
-                }}
-                className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-green-700 transition-colors"
-              >
-                <span className="font-medium">Trabajadores Interruptos</span>
-                {expandedSections["trabajadores-interruptos"] ? (
-                  <ChevronUp className="h-5 w-5" />
-                ) : (
-                  <span className="text-2xl font-light">+</span>
-                )}
-              </button>
-              {expandedSections["trabajadores-interruptos"] && (
-                <div className="bg-white p-4 text-gray-700">
-                  <p className="text-sm">Contenido de trabajadores interruptos...</p>
-                </div>
-              )}
-            </div>
+            <ToggleSection
+              title="Trabajadores Interruptos"
+              sectionKey="trabajadores-interruptos"
+              expandedSections={expandedSections}
+              toggleSection={toggleSection}
+              color="green"
+            >
+              <TrabajadoresInterruptos />
+            </ToggleSection>
 
-            {/* Cantidad Trabajadores por Clave de Ausentismo */}
-            <div className="bg-green-600 rounded overflow-hidden">
-              <button
-                onClick={() => {
-                  toggleSection("cantidad-trabajadores")
-                  handleNavigate("/ausentismo")
-                }}
-                className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-green-700 transition-colors"
-              >
-                <span className="font-medium">Cantidad Trabajadores por Clave de Ausentismo</span>
-                {expandedSections["cantidad-trabajadores"] ? (
-                  <ChevronUp className="h-5 w-5" />
-                ) : (
-                  <span className="text-2xl font-light">+</span>
-                )}
-              </button>
-            </div>
+            <ToggleSection
+              title="Cantidad Trabajadores por Clave de Ausentismo"
+              sectionKey="cantidad-trabajadores"
+              expandedSections={expandedSections}
+              toggleSection={toggleSection}
+              color="green"
+            >
+              <ListarClaveAusentismo />
+            </ToggleSection>
 
-            {/* Modelo de Ausentismo RL4 */}
-            <div className="bg-green-600 rounded overflow-hidden">
-              <button
-                onClick={() => { 
-                  toggleSection("modelo-ausentismo")
-                  handleNavigate ("/modeloRL4")
-
-                }}
-                className="w-full px-4 py-3 flex items-center justify-between text-white hover:bg-green-700 transition-colors"
-              >
-                <span className="font-medium">Modelo de Ausentismo RL4</span>
-                {expandedSections["modelo-ausentismo"] ? (
-                  <ChevronUp className="h-5 w-5" />
-                ) : (
-                  <span className="text-2xl font-light">+</span>
-                )}
-              </button>
-              {expandedSections["modelo-ausentismo"] && (
-                <div className="bg-white p-4 text-gray-700">
-                  <p className="text-sm">Contenido del modelo de ausentismo...</p>
-                </div>
-              )}
-            </div>
+            <ToggleSection
+              title="Modelo de Ausentismo RL4"
+              sectionKey="modelo-ausentismo"
+              expandedSections={expandedSections}
+              toggleSection={toggleSection}
+              color="green"
+            >
+              <ModeloRl4Page />
+            </ToggleSection>
           </div>
         </section>
       </main>

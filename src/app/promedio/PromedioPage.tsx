@@ -9,8 +9,6 @@ import PromedioDiarioResult, { PromedioDiario } from './PromedioDiarioResult'
 import { Promedio, Totales } from './types'
 
 export default function PromedioPage() {
-  const [isCollapsed, setIsCollapsed] = useState(true)
-
   const [uebMensual, setUebMensual] = useState('0')
   const [fechaMensual, setFechaMensual] = useState('')
   const [uebDiario, setUebDiario] = useState('0')
@@ -88,18 +86,6 @@ export default function PromedioPage() {
 
   return (
     <div className='p-4'>
-      <div className='rounded-xl shadow-md bg-green-100 overflow-hidden'>
-        <div
-          className='flex justify-between items-center bg-green-600 text-white px-5 py-3 cursor-pointer'
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          <h3 className='font-semibold text-lg'>Promedio Trabajadores</h3>
-          <button className='text-white hover:text-gray-200 transition'>
-            <i className={`fas ${isCollapsed ? 'fa-plus' : 'fa-minus'}`} />
-          </button>
-        </div>
-
-        {!isCollapsed && (
           <div className='p-5 space-y-6 bg-white'>
             <div className='grid md:grid-cols-2 gap-6'>
               <PromedioSection title='Promedio Mensual'>
@@ -138,8 +124,6 @@ export default function PromedioPage() {
               )}
             </div>
           </div>
-        )}
-      </div>
     </div>
   )
 }

@@ -6,12 +6,11 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { Download, Minus, ArrowLeft } from "lucide-react"
+import { Download } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useRouter } from "next/navigation"
 
 export default function TrabajadoresInterruptos() {
-  const router = useRouter()
   const [direccion, setDireccion] = useState("LIORAD")
   const [fecha, setFecha] = useState("09-2022")
 
@@ -47,24 +46,7 @@ export default function TrabajadoresInterruptos() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <div className="mb-4 flex items-center justify-between rounded-t-lg bg-[#28a745] px-4 py-3">
-          <div className="flex items-center gap-3">
-            <Button
-              className="ghost text-white hover:bg-green-600 hover:text-white text-sm"
-              onClick={() => router.push("/")}
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <h1 className="text-lg font-medium text-white">Trabajadores interruptos</h1>
-          </div>
-          <button className="text-white hover:text-gray-200" title="Minimize">
-            <Minus className="h-5 w-5" />
-          </button>
-        </div>
-
         {/* Filtros y acciones */}
         <div className="mb-6 rounded-b-lg bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center gap-4">
@@ -122,6 +104,5 @@ export default function TrabajadoresInterruptos() {
           </Table>
         </div>
       </div>
-    </div>
   )
 }
