@@ -11,3 +11,4 @@ services:
             - 9035:3000
         environment:
             - NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+            - NEXT_PUBLIC_API_SIGERH=$NEXT_PUBLIC_API_SIGERH
