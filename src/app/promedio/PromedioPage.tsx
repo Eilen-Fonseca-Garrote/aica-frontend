@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PromedioSection from './PromedioSection'
 import PromedioMensualForm from './PromedioMensualForm'
 import PromedioDiarioForm from './PromedioDiarioForm'
 import PromedioMensualResult from './PromedioMensualResult'
-import PromedioDiarioResult, { PromedioDiario } from './PromedioDiarioResult'
-import { Promedio, Totales } from './types'
+import PromedioDiarioResult, { PromedioDiario, PromedioDiarioResponse } from './PromedioDiarioResult'
+import { Promedio, Totales, Direccion } from './types'
 
 export default function PromedioPage() {
   const [uebMensual, setUebMensual] = useState('0')
@@ -19,12 +19,10 @@ export default function PromedioPage() {
   const [mensualTotal, setMensualTotal] = useState<Totales | null>(null)
   const [diarioData, setDiarioData] = useState<PromedioDiario[]>([])
 
-  const apiBase = process.env.NEXT_PUBLIC_API_URL
+  const [addresses, setAddresses] = useState<Direccion[]>([])
 
-  const direcciones = [
-    { unidad: 'Dirección 1', valor: 'D1' },
-    { unidad: 'Dirección 2', valor: 'D2' }
-  ]
+  const apiBase = process.env.NEXT_PUBLIC_BACKEND_URL
+  const apiSigerh = process.env.NEXT_PUBLIC_API_SIGERH
 
   const safeFetch = async <T,>(url: string, fallbackData: T): Promise<T> => {
     try {
@@ -37,6 +35,19 @@ export default function PromedioPage() {
       return fallbackData
     }
   }
+
+  useEffect(() => {
+  const fetchAddresses = async () => {
+    if(uebDiario != "0"){
+    const url = `${apiSigerh}/recursosHumanos/direccionesUEB?ueb=${uebDiario}`
+
+    const data = await safeFetch<Direccion[]>(url, [])
+    setAddresses(data)
+  }
+  }
+
+  fetchAddresses()
+}, [uebDiario, apiBase])
 
   const handlePromedioMensual = async () => {
     const url = `${apiBase}/calcularPromedio/promedioMensual?ueb=${uebMensual}&fecha=${fechaMensual}`
@@ -61,17 +72,37 @@ export default function PromedioPage() {
   }
 
   const handlePromedioDiario = async () => {
-    const url = `${apiBase}/calcularPromedio/promedioDiarioRango?ueb=${uebDiario}&fecha=${fechaDiario}&dir=${direccionFuncional}`
+    const url = `${apiBase}/calcularPromedio/promedioDiarioRango?ueb=${uebDiario}&fecha=${fechaDiario}&direccion=${direccionFuncional}`
 
-    const mockDiario: PromedioDiario[] = [
-      { Fecha: '2025-10-01', HPDTT: 20, HPDTM: 8 },
-      { Fecha: '2025-10-02', HPDTT: 18, HPDTM: 7 }
-    ]
+    const mockPromedioDiarioResponse: PromedioDiarioResponse = {
+        direcc: "DIRECCIÓN DE INFORMÁTICA",
+        fecha: "2025-11-05",
+        promedio: [
+          {
+            Fecha: "2025-11-01",
+            HPDTT: 7.5,
+            HPDTM: 6.8,
+          },
+          {
+            Fecha: "2025-11-02",
+            HPDTT: 8.0,
+            HPDTM: 7.2,
+          },
+          {
+            Fecha: "2025-11-03",
+            HPDTT: 7.2,
+            HPDTM: 6.5,
+          }
+        ],
+        success: true,
+        ueb: "Citox",
+      };
 
-    const data = await safeFetch<PromedioDiario[]>(url, mockDiario)
+
+    const data = await safeFetch<PromedioDiarioResponse>(url, mockPromedioDiarioResponse)
     setMensualData([])
     setMensualTotal(null)
-    setDiarioData(data)
+    setDiarioData(data.promedio)
   }
 
   const imprimirPromedioMensual = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -104,7 +135,7 @@ export default function PromedioPage() {
                   ueb={uebDiario}
                   fecha={fechaDiario}
                   direccionFuncional={direccionFuncional}
-                  direcciones={direcciones}
+                  addresses={addresses}
                   onChangeUeb={setUebDiario}
                   onChangeDireccion={setDireccionFuncional}
                   onChangeFecha={setFechaDiario}

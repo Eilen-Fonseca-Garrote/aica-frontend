@@ -7,6 +7,14 @@ export interface PromedioDiario {
   HPDTM: number;
 }
 
+export interface PromedioDiarioResponse {
+  direcc: string;
+  fecha: string;
+  promedio: PromedioDiario[];
+  success: boolean;
+  ueb: string;
+}
+
 interface PromedioDiarioResultProps {
   promedio: PromedioDiario[];
 }

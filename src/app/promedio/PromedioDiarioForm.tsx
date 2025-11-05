@@ -1,16 +1,12 @@
 import Select from "../uiLibrary/Select";
 import PromedioActions from "./PromedioActions";
-
-interface Direccion {
-  unidad: string;
-  valor: string;
-}
+import { Direccion } from "./types";
 
 interface PromedioDiarioFormProps {
   ueb: string;
   direccionFuncional: string;
   fecha: string;
-  direcciones: Direccion[];
+  addresses: Direccion[];
   onChangeUeb: (v: string) => void;
   onChangeDireccion: (v: string) => void;
   onChangeFecha: (v: string) => void;
@@ -22,7 +18,7 @@ export default function PromedioDiarioForm({
   ueb,
   direccionFuncional,
   fecha,
-  direcciones,
+  addresses,
   onChangeUeb,
   onChangeDireccion,
   onChangeFecha,
@@ -38,6 +34,7 @@ export default function PromedioDiarioForm({
     { label: "SH+", value: "57" },
   ];
 
+  console.log("addresses", addresses)
   return (
     <div className="p-4 space-y-4">
       <div className="grid grid-cols-3 gap-4">
@@ -50,9 +47,12 @@ export default function PromedioDiarioForm({
           value={direccionFuncional}
           onChange={(e) => onChangeDireccion(e.target.value)}
           options={[
-            { label: "Seleccionar Dirección..", value: "0" },
-            ...direcciones.map((d) => ({ label: d.unidad, value: d.valor })),
-          ]}
+              { label: "Seleccionar Dirección..", value: "0" },
+              ...Object.values(addresses).map((d) => ({
+                label: d.Unidad.trim(),
+                value: d.Area["0"].EstNV1.toString(),
+              })),
+            ]}
         />
         <input
           type="date"

@@ -13,3 +13,11 @@ export interface Totales {
   totalPromedio: number
   totalPromedioMujeres: number
 }
+
+export interface Direccion {
+  Unidad: string;
+  Area: [{
+    EstNV1: number,
+    Unidad: string
+  }];
+}

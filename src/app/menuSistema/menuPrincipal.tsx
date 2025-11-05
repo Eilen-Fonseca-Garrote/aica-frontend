@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { LogOut, Menu } from "lucide-react"
-import { useRouter } from "next/navigation"
 import ListarTrabajadoresPage from "../listarTrabajadores/page"
 import PromedioPage from "../promedio/PromedioPage"
 import TrabajadoresInterruptos from "../interruptos/listarInterruptosUEB"
@@ -14,7 +13,6 @@ import ToggleSection from "@/app/uiLibrary/ToggleSection"
 import BuscarTrabajador from "../buscarTrabajadores/BuscarTrabajador"
 
 export default function MenuPrincipal() {
-  const router = useRouter()
 
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     "buscar-trabajador": false,
@@ -30,10 +28,6 @@ export default function MenuPrincipal() {
       ...prev,
       [section]: !prev[section],
     }))
-  }
-
-  const handleNavigate = (path: string) => {
-    router.push(path)
   }
 
   return (
