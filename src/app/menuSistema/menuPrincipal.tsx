@@ -11,6 +11,7 @@ import ListarClaveAusentismo from "../ausentismo/listarClaveAusentismo"
 import ModeloRl4Page from "../modeloRL4/page"
 import ToggleSection from "@/app/uiLibrary/ToggleSection"
 import BuscarTrabajador from "../buscarTrabajadores/BuscarTrabajador"
+import Modelo14BPage from "../modelo14B/modelo14BPage"
 
 export default function MenuPrincipal() {
 
@@ -142,6 +143,16 @@ export default function MenuPrincipal() {
               color="green"
             >
               <ModeloRl4Page />
+            </ToggleSection>
+
+            <ToggleSection
+              title="Modelo 14B"
+              sectionKey="modelo-14b"
+              expandedSections={expandedSections}
+              toggleSection={toggleSection}
+              color="green"
+            >
+              <Modelo14BPage />
             </ToggleSection>
           </div>
         </section>
