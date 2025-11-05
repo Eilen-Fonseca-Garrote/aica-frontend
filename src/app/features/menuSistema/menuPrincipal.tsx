@@ -5,13 +5,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { LogOut, Menu } from "lucide-react"
 import ListarTrabajadoresPage from "../listarTrabajadores/page"
-import PromedioPage from "../promedio/PromedioPage"
+import PromedioPage from "../promedio/page"
 import TrabajadoresInterruptos from "../interruptos/listarInterruptosUEB"
 import ListarClaveAusentismo from "../ausentismo/listarClaveAusentismo"
 import ModeloRl4Page from "../modeloRL4/page"
-import ToggleSection from "@/app/uiLibrary/ToggleSection"
-import BuscarTrabajador from "../buscarTrabajadores/BuscarTrabajador"
-import Modelo14BPage from "../modelo14B/modelo14BPage"
+import ToggleSection from "../uiLibrary/ToggleSection"
+import BuscarTrabajador from "../buscarTrabajadores/page"
+import Modelo14BPage from "../modelo14B/page"
 
 export default function MenuPrincipal() {
 

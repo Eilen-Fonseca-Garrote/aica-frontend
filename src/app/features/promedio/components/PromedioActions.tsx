@@ -1,4 +1,4 @@
-import Button from "../uiLibrary/Button";
+import Button from "../../uiLibrary/Button";
 
 interface PromedioActionsProps {
   onCalculate: () => void;

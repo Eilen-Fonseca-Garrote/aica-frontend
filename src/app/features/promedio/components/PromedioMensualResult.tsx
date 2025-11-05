@@ -1,7 +1,7 @@
 import React from 'react';
-import Card from '../uiLibrary/Card';
-import Table from '../uiLibrary/Table';
-import { Promedio, Totales } from './types';
+import Card from '../../uiLibrary/Card';
+import Table from '../../uiLibrary/Table';
+import { Promedio, Totales } from '../types';
 
 interface PromedioMensualResultProps {
   promedio: Promedio[];

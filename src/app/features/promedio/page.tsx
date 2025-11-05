@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import PromedioSection from './PromedioSection'
-import PromedioMensualForm from './PromedioMensualForm'
-import PromedioDiarioForm from './PromedioDiarioForm'
-import PromedioMensualResult from './PromedioMensualResult'
-import PromedioDiarioResult, { PromedioDiario, PromedioDiarioResponse } from './PromedioDiarioResult'
+import PromedioSection from './components/PromedioSection'
+import PromedioMensualForm from './components/PromedioMensualForm'
+import PromedioDiarioForm from './components/PromedioDiarioForm'
+import PromedioMensualResult from './components/PromedioMensualResult'
+import PromedioDiarioResult, { PromedioDiario, PromedioDiarioResponse } from './components/PromedioDiarioResult'
 import { Promedio, Totales, Direccion } from './types'
 
 export default function PromedioPage() {
