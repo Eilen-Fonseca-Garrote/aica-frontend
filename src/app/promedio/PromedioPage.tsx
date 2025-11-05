@@ -71,6 +71,42 @@ export default function PromedioPage() {
     setMensualTotal(data.total)
   }
 
+const downloadPromedioMensual = async () => {
+  const url = `${apiBase}/calcularPromedio/promedioMensual/pdf?ueb=${uebMensual}&fecha=${fechaMensual}`
+  getPromedioPDF(url)
+}
+
+const downloadPromedioDiario = async () => {
+  const url = `${apiBase}/calcularPromedio/promedioDiarioRango/pdf?ueb=${uebDiario}&fecha=${fechaDiario}&direccion=${direccionFuncional}`
+  getPromedioPDF(url)
+}
+
+const getPromedioPDF = async (url: string) => {
+  try {
+  const response = await fetch(url, {
+    method: 'GET',
+  })
+
+  if (!response.ok) throw new Error('Error al descargar el PDF')
+    
+  const blob = await response.blob()
+  const urlBlob = window.URL.createObjectURL(blob)
+
+  const link = document.createElement('a')
+  link.href = urlBlob
+  link.download = `PromedioMensual_${uebMensual}_${fechaMensual}.pdf`
+  document.body.appendChild(link)
+  link.click()
+
+  link.remove()
+  window.URL.revokeObjectURL(urlBlob)
+} catch (err) {
+  console.error('Error descargando el PDF:', err)
+  alert('No se pudo descargar el PDF. Inténtelo de nuevo más tarde.')
+}
+}
+
+
   const handlePromedioDiario = async () => {
     const url = `${apiBase}/calcularPromedio/promedioDiarioRango?ueb=${uebDiario}&fecha=${fechaDiario}&direccion=${direccionFuncional}`
 
@@ -105,16 +141,6 @@ export default function PromedioPage() {
     setDiarioData(data.promedio)
   }
 
-  const imprimirPromedioMensual = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    console.log('Descargar Promedio Mensual PDF')
-  }
-
-  const imprimirPromedioDiario = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    console.log('Descargar Promedio Diario PDF')
-  }
-
   return (
     <div className='p-4'>
           <div className='p-5 space-y-6 bg-white'>
@@ -126,7 +152,7 @@ export default function PromedioPage() {
                   onChangeUeb={setUebMensual}
                   onChangeFecha={setFechaMensual}
                   onCalculate={handlePromedioMensual}
-                  onDownload={imprimirPromedioMensual}
+                  onDownload={downloadPromedioMensual}
                 />
               </PromedioSection>
 
@@ -140,7 +166,7 @@ export default function PromedioPage() {
                   onChangeDireccion={setDireccionFuncional}
                   onChangeFecha={setFechaDiario}
                   onCalculate={handlePromedioDiario}
-                  onDownload={imprimirPromedioDiario}
+                  onDownload={downloadPromedioDiario}
                 />
               </PromedioSection>
             </div>
