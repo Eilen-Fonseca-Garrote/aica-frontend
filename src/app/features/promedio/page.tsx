@@ -45,7 +45,7 @@ export default function PromedioPage() {
 
   const downloadPromedioMensual = async () => {
     const file = await downloadPromedioMensualPdf(uebMensual, fechaMensual)
-    downloadFile(file, `PromedioRangoDiario_${uebDiario}_${fechaDiario}.pdf`)
+    downloadFile(file, `Promedio_Mensual_${uebMensual}_${fechaMensual}.pdf`)
   }
 
   const handlePromedioDiario = async () => {
@@ -57,7 +57,7 @@ export default function PromedioPage() {
 
   const downloadPromedioDiario = async () => {
     const file = await downloadPromedioDiarioPdf(uebDiario, fechaDiario, direccionFuncional)
-    downloadFile(file, `PromedioMensual_${uebMensual}_${fechaMensual}.pdf`)
+    downloadFile(file, `Promedio_Rango_Diario_${uebDiario}_${fechaDiario}.pdf`)
   }
 
   return (
