@@ -1,19 +1,7 @@
 'use client';
 import React from 'react';
+import { PromedioDiario } from '../types';
 
-export interface PromedioDiario {
-  Fecha: string;
-  HPDTT: number;
-  HPDTM: number;
-}
-
-export interface PromedioDiarioResponse {
-  direcc: string;
-  fecha: string;
-  promedio: PromedioDiario[];
-  success: boolean;
-  ueb: string;
-}
 
 interface PromedioDiarioResultProps {
   promedio: PromedioDiario[];

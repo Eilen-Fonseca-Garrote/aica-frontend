@@ -5,8 +5,13 @@ import PromedioSection from './components/PromedioSection'
 import PromedioMensualForm from './components/PromedioMensualForm'
 import PromedioDiarioForm from './components/PromedioDiarioForm'
 import PromedioMensualResult from './components/PromedioMensualResult'
-import PromedioDiarioResult, { PromedioDiario, PromedioDiarioResponse } from './components/PromedioDiarioResult'
-import { Promedio, Totales, Direccion } from './types'
+import PromedioDiarioResult from './components/listaPromedioDiario'
+import { PromedioDiario } from './types'
+import { PromedioMensual, TotalMensual, Direccion } from './types'
+import { getPromedioDiario, getPromedioMensual, downloadPromedioDiarioPdf, downloadPromedioMensualPdf } from '@/app/lib/api/promedio'
+import { getDireccionesPorUeb } from '@/app/lib/api/external_service'
+import { downloadFile } from '@/app/lib/helpers'
+
 
 export default function PromedioPage() {
   const [uebMensual, setUebMensual] = useState('0')
@@ -15,130 +20,44 @@ export default function PromedioPage() {
   const [fechaDiario, setFechaDiario] = useState('')
   const [direccionFuncional, setDireccionFuncional] = useState('0')
 
-  const [mensualData, setMensualData] = useState<Promedio[]>([])
-  const [mensualTotal, setMensualTotal] = useState<Totales | null>(null)
+  const [mensualData, setMensualData] = useState<PromedioMensual[]>([])
+  const [mensualTotal, setMensualTotal] = useState<TotalMensual[]>([])
   const [diarioData, setDiarioData] = useState<PromedioDiario[]>([])
 
   const [addresses, setAddresses] = useState<Direccion[]>([])
 
-  const apiBase = process.env.NEXT_PUBLIC_BACKEND_URL
-  const apiSigerh = process.env.NEXT_PUBLIC_API_SIGERH
-
-  const safeFetch = async <T,>(url: string, fallbackData: T): Promise<T> => {
-    try {
-      const response = await fetch(url)
-      if (!response.ok) throw new Error('API error')
-      const data = await response.json()
-      return data
-    } catch (err) {
-      console.warn('API no disponible, usando datos de prueba:', err)
-      return fallbackData
-    }
-  }
-
   useEffect(() => {
   const fetchAddresses = async () => {
     if(uebDiario != "0"){
-    const url = `${apiSigerh}/recursosHumanos/direccionesUEB?ueb=${uebDiario}`
-
-    const data = await safeFetch<Direccion[]>(url, [])
+    const data = await getDireccionesPorUeb(uebDiario)
     setAddresses(data)
   }
   }
 
   fetchAddresses()
-}, [uebDiario, apiBase])
+}, [uebDiario])
 
   const handlePromedioMensual = async () => {
-    const url = `${apiBase}/calcularPromedio/promedioMensual?ueb=${uebMensual}&fecha=${fechaMensual}`
-
-    const mockMensual: Promedio[] = [
-      { Unidad: 'AICA', HPromFisic: 10, HPromFMuj: 5, HPromTot: 15, HPromMuj: 8 }
-    ]
-    const mockTotal: Totales = {
-      totalFisico: 10,
-      totalFisicoMuj: 5,
-      totalPromedio: 15,
-      totalPromedioMujeres: 8
-    }
-
-    const data = await safeFetch<{ promedio: Promedio[]; total: Totales }>(url, {
-      promedio: mockMensual,
-      total: mockTotal
-    })
-
+    const data = await getPromedioMensual(uebMensual, fechaMensual)
     setMensualData(data.promedio)
     setMensualTotal(data.total)
   }
 
-const downloadPromedioMensual = async () => {
-  const url = `${apiBase}/calcularPromedio/promedioMensual/pdf?ueb=${uebMensual}&fecha=${fechaMensual}`
-  getPromedioPDF(url)
-}
-
-const downloadPromedioDiario = async () => {
-  const url = `${apiBase}/calcularPromedio/promedioDiarioRango/pdf?ueb=${uebDiario}&fecha=${fechaDiario}&direccion=${direccionFuncional}`
-  getPromedioPDF(url)
-}
-
-const getPromedioPDF = async (url: string) => {
-  try {
-  const response = await fetch(url, {
-    method: 'GET',
-  })
-
-  if (!response.ok) throw new Error('Error al descargar el PDF')
-    
-  const blob = await response.blob()
-  const urlBlob = window.URL.createObjectURL(blob)
-
-  const link = document.createElement('a')
-  link.href = urlBlob
-  link.download = `PromedioMensual_${uebMensual}_${fechaMensual}.pdf`
-  document.body.appendChild(link)
-  link.click()
-
-  link.remove()
-  window.URL.revokeObjectURL(urlBlob)
-} catch (err) {
-  console.error('Error descargando el PDF:', err)
-  alert('No se pudo descargar el PDF. Inténtelo de nuevo más tarde.')
-}
-}
-
+  const downloadPromedioMensual = async () => {
+    const file = await downloadPromedioMensualPdf(uebMensual, fechaMensual)
+    downloadFile(file, `PromedioRangoDiario_${uebDiario}_${fechaDiario}.pdf`)
+  }
 
   const handlePromedioDiario = async () => {
-    const url = `${apiBase}/calcularPromedio/promedioDiarioRango?ueb=${uebDiario}&fecha=${fechaDiario}&direccion=${direccionFuncional}`
-
-    const mockPromedioDiarioResponse: PromedioDiarioResponse = {
-        direcc: "DIRECCIÓN DE INFORMÁTICA",
-        fecha: "2025-11-05",
-        promedio: [
-          {
-            Fecha: "2025-11-01",
-            HPDTT: 7.5,
-            HPDTM: 6.8,
-          },
-          {
-            Fecha: "2025-11-02",
-            HPDTT: 8.0,
-            HPDTM: 7.2,
-          },
-          {
-            Fecha: "2025-11-03",
-            HPDTT: 7.2,
-            HPDTM: 6.5,
-          }
-        ],
-        success: true,
-        ueb: "Citox",
-      };
-
-
-    const data = await safeFetch<PromedioDiarioResponse>(url, mockPromedioDiarioResponse)
+    const data = await getPromedioDiario(uebDiario, fechaDiario, direccionFuncional)
     setMensualData([])
-    setMensualTotal(null)
+    setMensualTotal([])
     setDiarioData(data.promedio)
+  }
+
+  const downloadPromedioDiario = async () => {
+    const file = await downloadPromedioDiarioPdf(uebDiario, fechaDiario, direccionFuncional)
+    downloadFile(file, `PromedioMensual_${uebMensual}_${fechaMensual}.pdf`)
   }
 
   return (
@@ -173,7 +92,7 @@ const getPromedioPDF = async (url: string) => {
 
             <div className='rounded-lg border border-gray-200 shadow-sm p-4'>
               {mensualData.length > 0 && mensualTotal ? (
-                <PromedioMensualResult promedio={mensualData} total={mensualTotal} />
+                <PromedioMensualResult promedio={mensualData} total={mensualTotal[0]} />
               ) : diarioData.length > 0 ? (
                 <PromedioDiarioResult promedio={diarioData} />
               ) : (

@@ -1,11 +1,11 @@
 import React from 'react';
 import Card from '../../uiLibrary/Card';
 import Table from '../../uiLibrary/Table';
-import { Promedio, Totales } from '../types';
+import { Promedio, Total } from '../types';
 
 interface PromedioMensualResultProps {
   promedio: Promedio[];
-  total: Totales;
+  total: Total;
 }
 
 const PromedioMensualResult: React.FC<PromedioMensualResultProps> = ({

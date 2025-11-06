@@ -1,40 +1,11 @@
 'use client'
 
-const apiBase = process.env.NEXT_PUBLIC_BACKEND_URL
+import { downloadFile } from "@/app/lib/helpers"
+import { downloadModelo14BXls } from "@/app/lib/api/reportes"
 
 const downloadModelo14B = async () => {
-  try {
-    
-    const url = `${apiBase}/export/excel/model14b`
-
-    const response = await fetch(url, {
-      method: 'GET',
-    })
-
-    if (!response.ok) {
-      throw new Error('Error al descargar el Modelo 14B')
-    }
-
-    const blob = await response.blob()
-
-    // In case the backend doesn’t provide a filename, define a fallback.
-    const fileName = 'Modelo14B.xlsx'
-
-    // Create an object URL for the Blob.
-    const blobUrl = window.URL.createObjectURL(blob)
-
-    // Use the File System API to trigger the download without touching the DOM.
-    const a = document.createElement('a')
-    a.href = blobUrl
-    a.download = fileName
-    a.click()
-
-    // Clean up the blob URL to free memory.
-    window.URL.revokeObjectURL(blobUrl)
-  } catch (error) {
-    console.error('Error descargando el Modelo 14B:', error)
-    alert('No se pudo descargar el Modelo 14B. Intente de nuevo más tarde.')
-  }
+  const file = await downloadModelo14BXls()
+  downloadFile(file, 'Modelo14B')
 }
 
 export default function Modelo14BPage() {
