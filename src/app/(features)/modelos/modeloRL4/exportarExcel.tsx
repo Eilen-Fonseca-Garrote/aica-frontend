@@ -9,8 +9,6 @@ export default function ModeloRl4Form() {
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Modelo de Ausentismo RL4</h2>
-
       <div className="grid grid-cols-2 gap-6 mb-6">
         {/* Mes y Año */}
         <div>

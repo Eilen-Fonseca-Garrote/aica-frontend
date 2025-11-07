@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import Card from "@/app/(features)/uiLibrary/Card"
 import { Search } from "lucide-react"
+import ToggleSection from "../uiLibrary/ToggleSection"
 
 export default function BuscarTrabajador() {
   const [form, setForm] = useState({
@@ -32,6 +33,12 @@ export default function BuscarTrabajador() {
   }
 
   return (
+    <div className="p-4">
+    <ToggleSection
+    title="Buscar Trabajadores"
+    color="teal"
+    defaultExpanded={true}
+    >
     <div className="max-w-5xl mx-auto">
         <Card className="p-6 bg-white">
         <form onSubmit={handleSubmit}>
@@ -156,6 +163,8 @@ export default function BuscarTrabajador() {
             </div>
         </form>
         </Card>
+    </div>
+    </ToggleSection>
     </div>
   )
 }

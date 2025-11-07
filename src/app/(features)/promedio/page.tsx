@@ -11,6 +11,7 @@ import { PromedioMensual, TotalMensual, Direccion } from './types'
 import { getPromedioDiario, getPromedioMensual, downloadPromedioDiarioPdf, downloadPromedioMensualPdf } from '@/app/lib/api/promedio'
 import { getDireccionesPorUeb } from '@/app/lib/api/external_service'
 import { downloadFile } from '@/app/lib/helpers'
+import ToggleSection from '../uiLibrary/ToggleSection'
 
 
 export default function PromedioPage() {
@@ -62,6 +63,11 @@ export default function PromedioPage() {
 
   return (
     <div className='p-4'>
+      <ToggleSection
+      title="Promedio Trabajadores"
+      color="green"
+      defaultExpanded={true}
+      >
           <div className='p-5 space-y-6 bg-white'>
             <div className='grid md:grid-cols-2 gap-6'>
               <PromedioSection title='Promedio Mensual'>
@@ -100,6 +106,7 @@ export default function PromedioPage() {
               )}
             </div>
           </div>
+      </ToggleSection>
     </div>
   )
 }

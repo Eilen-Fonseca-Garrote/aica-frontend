@@ -10,7 +10,7 @@ const downloadModelo14B = async () => {
 
 export default function Modelo14BPage() {
   return (
-    <div className="grid md:grid-cols-2 gap-4">
+    <div className="grid md:grid-cols-2 gap-4 rounded-lg shadow-sm p-6">
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="border-b px-4 py-3 font-semibold text-gray-700">
           Modelo 14B

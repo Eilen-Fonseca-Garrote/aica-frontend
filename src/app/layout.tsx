@@ -78,7 +78,7 @@ export default function RootLayout({
                 <Link href={"/ausentismo"}>
                   <nav className="flex-1 p-4 hover:bg-[#263037]">Claves de Ausentismo</nav>
                 </Link>
-                <Link href={"/modeloRL4"}>
+                <Link href={"/modelos"}>
                   <nav className="flex-1 p-4 hover:bg-[#263037]">Modelos</nav>
                 </Link>
                 {/* Logout */}
