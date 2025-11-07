@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export function Avatar({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
@@ -8,8 +9,27 @@ export function Avatar({ className = "", children, ...props }: React.HTMLAttribu
   );
 }
 
-export function AvatarImage({ src, alt = "Avatar", className = "", ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
-  return <img src={src} alt={alt} className={`w-full h-full object-cover ${className}`} {...props} />;
+interface AvatarImageProps extends React.ComponentProps<typeof Image> {
+  className?: string;
+}
+
+export function AvatarImage({
+  src,
+  alt = "Avatar",
+  className = "",
+  ...props
+}: AvatarImageProps) {
+  return (
+    <div className={`relative w-full h-full ${className}`}>
+      <Image
+        src={src ?? "/default-avatar.png"} // fallback if src is undefined
+        alt={alt}
+        fill
+        className="object-cover"
+        {...props}
+      />
+    </div>
+  );
 }
 
 export function AvatarFallback({ children, className = "", ...props }: React.HTMLAttributes<HTMLDivElement>) {

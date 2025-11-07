@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import Card from "@/app/features/uiLibrary/Card"
+import Card from "@/app/(features)/uiLibrary/Card"
 import { Search } from "lucide-react"
 
 export default function BuscarTrabajador() {

@@ -1,7 +1,8 @@
 
 // menu principal del sistema
-import MenuPrincipal from "./features/menuSistema/menuPrincipal"
+import BuscarTrabajador from "./(features)/buscarTrabajadores/page"
+
 
 export default function Page() {
-  return <MenuPrincipal />
+  return <BuscarTrabajador />
 }
