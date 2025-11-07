@@ -1,6 +1,6 @@
-import { PromedioDiarioResponse } from '@/app/features/promedio/types'
+import { PromedioDiarioResponse } from '@/app/(features)/promedio/types'
 import { apiClient } from './client'
-import { PromedioMensualResponse } from '@/app/features/promedio/types'
+import { PromedioMensualResponse } from '@/app/(features)/promedio/types'
 
 export const getPromedioMensual = async (ueb: string, monthDate: string) => {
     const url = `/calcularPromedio/promedioMensual?ueb=${ueb}&fecha=${monthDate}`
