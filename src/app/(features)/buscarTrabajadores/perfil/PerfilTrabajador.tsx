@@ -87,27 +87,35 @@ export default function WorkerProfile({
                 label: "Datos Personales",
                 content: <DatosPersonales worker={worker} />
                 },
-                laborData && {
-                id: "labor",
-                label: "Datos Laborales",
-                content: <DatosLaborales laborData={laborData} />
-                },
-                estudiosData && {
-                id: "estudios",
-                label: "Datos de Estudios",
-                content: <DatosEstudios estudiosData={estudiosData} />
-                },
-                familiarData && {
-                id: "familia",
-                label: "Datos Familiares",
-                content: <DatosFamiliares familiarData={familiarData}/>
-                },
-                (misiones) && {
-                id: "misiones",
-                label: "Condecoraciones y Misiones",
-                content: <DatosCondecoracionesMisiones misiones={misiones} />
-                }
-                ].filter(Boolean)}
+                ...(laborData
+                  ? [{
+                      id: "labor",
+                      label: "Datos Laborales",
+                      content: <DatosLaborales laborData={laborData} />
+                    }]
+                  : []),
+                ...(estudiosData
+                  ? [{
+                      id: "estudios",
+                      label: "Datos de Estudios",
+                      content: <DatosEstudios estudiosData={estudiosData} />
+                    }]
+                  : []),
+                ...(familiarData
+                  ? [{
+                      id: "familia",
+                      label: "Datos Familiares",
+                      content: <DatosFamiliares familiarData={familiarData}/>
+                    }]
+                  : []),
+                ...(misiones
+                  ? [{
+                      id: "misiones",
+                      label: "Condecoraciones y Misiones",
+                      content: <DatosCondecoracionesMisiones misiones={misiones} />
+                    }]
+                  : []),
+            ]}
             />
         </Card>
       </div>
