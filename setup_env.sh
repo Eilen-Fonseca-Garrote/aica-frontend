@@ -1,0 +1,6 @@
+#!/bin/bash
+
+touch .env
+echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env
+echo "NEXT_PUBLIC_API_SIGERH=$NEXT_PUBLIC_API_SIGERH" >> .env
+echo "NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL" >> .env
