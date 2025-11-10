@@ -1,6 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { downloadFile } from "@/app/lib/helpers"
+import { downloadModeloRL4Xls } from "@/app/lib/api/reportes"
+import { FileSpreadsheet } from "lucide-react"
 
 interface ModeloRl4ActionsProps {
   mesAnio: string
@@ -8,37 +12,25 @@ interface ModeloRl4ActionsProps {
 }
 
 export default function ModeloRl4Actions({ mesAnio, diasNoLaborables }: ModeloRl4ActionsProps) {
-  const handleExportarExcel = () => {
-    // Create CSV content (Excel can open CSV files)
-    const csvContent = [
-      ["Modelo de Ausentismo RL4"],
-      [""],
-      ["Mes y Año", mesAnio],
-      ["Días No Laborables Mes", diasNoLaborables],
-      [""],
-      ["Generado el", new Date().toLocaleString("es-ES")],
-    ]
-      .map((row) => row.join(","))
-      .join("\n")
-
-    // Create blob and download
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
-    const link = document.createElement("a")
-    const url = URL.createObjectURL(blob)
-    link.setAttribute("href", url)
-    link.setAttribute("download", `modelo_rl4_${mesAnio}.csv`)
-    link.style.visibility = "hidden"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+  const [downloading, setDownloading] = useState(false);
+  
+  const handleExportarExcel = async () => {
+    setDownloading(true);
+    try {
+      const file = await downloadModeloRL4Xls(diasNoLaborables, mesAnio);
+      await downloadFile(file, 'modeloRL4.xlsx');
+    }
+    finally {
+      setDownloading(false);
+    }
   }
 
   return (
     <div className="flex justify-end">
-      <Button onClick={handleExportarExcel} className="bg-blue-600 hover:bg-blue-700 text-white">
-        Exportar a Excel
+      <Button disabled={downloading} onClick={handleExportarExcel} className="bg-green-600 hover:bg-green-700 text-white px-6 py-6 flex flex-col items-center gap-1">
+         <FileSpreadsheet className="h-6 w-6" />
+        <span className="text-xs">Excel</span>
       </Button>
     </div>
   )    
 }
-

@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
+// features/interruptos/components/InterruptosActions.tsx
+import Button from "../uiLibrary/Button";
 
-/* acciones para descargar pdf y calcular claves de ausentismo*/
 interface InterruptosActionsProps {
   onCalculate: () => void;
   onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-} 
+}
 
 export default function InterruptosActions({
   onCalculate,
@@ -13,6 +13,7 @@ export default function InterruptosActions({
   return (
     <div className="flex justify-between">
       <Button onClick={onCalculate}>Calcular</Button>
+
       <a
         href="#"
         onClick={onDownload}
