@@ -34,7 +34,33 @@ export default function PromedioDiarioForm({
     { label: "SH+", value: "57" },
   ];
 
-  console.log("addresses", addresses)
+  const handleCalculate = () => {
+    if(!validateInputFields()) return;
+    onCalculate();
+  };
+
+  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if(!validateInputFields()) return;
+    onDownload(e);
+  };
+
+  const validateInputFields = () => {
+      if (ueb === "0") {
+      alert("Por favor, seleccione una UEB válida");
+      return false;
+    }
+    if(!direccionFuncional || direccionFuncional === "0"){
+      alert("Por favor, seleccione una Dirección Funcional válida");
+      return false;
+    }
+    if (!fecha) {
+      alert("Por favor, seleccione una fecha");
+      return false;
+    }
+
+    return true;
+  }
+
   return (
     <div className="p-4 space-y-4">
       <div className="grid grid-cols-3 gap-4">
@@ -62,7 +88,7 @@ export default function PromedioDiarioForm({
         />
       </div>
       <hr className="border-gray-200" />
-      <PromedioActions onCalculate={onCalculate} onDownload={onDownload} />
+      <PromedioActions onCalculate={handleCalculate} onDownload={handleDownload} />
     </div>
   );
 }

@@ -27,6 +27,30 @@ export default function PromedioMensualForm({
     { label: "SH+", value: "57" },
   ];
 
+  const handleCalculate = () => {
+    if (!validateInputFields()) return;
+    onCalculate();
+  };
+
+  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!validateInputFields()) return;
+    onDownload(e);
+  };
+
+
+  const validateInputFields = () => {
+    if (ueb === "0") {
+      alert("Por favor, seleccione una UEB válida");
+      return false;
+    }
+    if (!fecha) {
+      alert("Por favor, seleccione una fecha");
+      return false;
+    }
+
+    return true;
+  }
+
   return (
     <div className="p-4 space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -43,7 +67,7 @@ export default function PromedioMensualForm({
         />
       </div>
       <hr className="border-gray-200" />
-      <PromedioActions onCalculate={onCalculate} onDownload={onDownload} />
+      <PromedioActions onCalculate={handleCalculate} onDownload={handleDownload} />
     </div>
   );
 }
