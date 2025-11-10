@@ -27,6 +27,9 @@ export default function PromedioPage() {
 
   const [addresses, setAddresses] = useState<Direccion[]>([])
 
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   useEffect(() => {
   const fetchAddresses = async () => {
     if(uebDiario != "0"){
@@ -38,27 +41,74 @@ export default function PromedioPage() {
   fetchAddresses()
 }, [uebDiario])
 
-  const handlePromedioMensual = async () => {
-    const data = await getPromedioMensual(uebMensual, fechaMensual)
-    setMensualData(data.promedio)
-    setMensualTotal(data.total)
+
+    const handlePromedioMensual = async () => {
+      setLoading(true)
+      setError(null)
+      setMensualData([])
+      setDiarioData([])
+
+      try {
+        const data = await getPromedioMensual(uebMensual, fechaMensual)
+        setMensualData(data.promedio)
+        setMensualTotal(data.total)
+      } catch (err) {
+        console.error(err)
+        setError('Ocurrió un error inesperado durante la búsqueda.')
+      } finally {
+        setLoading(false)
+      }
   }
 
   const downloadPromedioMensual = async () => {
-    const file = await downloadPromedioMensualPdf(uebMensual, fechaMensual)
-    downloadFile(file, `Promedio_Mensual_${uebMensual}_${fechaMensual}.pdf`)
+      setLoading(true)
+      setError(null)
+      setMensualData([])
+      setDiarioData([])
+
+      try {
+        const file = await downloadPromedioMensualPdf(uebMensual, fechaMensual)
+        downloadFile(file, `Promedio_Mensual_${uebMensual}_${fechaMensual}.pdf`)
+      } catch (err) {
+        console.error(err)
+        setError('Ocurrió un error inesperado durante la búsqueda.')
+      } finally {
+        setLoading(false)
+      }
   }
 
   const handlePromedioDiario = async () => {
-    const data = await getPromedioDiario(uebDiario, fechaDiario, direccionFuncional)
+    setLoading(true)
+    setError(null)
     setMensualData([])
-    setMensualTotal([])
-    setDiarioData(data.promedio)
+    setDiarioData([])
+
+    try {
+      const data = await getPromedioDiario(uebDiario, fechaDiario, direccionFuncional)
+      setDiarioData(data.promedio)
+    } catch (err) {
+      console.error(err)
+      setError('Ocurrió un error inesperado durante la búsqueda.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const downloadPromedioDiario = async () => {
-    const file = await downloadPromedioDiarioPdf(uebDiario, fechaDiario, direccionFuncional)
-    downloadFile(file, `Promedio_Rango_Diario_${uebDiario}_${fechaDiario}.pdf`)
+      setLoading(true)
+      setError(null)
+      setMensualData([])
+      setDiarioData([])
+
+      try {
+        const file = await downloadPromedioDiarioPdf(uebDiario, fechaDiario, direccionFuncional)
+        downloadFile(file, `Promedio_Rango_Diario_${uebDiario}_${fechaDiario}.pdf`)
+      } catch (err) {
+        console.error(err)
+        setError('Ocurrió un error inesperado durante la búsqueda.')
+      } finally {
+        setLoading(false)
+      }
   }
 
   return (
@@ -96,8 +146,13 @@ export default function PromedioPage() {
               </PromedioSection>
             </div>
 
+
             <div className='rounded-lg border border-gray-200 shadow-sm p-4'>
-              {mensualData.length > 0 && mensualTotal ? (
+              {loading ? (
+                <p className="text-gray-500 text-2xl mt-4">Calculando promedio...</p>
+              ) : !loading && error ? (
+                <p className="text-red-500 text-2xl mt-4">Ha ocurrido un error calculando el promedio. Por favor contacte a un administrador</p>
+              ) : mensualData.length > 0 && mensualTotal ? (
                 <PromedioMensualResult promedio={mensualData} total={mensualTotal[0]} />
               ) : diarioData.length > 0 ? (
                 <PromedioDiarioResult promedio={diarioData} />
