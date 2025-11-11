@@ -17,7 +17,7 @@ const InterruptosResult: React.FC<InterruptosResultProps> = ({ data }) => {
     { key: 'produccion60', label: 'Interruptos de Producción 60%' },
   ];
 
-  const rows = data.map((row, index) => ({
+  const rows = data.map((row) => ({
     direccion: row.direccion,
     covid: row.covid,
     reubicacion: row.reubicacion,
