@@ -59,7 +59,7 @@ export default function InterruptosForm({
           options={uebOptions}
         />
         <input
-          type="date"
+          type="month"
           value={fecha}
           onChange={(e) => onChangeFecha(e.target.value)}
           className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"

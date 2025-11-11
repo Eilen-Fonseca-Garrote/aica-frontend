@@ -14,7 +14,7 @@ export default function ModeloRl4Form() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Mes y Año</label>
           <input
-            type="text"
+            type="month"
             value={mesAnio}
             onChange={(e) => setMesAnio(e.target.value)}
             placeholder="09-2025"
@@ -26,7 +26,7 @@ export default function ModeloRl4Form() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Días No Laborables </label>
           <input
-            type="text"
+            type="number"
             value={diasNoLaborables}
             onChange={(e) => setDiasNoLaborables(e.target.value)}
             placeholder="8"

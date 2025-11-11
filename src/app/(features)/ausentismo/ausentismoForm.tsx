@@ -62,7 +62,7 @@ export default function AusentismoForm({
           options={uebOptions}
         />
         <input
-          type="text"
+          type="month"
           value={fecha}
           onChange={(e) => onChangeFecha(e.target.value)}
           placeholder="YYYY-MM"
