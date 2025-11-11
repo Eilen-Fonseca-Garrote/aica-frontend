@@ -11,7 +11,7 @@ export const downloadModelo14BXls = async () => {
 export const downloadModeloRL4Xls = async (noLabDays: string, fechaAusentismo: string) => {
     const params = new URLSearchParams();
     params.append("noLabDays", noLabDays);
-    params.append("fechaAusentismo", fechaAusentismo);
+    params.append("fechaAusentismo", fechaAusentismo.split("-").reverse().join('-'));
     
     const url = `/export/excel/ausentismo?${params.toString()}`
     const res = await apiClient.get<Blob>(url, {responseType: 'blob'})
