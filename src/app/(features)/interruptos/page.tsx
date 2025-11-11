@@ -5,7 +5,7 @@ import { useState } from 'react'
 import InterruptosSection from '../interruptos/InterruptosSection'
 import InterruptosForm from '../interruptos/interruptosForm'
 import InterruptosResult from '../interruptos/interrruptosResult'
-import { InterruptosData } from './types'
+import { InterruptosData, InterruptosResponse } from './types'
 import { getInterruptos, downloadInterruptosPdf } from '@/app/lib/api/interruptos'
 import { downloadFile } from '@/app/lib/helpers'
 import ToggleSection from '../uiLibrary/ToggleSection'
@@ -30,10 +30,10 @@ export default function InterruptosPage() {
     setData([])
 
     try {
-      const result = await getInterruptos(ueb, formatDateForBackend(fecha))
+      const result: InterruptosResponse = await getInterruptos(ueb, formatDateForBackend(fecha))
       const transformedData = transformInterruptosData(result)
       setData(transformedData)
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err)
       setError('Ocurrió un error inesperado durante la búsqueda.')
     } finally {
@@ -49,7 +49,7 @@ export default function InterruptosPage() {
     try {
       const file = await downloadInterruptosPdf(ueb, formatDateForBackend(fecha))
       downloadFile(file, `Interruptos_${ueb}_${fecha}.pdf`)
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err)
       setError('Ocurrió un error inesperado durante la descarga.')
     } finally {
@@ -58,23 +58,22 @@ export default function InterruptosPage() {
   }
 
   const formatDateForBackend = (date: string): string => {
-    // Convierte de YYYY-MM a MM-YYYY
     const [year, month] = date.split('-')
     return `${month}-${year}`
   }
 
-  const transformInterruptosData = (result: any): InterruptosData[] => {
+  const transformInterruptosData = (result: InterruptosResponse): InterruptosData[] => {
     const transformedData: InterruptosData[] = []
 
     // Agregar datos por dirección
     if (result.interruptos) {
-      result.interruptos.forEach((item: any) => {
+      result.interruptos.forEach((item) => {
         transformedData.push({
           direccion: item.Direccion,
           covid: item.covid,
           reubicacion: item.reubicados,
-          produccion100: item.produccion25, // produccion25 corresponde a 100%
-          produccion60: item.produccion48   // produccion48 corresponde a 60%
+          produccion100: item.produccion25,
+          produccion60: item.produccion48
         })
       })
     }
