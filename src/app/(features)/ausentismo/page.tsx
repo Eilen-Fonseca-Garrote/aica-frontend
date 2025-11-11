@@ -97,7 +97,7 @@ export default function AusentismoPage() {
               />
             ) : (
               <p className='text-gray-500 italic text-center'>
-                Sin resultados de ausentismo. Configure los filtros y haga clic en "Cantidad de Trabajadores".
+                Sin resultados de ausentismo. Configure los filtros y haga clic en &quot;Cantidad de Trabajadores&quot;.
               </p>
             )}
           </div>
