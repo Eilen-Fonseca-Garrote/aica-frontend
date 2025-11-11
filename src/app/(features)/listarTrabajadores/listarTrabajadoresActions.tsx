@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FileSpreadsheet, Search } from "lucide-react"
-import { downloadAllWorkersXls } from "@/app/lib/api/reportes" // Ajusta la ruta según tu estructura
+import { downloadAllWorkersXls } from "@/app/lib/api/reportes"
 
 export default function ListarTrabajadoresActions() {
-  const [fecha, setFecha] = useState("11-10-2022")
+  const [fecha, setFecha] = useState("2022-10-11")
   const [isExporting, setIsExporting] = useState(false)
 
   const handleExportExcel = async () => {
@@ -16,7 +16,7 @@ export default function ListarTrabajadoresActions() {
       setIsExporting(true)
       console.log("Exportando trabajadores a Excel...")
       
-      const blob = await downloadAllWorkersXls()
+      const blob = await downloadAllWorkersXls(fecha)
       
       // Crear URL para el blob y descargar
       const url = window.URL.createObjectURL(blob)
@@ -62,7 +62,7 @@ export default function ListarTrabajadoresActions() {
         </Label>
         <Input
           id="fecha"
-          type="text"
+          type="date"
           value={fecha}
           onChange={(e) => setFecha(e.target.value)}
           className="w-full"
