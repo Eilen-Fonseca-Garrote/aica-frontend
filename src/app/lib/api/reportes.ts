@@ -8,9 +8,9 @@ export const downloadModelo14BXls = async () => {
     return res.data
 }
 
-export const downloadModeloRL4Xls = async (fechaAusentismo: string, noLabDays: string) => {
+export const downloadModeloRL4Xls = async (noLabDays: string, fechaAusentismo: string) => {
     const params = new URLSearchParams();
-    params.append("noLabDays", "" + noLabDays);
+    params.append("noLabDays", noLabDays);
     params.append("fechaAusentismo", fechaAusentismo);
     
     const url = `/export/excel/ausentismo?${params.toString()}`
