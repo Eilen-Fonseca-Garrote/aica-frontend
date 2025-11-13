@@ -1,6 +1,6 @@
 // features/interruptos/components/InterruptosForm.tsx
 import Select from "../uiLibrary/Select";
-import InterruptosActions from "./interruptosActions";
+import InterruptosActions from "@/app/(features)/interruptos/interruptosActions";
 
 interface InterruptosFormProps {
   ueb: string;

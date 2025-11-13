@@ -2,25 +2,19 @@
 'use client'
 
 import { useState } from 'react'
-import InterruptosSection from '../interruptos/InterruptosSection'
-import InterruptosForm from '../interruptos/interruptosForm'
-import InterruptosResult from '../interruptos/interrruptosResult'
-import { InterruptosData, InterruptosResponse } from './types'
+import InterruptosSection from '@/app/(features)/interruptos/InterruptosSection'
+import InterruptosForm from '@/app/(features)/interruptos/interruptosForm'
+import InterruptosResult from '@/app/(features)/interruptos/interrruptosResult'
+import { InterruptosData, TotalInterruptos } from './types'
 import { getInterruptos, downloadInterruptosPdf } from '@/app/lib/api/interruptos'
 import { downloadFile } from '@/app/lib/helpers'
 import ToggleSection from '../uiLibrary/ToggleSection'
 
-function getDefaultDate(): string {
-  const now = new Date()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const year = now.getFullYear()
-  return `${year}-${month}`
-}
-
 export default function InterruptosPage() {
   const [ueb, setUeb] = useState('0')
-  const [fecha, setFecha] = useState(getDefaultDate())
+  const [fecha, setFecha] = useState('')
   const [data, setData] = useState<InterruptosData[]>([])
+  const [total, setTotal] = useState<TotalInterruptos | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -28,12 +22,13 @@ export default function InterruptosPage() {
     setLoading(true)
     setError(null)
     setData([])
+    setTotal(null)
 
     try {
-      const result: InterruptosResponse = await getInterruptos(ueb, formatDateForBackend(fecha))
-      const transformedData = transformInterruptosData(result)
-      setData(transformedData)
-    } catch (err: unknown) {
+      const result = await getInterruptos(ueb, fecha)
+      setData(result.interruptos)
+      setTotal(result.total)
+    } catch (err) {
       console.error(err)
       setError('Ocurrió un error inesperado durante la búsqueda.')
     } finally {
@@ -47,65 +42,14 @@ export default function InterruptosPage() {
     setError(null)
 
     try {
-      const file = await downloadInterruptosPdf(ueb, formatDateForBackend(fecha))
+      const file = await downloadInterruptosPdf(ueb, fecha)
       downloadFile(file, `Interruptos_${ueb}_${fecha}.pdf`)
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err)
       setError('Ocurrió un error inesperado durante la descarga.')
     } finally {
       setLoading(false)
     }
-  }
-
-  const formatDateForBackend = (date: string): string => {
-    const [year, month] = date.split('-')
-    return `${month}-${year}`
-  }
-
-  const transformInterruptosData = (result: InterruptosResponse): InterruptosData[] => {
-    const transformedData: InterruptosData[] = []
-
-    // Agregar datos por dirección
-    if (result.interruptos) {
-      result.interruptos.forEach((item) => {
-        transformedData.push({
-          direccion: item.Direccion,
-          covid: item.covid,
-          reubicacion: item.reubicados,
-          produccion100: item.produccion25,
-          produccion60: item.produccion48
-        })
-      })
-    }
-
-    // Agregar totales
-    if (result.totalCovid && result.totalProd25 && result.totalProd48) {
-      transformedData.push({
-        direccion: "Total Femenino",
-        covid: result.totalCovid.F,
-        reubicacion: result.totalReub?.F || 0,
-        produccion100: result.totalProd25.F,
-        produccion60: result.totalProd48.F
-      })
-
-      transformedData.push({
-        direccion: "Total Masculino",
-        covid: result.totalCovid.M,
-        reubicacion: result.totalReub?.M || 0,
-        produccion100: result.totalProd25.M,
-        produccion60: result.totalProd48.M
-      })
-
-      transformedData.push({
-        direccion: "Total",
-        covid: result.totalCovid.Total,
-        reubicacion: result.totalReub?.Total || 0,
-        produccion100: result.totalProd25.Total,
-        produccion60: result.totalProd48.Total
-      })
-    }
-
-    return transformedData
   }
 
   return (
@@ -134,8 +78,8 @@ export default function InterruptosPage() {
               <p className="text-red-500 text-2xl mt-4">
                 Ha ocurrido un error calculando los interruptos. Por favor contacte a un administrador
               </p>
-            ) : data.length > 0 ? (
-              <InterruptosResult data={data} />
+            ) : data.length > 0 && total ? (
+              <InterruptosResult data={data} total={total} />
             ) : (
               <p className="text-gray-500 italic text-center">Sin resultados aún</p>
             )}
