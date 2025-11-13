@@ -18,12 +18,9 @@ export const downloadModeloRL4Xls = async (noLabDays: string, fechaAusentismo: s
     return res.data;
 }
 
-// funcion para exportar excel de listar Trabajadores
-export const downloadAllWorkersXls = async (fecha?: string) => {
-  const params = new URLSearchParams()
-  if (fecha) params.append("fecha", fecha)
-  
-  const url = `/export/excel/all-workers?${params.toString()}`
+export const downloadAllWorkersXls = async () => {
+  const url = `/export/excel/all-workers?`
   const res = await apiClient.get<Blob>(url, {responseType: 'blob'})
+  
   return res.data
 }

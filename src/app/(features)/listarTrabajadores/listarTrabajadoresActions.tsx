@@ -8,7 +8,7 @@ import { FileSpreadsheet, Search } from "lucide-react"
 import { downloadAllWorkersXls } from "@/app/lib/api/reportes"
 
 export default function ListarTrabajadoresActions() {
-  const [fecha, setFecha] = useState("2022-10-11")
+  const [fecha, setFecha] = useState("2025-10-11")
   const [isExporting, setIsExporting] = useState(false)
 
   const handleExportExcel = async () => {
@@ -16,7 +16,7 @@ export default function ListarTrabajadoresActions() {
       setIsExporting(true)
       console.log("Exportando trabajadores a Excel...")
       
-      const blob = await downloadAllWorkersXls(fecha)
+      const blob = await downloadAllWorkersXls()
       
       // Crear URL para el blob y descargar
       const url = window.URL.createObjectURL(blob)
