@@ -47,8 +47,6 @@ export default function AusentismoPage() {
   }, [ueb])
 
   
-   // Modificar handleCalculate y handleDownload:
-
 const handleCalculate = async (clavesParam: string) => {
   setLoading(true)
   setError(null)
@@ -78,15 +76,34 @@ const handleCalculate = async (clavesParam: string) => {
   } catch (err: unknown) {
     console.error("Error detallado:", err)
     
-    // Manejo type-safe del error
+    // Manejo type-safe del error - CORREGIDO: eliminar 'any'
     if (err && typeof err === 'object' && 'response' in err) {
-      const errorWithResponse = err as { response?: { status: number, data?: any } }
+      const errorWithResponse = err as { 
+        response?: { 
+          status: number; 
+          data?: { message?: string } | unknown 
+        } 
+      }
+      
       if (errorWithResponse.response?.status === 404) {
         setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
       } else if (errorWithResponse.response?.status === 400) {
         setError('Parámetros inválidos. Verifique la fecha y UEB.')
       } else {
-        const errorMessage = errorWithResponse.response?.data?.message || 'Ocurrió un error inesperado durante la búsqueda.';
+        // Manejo seguro del mensaje de error
+        let errorMessage = 'Ocurrió un error inesperado durante la búsqueda.'
+        
+        if (errorWithResponse.response?.data && 
+            typeof errorWithResponse.response.data === 'object' &&
+            errorWithResponse.response.data !== null &&
+            'message' in errorWithResponse.response.data) {
+          
+          const message = (errorWithResponse.response.data as { message?: string }).message
+          if (typeof message === 'string') {
+            errorMessage = message
+          }
+        }
+        
         setError(errorMessage)
       }
     } else if (err instanceof Error) {
@@ -99,6 +116,8 @@ const handleCalculate = async (clavesParam: string) => {
     setLoading(false)
   }
 }
+
+
 
 const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, clavesParam: string) => {
   e.preventDefault()
