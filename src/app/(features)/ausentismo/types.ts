@@ -8,12 +8,11 @@ export interface AusentismoItem {
   Cantidad: number;
 }
 
-export interface AusentismoResponse {
-  CLAVES: AusentismoItem[];
-}
+// La respuesta del backend es un array de strings (claves)
+export type AusentismoResponse = string[];
 
 export interface AusentismoRequest {
+  codigos: string[];
+  date: string;
   ueb: string;
-  fecha: string;
-  claves?: string[];
 }

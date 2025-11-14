@@ -53,12 +53,26 @@ export default function AusentismoPage() {
       console.log("Calculando ausentismo para UEB:", ueb, "Mes/Año:", fecha, "Claves:", clavesSeleccionadas)
       
       const response = await getAusencias(ueb, fecha, clavesSeleccionadas)
-      setData(response.CLAVES || [])
       
-      console.log("Datos de ausentismo obtenidos:", response.CLAVES)
-    } catch (err) {
+      // Convertir la respuesta del backend (array de strings) al formato que espera el frontend
+      const formattedData: AusentismoItem[] = response.map(clave => ({
+        Clave: clave,
+        Cantidad: 1 // El backend no devuelve cantidades, así que usamos 1 como placeholder
+      }))
+      
+      setData(formattedData)
+      
+      console.log("Datos de ausentismo obtenidos:", formattedData)
+    } catch (err: any) {
       console.error("Error al calcular ausentismo:", err)
-      setError('Ocurrió un error inesperado durante la búsqueda.')
+      
+      if (err.response?.status === 404) {
+        setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
+      } else if (err.response?.status === 400) {
+        setError('Parámetros inválidos. Verifique la fecha y UEB.')
+      } else {
+        setError('Ocurrió un error inesperado durante la búsqueda.')
+      }
       setData([])
     } finally {
       setLoading(false)
@@ -78,9 +92,14 @@ export default function AusentismoPage() {
       downloadFile(file, `ausentismo-${uebNombres[ueb]}-${fecha}.pdf`)
       
       console.log("PDF de ausentismo descargado exitosamente")
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error al descargar PDF de ausentismo:", err)
-      setError('Ocurrió un error inesperado durante la descarga.')
+      
+      if (err.response?.status === 404) {
+        setError('El servicio de descarga PDF no está disponible. Contacte al administrador.')
+      } else {
+        setError('Ocurrió un error inesperado durante la descarga.')
+      }
     } finally {
       setLoading(false)
     }
@@ -113,7 +132,10 @@ export default function AusentismoPage() {
             {loading ? (
               <p className="text-gray-500 text-2xl mt-4">Calculando ausentismo...</p>
             ) : error ? (
-              <p className="text-red-500 text-2xl mt-4">{error}</p>
+              <div className="text-red-500 text-center">
+                <p className="text-xl font-semibold mb-2">Error</p>
+                <p>{error}</p>
+              </div>
             ) : data.length > 0 ? (
               <AusentismoResult 
                 data={data} 

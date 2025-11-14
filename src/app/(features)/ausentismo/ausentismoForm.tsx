@@ -106,7 +106,25 @@ export default function AusentismoForm({
     onDownload(e);
   };
 
-  const validateInputFields = () => {
+
+const validateInputFields = () => {
+  if (ueb === "0") {
+    alert("Por favor, seleccione una UEB válida");
+    return false;
+  }
+  if (!fecha) {
+    alert("Por favor, seleccione una fecha");
+    return false;
+  }
+  // Validar formato YYYY-MM
+  const fechaRegex = /^\d{4}-\d{2}$/;
+  if (!fechaRegex.test(fecha)) {
+    alert("Formato de fecha inválido. Use YYYY-MM");
+    return false;
+  }
+  return true;
+};
+  /*const validateInputFields = () => {
     if (ueb === "0") {
       alert("Por favor, seleccione una UEB válida");
       return false;
@@ -116,7 +134,7 @@ export default function AusentismoForm({
       return false;
     }
     return true;
-  };
+  }; */
 
   return (
     <div className="p-4 space-y-4">
