@@ -1,20 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AusentismoSection from '@/app/(features)/ausentismo/AusentismoSection'
-import AusentismoForm from '@/app/(features)//ausentismo/ausentismoForm'
+import AusentismoForm from '@/app/(features)/ausentismo/ausentismoForm'
 import AusentismoResult from '@/app/(features)/ausentismo/ausentismoResult'
-import { ClaveAusentismo } from './types'
+import { ClaveAusentismo, AusentismoItem } from './types'
 import { getAusencias, downloadAusenciasPdf } from '@/app/lib/api/ausentismo'
 import { downloadFile } from '@/app/lib/helpers'
 import ToggleSection from '../uiLibrary/ToggleSection'
+import { getClavesAusentismo } from '@/app/lib/api/external_service'
 
 export default function AusentismoPage() {
-  const [ueb, setUeb] = useState('16') // Valor por defecto AICA
+  const [ueb, setUeb] = useState('16')
   const [fecha, setFecha] = useState('')
-  const [data, setData] = useState<ClaveAusentismo[]>([])
+  const [data, setData] = useState<AusentismoItem[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [claves, setClaves] = useState<ClaveAusentismo[]>([])
+  const [clavesSeleccionadas, setClavesSeleccionadas] = useState('')
 
   const uebNombres: { [key: string]: string } = {
     '16': 'AICA',
@@ -24,13 +27,32 @@ export default function AusentismoPage() {
     '57': 'SH+'
   }
 
+  // Cargar claves de ausentismo cuando cambie la UEB
+  useEffect(() => {
+    const loadClaves = async () => {
+      try {
+        console.log("Cargando claves para UEB:", ueb)
+        const clavesData = await getClavesAusentismo(ueb)
+        setClaves(clavesData)
+        console.log("Claves cargadas:", clavesData)
+      } catch (err) {
+        console.error("Error al cargar claves de ausentismo:", err)
+        setClaves([])
+      }
+    }
+    
+    if (ueb && ueb !== "0") {
+      loadClaves()
+    }
+  }, [ueb])
+
   const handleCalculate = async () => {
     setLoading(true)
     setError(null)
     try {
-      console.log("Calculando ausentismo para UEB:", ueb, "Mes/Año:", fecha)
+      console.log("Calculando ausentismo para UEB:", ueb, "Mes/Año:", fecha, "Claves:", clavesSeleccionadas)
       
-      const response = await getAusencias(ueb, fecha, "")
+      const response = await getAusencias(ueb, fecha, clavesSeleccionadas)
       setData(response.CLAVES || [])
       
       console.log("Datos de ausentismo obtenidos:", response.CLAVES)
@@ -50,9 +72,9 @@ export default function AusentismoPage() {
     setLoading(true)
     setError(null)
     try {
-      console.log("Descargando PDF de ausentismo para UEB:", ueb, "Mes/Año:", fecha)
+      console.log("Descargando PDF de ausentismo para UEB:", ueb, "Mes/Año:", fecha, "Claves:", clavesSeleccionadas)
       
-      const file = await downloadAusenciasPdf(ueb, fecha)
+      const file = await downloadAusenciasPdf(ueb, fecha, clavesSeleccionadas)
       downloadFile(file, `ausentismo-${uebNombres[ueb]}-${fecha}.pdf`)
       
       console.log("PDF de ausentismo descargado exitosamente")
@@ -76,8 +98,11 @@ export default function AusentismoPage() {
             <AusentismoForm
               ueb={ueb}
               fecha={fecha}
+              claves={claves}
+              clavesDireccion={[]}
               onChangeUeb={setUeb}
               onChangeFecha={setFecha}
+              onChangeClaves={setClavesSeleccionadas}
               onCalculate={handleCalculate}
               onDownload={handleDownload}
               loading={loading}

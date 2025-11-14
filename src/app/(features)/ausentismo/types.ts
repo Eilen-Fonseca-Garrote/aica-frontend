@@ -1,15 +1,15 @@
-
 export interface ClaveAusentismo {
   Clave: string;
-  Descripcion: string;
+  ClvDescripcion: string;
+}
+
+export interface AusentismoItem {
+  Clave: string;
   Cantidad: number;
-  Femenino?: number;
-  Masculino?: number;
 }
 
 export interface AusentismoResponse {
-  UEB: string;
-  CLAVES: ClaveAusentismo[];
+  CLAVES: AusentismoItem[];
 }
 
 export interface AusentismoRequest {

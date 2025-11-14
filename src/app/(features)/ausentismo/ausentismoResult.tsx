@@ -1,9 +1,9 @@
 // AusentismoResult.tsx
 import React from 'react';
-import { ClaveAusentismo } from './types';
+import { AusentismoItem } from './types';
 
 interface AusentismoResultProps {
-  data: ClaveAusentismo[];
+  data: AusentismoItem[];
   uebNombre: string;
   fecha: string;
 }
@@ -37,10 +37,10 @@ const AusentismoResult: React.FC<AusentismoResultProps> = ({
                 </td>
               </tr>
             ) : (
-              data.map((clave, idx) => (
+              data.map((item, idx) => (
                 <tr key={idx} className="text-center border-t border-gray-200">
-                  <td className="py-2">{clave.Clave}</td>
-                  <td>{clave.Cantidad}</td>
+                  <td className="py-2">{item.Clave}</td>
+                  <td>{item.Cantidad}</td>
                 </tr>
               ))
             )}
