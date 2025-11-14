@@ -1,6 +1,5 @@
 // features/interruptos/page.tsx
 'use client'
-
 import { useState } from 'react'
 import InterruptosSection from '../interruptos/InterruptosSection'
 import InterruptosForm from '../interruptos/interruptosForm'
@@ -25,6 +24,15 @@ export default function InterruptosPage() {
   const [error, setError] = useState<string | null>(null)
 
   const handleCalculate = async () => {
+    if (ueb === "0") {
+      alert("Por favor, seleccione una UEB válida");
+      return;
+    }
+    if (!fecha) {
+      alert("Por favor, seleccione una fecha");
+      return;
+    }
+
     setLoading(true)
     setError(null)
     setData([])
@@ -34,7 +42,7 @@ export default function InterruptosPage() {
       const transformedData = transformInterruptosData(result)
       setData(transformedData)
     } catch (err: unknown) {
-      console.error(err)
+      console.error('Error completo:', err)
       setError('Ocurrió un error inesperado durante la búsqueda.')
     } finally {
       setLoading(false)
@@ -43,6 +51,11 @@ export default function InterruptosPage() {
 
   const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
+    if (ueb === "0" || !fecha) {
+      alert("Por favor, complete todos los campos antes de descargar");
+      return;
+    }
+
     setLoading(true)
     setError(null)
 
@@ -50,7 +63,7 @@ export default function InterruptosPage() {
       const file = await downloadInterruptosPdf(ueb, formatDateForBackend(fecha))
       downloadFile(file, `Interruptos_${ueb}_${fecha}.pdf`)
     } catch (err: unknown) {
-      console.error(err)
+      console.error('Error en descarga:', err)
       setError('Ocurrió un error inesperado durante la descarga.')
     } finally {
       setLoading(false)
@@ -62,59 +75,53 @@ export default function InterruptosPage() {
     return `${month}-${year}`
   }
 
-  
-// En tu page.tsx, modifica la función transformInterruptosData:
-const transformInterruptosData = (result: InterruptosResponse): InterruptosData[] => {
-  const transformedData: InterruptosData[] = [];
+  // Función corregida para transformar datos
+  const transformInterruptosData = (result: InterruptosResponse): InterruptosData[] => {
+    const transformedData: InterruptosData[] = [];
 
-  // Agregar datos por dirección
-  if (result.interruptos && result.interruptos.length > 0) {
-    result.interruptos.forEach((item) => {
-      transformedData.push({
-        direccion: item.Direccion,
-        covid: item.covid || 0,
-        reubicacion: item.reubicados || 0,
-        produccion100: item.produccion25 || 0,
-        produccion60: item.produccion48 || 0
+    // Transformar datos por dirección
+    if (result.interruptos && result.interruptos.length > 0) {
+      result.interruptos.forEach((item) => {
+        transformedData.push({
+          direccion: item.Direccion,
+          covid: item.covid,
+          reubicacion: item.reubicados,
+          produccion100: item.produccion25, // produccion25 = produccion100
+          produccion60: item.produccion48   // produccion48 = produccion60
+        });
       });
-    });
-  } else {
-    // Si no hay datos, mostrar mensaje o array vacío
-    console.warn('No se encontraron datos de interruptos');
-    return [];
-  }
+    }
 
-  // Agregar totales solo si existen
-  if (result.totalCovid && result.totalProd25 && result.totalProd48) {
-    transformedData.push({
-      direccion: "Total Femenino",
-      covid: result.totalCovid.F || 0,
-      reubicacion: result.totalReub?.F || 0,
-      produccion100: result.totalProd25.F || 0,
-      produccion60: result.totalProd48.F || 0
-    });
+    // Agregar totales
+    if (result.totalCovid && result.totalReub && result.totalProd25 && result.totalProd48) {
+      transformedData.push({
+        direccion: "Total Femenino",
+        covid: result.totalCovid.F,
+        reubicacion: result.totalReub.F,
+        produccion100: result.totalProd25.F,
+        produccion60: result.totalProd48.F
+      });
 
-    transformedData.push({
-      direccion: "Total Masculino",
-      covid: result.totalCovid.M || 0,
-      reubicacion: result.totalReub?.M || 0,
-      produccion100: result.totalProd25.M || 0,
-      produccion60: result.totalProd48.M || 0
-    });
+      transformedData.push({
+        direccion: "Total Masculino",
+        covid: result.totalCovid.M,
+        reubicacion: result.totalReub.M,
+        produccion100: result.totalProd25.M,
+        produccion60: result.totalProd48.M
+      });
 
-    transformedData.push({
-      direccion: "Total",
-      covid: result.totalCovid.Total || 0,
-      reubicacion: result.totalReub?.Total || 0,
-      produccion100: result.totalProd25.Total || 0,
-      produccion60: result.totalProd48.Total || 0
-    });
-  }
+      transformedData.push({
+        direccion: "Total",
+        covid: result.totalCovid.Total,
+        reubicacion: result.totalReub.Total,
+        produccion100: result.totalProd25.Total,
+        produccion60: result.totalProd48.Total
+      });
+    }
 
-  return transformedData;
-};
+    return transformedData;
+  };
 
-    
   return (
     <div className="p-4">
       <ToggleSection
