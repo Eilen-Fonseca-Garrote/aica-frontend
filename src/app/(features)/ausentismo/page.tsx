@@ -63,20 +63,26 @@ export default function AusentismoPage() {
       setData(formattedData)
       
       console.log("Datos de ausentismo obtenidos:", formattedData)
-    } catch (err: any) {
-      console.error("Error al calcular ausentismo:", err)
+    } catch (err: unknown) {
+  console.error("Error al calcular ausentismo:", err)
       
-      if (err.response?.status === 404) {
-        setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
-      } else if (err.response?.status === 400) {
-        setError('Parámetros inválidos. Verifique la fecha y UEB.')
-      } else {
-        setError('Ocurrió un error inesperado durante la búsqueda.')
-      }
-      setData([])
-    } finally {
-      setLoading(false)
+  if (err instanceof Error) {
+    setError(`Ocurrió un error: ${err.message}`)
+  } else if (typeof err === 'object' && err !== null && 'response' in err) {
+    const errorWithResponse = err as { response?: { status: number } }
+    if (errorWithResponse.response?.status === 404) {
+      setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
+    } else if (errorWithResponse.response?.status === 400) {
+      setError('Parámetros inválidos. Verifique la fecha y UEB.')
+    } else {
+      setError('Ocurrió un error inesperado durante la búsqueda.')
     }
+  } else {
+    setError('Ocurrió un error inesperado durante la búsqueda.')
+  }
+  setData([])
+}
+   
   }
 
   const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -92,17 +98,22 @@ export default function AusentismoPage() {
       downloadFile(file, `ausentismo-${uebNombres[ueb]}-${fecha}.pdf`)
       
       console.log("PDF de ausentismo descargado exitosamente")
-    } catch (err: any) {
-      console.error("Error al descargar PDF de ausentismo:", err)
-      
-      if (err.response?.status === 404) {
-        setError('El servicio de descarga PDF no está disponible. Contacte al administrador.')
-      } else {
-        setError('Ocurrió un error inesperado durante la descarga.')
-      }
-    } finally {
-      setLoading(false)
+   } catch (err: unknown) {
+  console.error("Error al descargar PDF de ausentismo:", err)
+  
+  if (err instanceof Error) {
+    setError(`Error al descargar: ${err.message}`)
+  } else if (typeof err === 'object' && err !== null && 'response' in err) {
+    const errorWithResponse = err as { response?: { status: number } }
+    if (errorWithResponse.response?.status === 404) {
+      setError('El servicio de descarga PDF no está disponible. Contacte al administrador.')
+    } else {
+      setError('Ocurrió un error inesperado durante la descarga.')
     }
+  } else {
+    setError('Ocurrió un error inesperado durante la descarga.')
+  }
+}
   }
 
   return (
