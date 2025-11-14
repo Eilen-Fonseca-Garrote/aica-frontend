@@ -23,7 +23,6 @@ const InterruptosResult: React.FC<InterruptosResultProps> = ({ data }) => {
     reubicacion: row.reubicacion,
     produccion100: row.produccion100,
     produccion60: row.produccion60,
-    // Aplicar estilos especiales para las filas de totales
     className: row.direccion === "Total" 
       ? "font-semibold bg-gray-50" 
       : row.direccion.includes("Total") 

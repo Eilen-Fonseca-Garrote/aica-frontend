@@ -1,10 +1,10 @@
 // features/interruptos/page.tsx
 'use client'
 import { useState } from 'react'
-import InterruptosSection from '../interruptos/InterruptosSection'
-import InterruptosForm from '../interruptos/interruptosForm'
-import InterruptosResult from '../interruptos/interrruptosResult'
-import { InterruptosData, InterruptosResponse } from './types'
+import InterruptosSection from './InterruptosSection'
+import InterruptosForm from './interruptosForm'
+import InterruptosResult from './interrruptosResult'
+import { InterruptosData, InterruptosResponse, InterruptosEntry } from './types'
 import { getInterruptos, downloadInterruptosPdf } from '@/app/lib/api/interruptos'
 import { downloadFile } from '@/app/lib/helpers'
 import ToggleSection from '../uiLibrary/ToggleSection'
@@ -24,10 +24,6 @@ export default function InterruptosPage() {
   const [error, setError] = useState<string | null>(null)
 
   const handleCalculate = async () => {
-    if (ueb === "0") {
-      alert("Por favor, seleccione una UEB válida");
-      return;
-    }
     if (!fecha) {
       alert("Por favor, seleccione una fecha");
       return;
@@ -39,7 +35,7 @@ export default function InterruptosPage() {
 
     try {
       const result: InterruptosResponse = await getInterruptos(Number(ueb), formatDateForBackend(fecha))
-      const transformedData = transformInterruptosData(result)
+      const transformedData = transformInterruptosData(result, Number(ueb))
       setData(transformedData)
     } catch (err: unknown) {
       console.error('Error completo:', err)
@@ -51,8 +47,8 @@ export default function InterruptosPage() {
 
   const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
-    if (ueb === "0" || !fecha) {
-      alert("Por favor, complete todos los campos antes de descargar");
+    if (!fecha) {
+      alert("Por favor, seleccione una fecha");
       return;
     }
 
@@ -75,14 +71,26 @@ export default function InterruptosPage() {
     return `${month}-${year}`
   }
 
-  const transformInterruptosData = (result: InterruptosResponse): InterruptosData[] => {
+  const transformInterruptosData = (result: InterruptosResponse, ueb: number): InterruptosData[] => {
     console.log('🔄 Transformando datos:', result);
     
     const transformedData: InterruptosData[] = [];
 
+    // Determinar qué datos de interruptos usar según la UEB
+    let interruptosEntries: InterruptosEntry[] = [];
+
+    if (ueb === 0) {
+      // Para UEB=0 (Todas las UEBs), mostrar un resumen o manejar diferente
+      console.log('Mostrando todas las UEBs - necesitarías lógica adicional');
+      return transformedData;
+    } else {
+      // Para UEB específica, usar el array de interruptos
+      interruptosEntries = result.interruptos || [];
+    }
+
     // Transformar datos por dirección
-    if (result.interruptos && result.interruptos.length > 0) {
-      result.interruptos.forEach((item) => {
+    if (interruptosEntries.length > 0) {
+      interruptosEntries.forEach((item) => {
         transformedData.push({
           direccion: item.Direccion || 'Sin nombre',
           covid: item.covid || 0,

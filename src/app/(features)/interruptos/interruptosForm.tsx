@@ -1,6 +1,6 @@
 // features/interruptos/components/InterruptosForm.tsx
 import Select from "../uiLibrary/Select";
-import InterruptosActions from "@/app/(features)/interruptos/interruptosActions";
+import InterruptosActions from "./interruptosActions";
 
 interface InterruptosFormProps {
   ueb: string;
@@ -39,10 +39,6 @@ export default function InterruptosForm({
   };
 
   const validateInputFields = () => {
-    if (ueb === "0") {
-      alert("Por favor, seleccione una UEB válida");
-      return false;
-    }
     if (!fecha) {
       alert("Por favor, seleccione una fecha");
       return false;

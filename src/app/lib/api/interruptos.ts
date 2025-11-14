@@ -8,8 +8,8 @@ export const getInterruptos = async (ueb: number, fecha: string) => {
   return res.data;
 };
 
-export const downloadInterruptosPdf = async (ueb: number, fecha: string) => {
-  const url = `/export/pdf/interruptos?ueb=${ueb}&fecha=${fecha}`;
+export const downloadInterruptosPdf = async (ueb: number, monthDate: string) => {
+  const url = `/export/pdf/interruptos?ueb=${ueb}&fecha=${monthDate}`;
   const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
   return res.data;
 };
