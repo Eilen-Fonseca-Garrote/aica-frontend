@@ -22,7 +22,7 @@ export const getAusencias = async (ueb: string, fecha: string, claves: string) =
 }
 
 // Para el PDF, mantenemos el formato actual si el endpoint existe
-export const downloadAusenciasPdf = async (ueb: string, fecha: string, claves: string) => {
+export const downloadAusenciasPdf = async (ueb: string, fecha: string, claves: string[]) => {
     // Convertir fecha de YYYY-MM a MM-YYYY
     const [year, month] = fecha.split('-');
     const date = `${month}-${year}`;

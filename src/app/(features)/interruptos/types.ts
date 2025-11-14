@@ -7,7 +7,6 @@ export interface InterruptosData {
   produccion60: number;
 }
 
-// Esta interfaz es la que realmente usa tu componente
 export interface InterruptosResponse {
   interruptos?: Array<{
     Direccion: string;
@@ -22,36 +21,3 @@ export interface InterruptosResponse {
   totalProd48?: { Total: number; F: number; M: number };
 }
 
-
-// Mantener estas interfaces para uso futuro si son necesarias
-/*export interface InterruptosDataCovid {
-  masculino: number;
-  total: number;
-  femenino: number;
-  EstNV1: number;
-  direcciones: string;
-}
-
-export interface InterruptosDataReub {
-  masculino: number;
-  total: number;
-  femenino: number;
-  EstNV1: number;
-  direcciones: string;
-}
-
-export interface InterruptosData60 {
-  masculino: number;
-  total: number;
-  femenino: number;
-  EstNV1: number;
-  direcciones: string;
-}
-
-export interface InterruptosData100 {
-  masculino: number;
-  total: number;
-  femenino: number;
-  EstNV1: number;
-  direcciones: string;
-} */

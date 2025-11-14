@@ -38,7 +38,7 @@ export default function InterruptosPage() {
     setData([])
 
     try {
-      const result: InterruptosResponse = await getInterruptos(ueb, formatDateForBackend(fecha))
+      const result: InterruptosResponse = await getInterruptos(Number(ueb), formatDateForBackend(fecha))
       const transformedData = transformInterruptosData(result)
       setData(transformedData)
     } catch (err: unknown) {
@@ -60,7 +60,7 @@ export default function InterruptosPage() {
     setError(null)
 
     try {
-      const file = await downloadInterruptosPdf(ueb, formatDateForBackend(fecha))
+      const file = await downloadInterruptosPdf(Number(ueb), formatDateForBackend(fecha))
       downloadFile(file, `Interruptos_${ueb}_${fecha}.pdf`)
     } catch (err: unknown) {
       console.error('Error en descarga:', err)
@@ -75,66 +75,65 @@ export default function InterruptosPage() {
     return `${month}-${year}`
   }
 
- // features/interruptos/page.tsx - Actualiza la función transformInterruptosData
-const transformInterruptosData = (result: InterruptosResponse): InterruptosData[] => {
-  console.log('🔄 Transformando datos:', result);
-  
-  const transformedData: InterruptosData[] = [];
+  const transformInterruptosData = (result: InterruptosResponse): InterruptosData[] => {
+    console.log('🔄 Transformando datos:', result);
+    
+    const transformedData: InterruptosData[] = [];
 
-  // Transformar datos por dirección
-  if (result.interruptos && result.interruptos.length > 0) {
-    result.interruptos.forEach((item) => {
-      transformedData.push({
-        direccion: item.Direccion || 'Sin nombre',
-        covid: item.covid || 0,
-        reubicacion: item.reubicados || 0,
-        produccion100: item.produccion25 || 0, // produccion25 = produccion100
-        produccion60: item.produccion48 || 0   // produccion48 = produccion60
+    // Transformar datos por dirección
+    if (result.interruptos && result.interruptos.length > 0) {
+      result.interruptos.forEach((item) => {
+        transformedData.push({
+          direccion: item.Direccion || 'Sin nombre',
+          covid: item.covid || 0,
+          reubicacion: item.reubicados || 0,
+          produccion100: item.produccion25 || 0,
+          produccion60: item.produccion48 || 0
+        });
       });
-    });
-  } else {
-    console.warn('⚠️ No hay datos de interruptos en la respuesta');
-  }
+    } else {
+      console.warn('⚠️ No hay datos de interruptos en la respuesta');
+    }
 
-  // Agregar totales solo si existen
-  if (result.totalCovid && result.totalReub && result.totalProd25 && result.totalProd48) {
-    console.log('➕ Agregando totales:', {
-      covid: result.totalCovid,
-      reub: result.totalReub,
-      prod25: result.totalProd25,
-      prod48: result.totalProd48
-    });
+    // Agregar totales solo si existen
+    if (result.totalCovid && result.totalReub && result.totalProd25 && result.totalProd48) {
+      console.log('➕ Agregando totales:', {
+        covid: result.totalCovid,
+        reub: result.totalReub,
+        prod25: result.totalProd25,
+        prod48: result.totalProd48
+      });
 
-    transformedData.push({
-      direccion: "Total Femenino",
-      covid: result.totalCovid.F || 0,
-      reubicacion: result.totalReub.F || 0,
-      produccion100: result.totalProd25.F || 0,
-      produccion60: result.totalProd48.F || 0
-    });
+      transformedData.push({
+        direccion: "Total Femenino",
+        covid: result.totalCovid.F || 0,
+        reubicacion: result.totalReub.F || 0,
+        produccion100: result.totalProd25.F || 0,
+        produccion60: result.totalProd48.F || 0
+      });
 
-    transformedData.push({
-      direccion: "Total Masculino",
-      covid: result.totalCovid.M || 0,
-      reubicacion: result.totalReub.M || 0,
-      produccion100: result.totalProd25.M || 0,
-      produccion60: result.totalProd48.M || 0
-    });
+      transformedData.push({
+        direccion: "Total Masculino",
+        covid: result.totalCovid.M || 0,
+        reubicacion: result.totalReub.M || 0,
+        produccion100: result.totalProd25.M || 0,
+        produccion60: result.totalProd48.M || 0
+      });
 
-    transformedData.push({
-      direccion: "Total",
-      covid: result.totalCovid.Total || 0,
-      reubicacion: result.totalReub.Total || 0,
-      produccion100: result.totalProd25.Total || 0,
-      produccion60: result.totalProd48.Total || 0
-    });
-  } else {
-    console.warn('⚠️ No hay datos de totales en la respuesta');
-  }
+      transformedData.push({
+        direccion: "Total",
+        covid: result.totalCovid.Total || 0,
+        reubicacion: result.totalReub.Total || 0,
+        produccion100: result.totalProd25.Total || 0,
+        produccion60: result.totalProd48.Total || 0
+      });
+    } else {
+      console.warn('⚠️ No hay datos de totales en la respuesta');
+    }
 
-  console.log('📊 Datos transformados finales:', transformedData);
-  return transformedData;
-};
+    console.log('📊 Datos transformados finales:', transformedData);
+    return transformedData;
+  };
 
   return (
     <div className="p-4">
