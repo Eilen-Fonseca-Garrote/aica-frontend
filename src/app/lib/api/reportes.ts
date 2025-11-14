@@ -19,7 +19,7 @@ export const downloadModeloRL4Xls = async (noLabDays: string, fechaAusentismo: s
 }
 
 export const downloadAllWorkersXls = async () => {
-  const url = `/export/excel/all-workers?`
+  const url = `/export/excel/all-workers`
   const res = await apiClient.get<Blob>(url, {responseType: 'blob'})
   
   return res.data
