@@ -74,12 +74,19 @@ const handleCalculate = async (clavesParam: string) => {
     
     console.log("Datos formateados para mostrar:", formattedData)
     
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error detallado:", err)
-    if (err.response?.status === 404) {
-      setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
-    } else if (err.response?.status === 400) {
-      setError('Parámetros inválidos. Verifique la fecha y UEB.')
+    
+    // Manejo type-safe del error
+    if (err && typeof err === 'object' && 'response' in err) {
+      const errorWithResponse = err as { response?: { status: number } }
+      if (errorWithResponse.response?.status === 404) {
+        setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
+      } else if (errorWithResponse.response?.status === 400) {
+        setError('Parámetros inválidos. Verifique la fecha y UEB.')
+      } else {
+        setError('Ocurrió un error inesperado durante la búsqueda.')
+      }
     } else {
       setError('Ocurrió un error inesperado durante la búsqueda.')
     }
@@ -102,11 +109,17 @@ const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, clavesPara
     downloadFile(file, `ausentismo-${uebNombres[ueb]}-${fecha}.pdf`)
     
     console.log("PDF de ausentismo descargado exitosamente")
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error al descargar PDF de ausentismo:", err)
     
-    if (err.response?.status === 404) {
-      setError('El servicio de descarga PDF no está disponible. Contacte al administrador.')
+    // Manejo type-safe del error
+    if (err && typeof err === 'object' && 'response' in err) {
+      const errorWithResponse = err as { response?: { status: number } }
+      if (errorWithResponse.response?.status === 404) {
+        setError('El servicio de descarga PDF no está disponible. Contacte al administrador.')
+      } else {
+        setError('Ocurrió un error inesperado durante la descarga.')
+      }
     } else {
       setError('Ocurrió un error inesperado durante la descarga.')
     }
@@ -114,7 +127,6 @@ const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, clavesPara
     setLoading(false)
   }
 }
-
   
     
 
