@@ -8,6 +8,14 @@ import {
 } from './external_service';
 import { InterruptosResponse, InterruptosDataCovid, InterruptosDataReub, InterruptosData60, InterruptosData100 } from '@/app/(features)/interruptos/types';
 
+// Tipo base para datos normalizados
+interface NormalizedInterruptosData {
+  direcciones: string;
+  total: number;
+  masculino: number;
+  femenino: number;
+}
+
 export const getInterruptos = async (ueb: string, fecha: string): Promise<InterruptosResponse> => {
   try {
     // Obtener todos los datos en paralelo
@@ -58,10 +66,10 @@ export const getInterruptos = async (ueb: string, fecha: string): Promise<Interr
 
 // Función auxiliar para extraer direcciones únicas de todos los datasets
 const extraerDireccionesUnicas = (
-  covidData: InterruptosDataCovid[], 
-  reubData: InterruptosDataReub[], 
-  prod60Data: InterruptosData60[], 
-  prod100Data: InterruptosData100[]
+  covidData: NormalizedInterruptosData[], 
+  reubData: NormalizedInterruptosData[], 
+  prod60Data: NormalizedInterruptosData[], 
+  prod100Data: NormalizedInterruptosData[]
 ): string[] => {
   const direccionesSet = new Set<string>();
   
@@ -83,7 +91,7 @@ const extraerDireccionesUnicas = (
 };
 
 // Función auxiliar para encontrar valor por dirección
-const encontrarValorPorDireccion = (data: any[], direccion: string): number => {
+const encontrarValorPorDireccion = (data: NormalizedInterruptosData[], direccion: string): number => {
   const item = data.find(item => 
     item.direcciones && item.direcciones.trim() === direccion
   );
@@ -91,7 +99,7 @@ const encontrarValorPorDireccion = (data: any[], direccion: string): number => {
 };
 
 // Función auxiliar para calcular totales
-const calcularTotales = (data: any[]) => {
+const calcularTotales = (data: NormalizedInterruptosData[]) => {
   const total = data.reduce((sum, item) => sum + (item.total || 0), 0);
   const F = data.reduce((sum, item) => sum + (item.femenino || 0), 0);
   const M = data.reduce((sum, item) => sum + (item.masculino || 0), 0);
@@ -104,19 +112,3 @@ export const downloadInterruptosPdf = async (ueb: string, fecha: string) => {
   const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
   return res.data;
 };
-
-
-
-
-/*
-export const getInterruptos = async (ueb: string, fecha: string) => {
-  const url = `/ausencias/interruptos?ueb=${ueb}&fecha=${fecha}`;
-  const res = await apiClient.get<InterruptosResponse>(url);
-  return res.data;
-};
-
-export const downloadInterruptosPdf = async (ueb: string, fecha: string) => {
-  const url = `/export/pdf/interruptos?ueb=${ueb}&fecha=${fecha}`;
-  const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
-  return res.data;
-}; */
