@@ -1,6 +1,6 @@
 export interface ClaveAusentismo {
-  Clave: string;
-  ClvDescripcion: string;
+  ClvCod: string;
+  ClvDesc: string;
 }
 
 export interface AusentismoItem {

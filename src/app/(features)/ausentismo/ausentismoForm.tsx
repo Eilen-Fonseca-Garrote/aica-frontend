@@ -51,16 +51,16 @@ export default function AusentismoForm({
   // Filtrar items disponibles
   const filteredLeftItems = useMemo(() => {
     return availableItems
-      .filter(item => !selectedItems.some(selected => selected.Clave === item.Clave))
+      .filter(item => !selectedItems.some(selected => selected.ClvCod === item.ClvCod))
       .filter(item => 
-        item.ClvDescripcion.toLowerCase().includes(leftFilter.toLowerCase())
+        item.ClvDesc.toLowerCase().includes(leftFilter.toLowerCase())
       );
   }, [availableItems, leftFilter, selectedItems]);
 
   // Filtrar items seleccionados
   const filteredRightItems = useMemo(() => {
     return selectedItems.filter(item => 
-      item.ClvDescripcion.toLowerCase().includes(rightFilter.toLowerCase())
+      item.ClvDesc.toLowerCase().includes(rightFilter.toLowerCase())
     );
   }, [selectedItems, rightFilter]);
 
@@ -71,7 +71,7 @@ export default function AusentismoForm({
 
   // Mover elemento de seleccionados a disponibles
   const moveToAvailable = (item: ClaveAusentismo) => {
-    setSelectedItems(prev => prev.filter(i => i.Clave !== item.Clave));
+    setSelectedItems(prev => prev.filter(i => i.ClvCod !== item.ClvCod));
   };
 
   // Mover todos los elementos filtrados
@@ -81,7 +81,7 @@ export default function AusentismoForm({
 
   const moveAllFilteredToAvailable = () => {
     setSelectedItems(prev => prev.filter(item => 
-      !filteredRightItems.some(filtered => filtered.Clave === item.Clave)
+      !filteredRightItems.some(filtered => filtered.ClvCod === item.ClvCod)
     ));
   };
 
@@ -89,7 +89,7 @@ export default function AusentismoForm({
     if (!validateInputFields()) return;
     
     // Convertir selectedItems a string de claves separadas por comas
-    const clavesParam = selectedItems.map(item => item.Clave).join(',');
+    const clavesParam = selectedItems.map(item => item.ClvCod).join(',');
     onChangeClaves(clavesParam);
     
     onCalculate();
@@ -100,7 +100,7 @@ export default function AusentismoForm({
     if (!validateInputFields()) return;
     
     // Convertir selectedItems a string de claves separadas por comas
-    const clavesParam = selectedItems.map(item => item.Clave).join(',');
+    const clavesParam = selectedItems.map(item => item.ClvCod).join(',');
     onChangeClaves(clavesParam);
     
     onDownload(e);
@@ -175,11 +175,11 @@ export default function AusentismoForm({
               {filteredLeftItems.map((item, index) => (
                 <option 
                   key={index} 
-                  value={item.Clave} 
+                  value={item.ClvCod} 
                   className="py-1 cursor-pointer hover:bg-gray-100"
                   onDoubleClick={() => moveToSelected(item)}
                 >
-                  {item.ClvDescripcion}
+                  {item.ClvDesc}
                 </option>
               ))}
             </select>
@@ -215,11 +215,11 @@ export default function AusentismoForm({
               {filteredRightItems.map((item, index) => (
                 <option 
                   key={index} 
-                  value={item.Clave}
+                  value={item.ClvCod}
                   className="py-1 cursor-pointer hover:bg-gray-100"
                   onDoubleClick={() => moveToAvailable(item)}
                 >
-                  {item.ClvDescripcion}
+                  {item.ClvDesc}
                 </option>
               ))}
             </select>
