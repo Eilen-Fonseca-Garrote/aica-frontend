@@ -31,12 +31,12 @@ export default function AusentismoPage() {
   useEffect(() => {
     const loadClaves = async () => {
       try {
-        console.log("Cargando claves para UEB:", ueb)
+      //  console.log("Cargando claves para UEB:", ueb)
         const clavesData = await getClavesAusentismo(ueb)
         setClaves(clavesData)
-        console.log("Claves cargadas:", clavesData)
+      //  console.log("Claves cargadas:", clavesData)
       } catch (err) {
-        console.error("Error al cargar claves de ausentismo:", err)
+       // console.error("Error al cargar claves de ausentismo:", err)
         setClaves([])
       }
     }
@@ -61,32 +61,36 @@ const handleCalculate = async (clavesParam: string) => {
     const response = await getAusencias(ueb, fecha, clavesParam)
     
     console.log("Respuesta completa del backend:", response)
+    console.log("Tipo de respuesta:", typeof response)
+    console.log("Es array?", Array.isArray(response))
     
-    // Convertir la respuesta del backend al formato que espera el frontend
+    // CORRECIÓN: La respuesta ya viene en el formato correcto AusentismoItem[]
+    // Solo necesitamos verificar que sea un array
     const formattedData: AusentismoItem[] = Array.isArray(response) 
-      ? response.map(clave => ({
-          Clave: clave,
-          Cantidad: 1 // Placeholder ya que el backend no devuelve cantidades
-        }))
+      ? response 
       : [];
     
     setData(formattedData)
     
-    console.log("Datos formateados para mostrar:", formattedData)
+    console.log("Datos para mostrar:", formattedData)
+    console.log("Total de items recibidos:", formattedData.length)
     
   } catch (err: unknown) {
     console.error("Error detallado:", err)
     
     // Manejo type-safe del error
     if (err && typeof err === 'object' && 'response' in err) {
-      const errorWithResponse = err as { response?: { status: number } }
+      const errorWithResponse = err as { response?: { status: number, data?: any } }
       if (errorWithResponse.response?.status === 404) {
         setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
       } else if (errorWithResponse.response?.status === 400) {
         setError('Parámetros inválidos. Verifique la fecha y UEB.')
       } else {
-        setError('Ocurrió un error inesperado durante la búsqueda.')
+        const errorMessage = errorWithResponse.response?.data?.message || 'Ocurrió un error inesperado durante la búsqueda.';
+        setError(errorMessage)
       }
+    } else if (err instanceof Error) {
+      setError(err.message)
     } else {
       setError('Ocurrió un error inesperado durante la búsqueda.')
     }

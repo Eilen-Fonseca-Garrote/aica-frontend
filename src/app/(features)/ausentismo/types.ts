@@ -8,8 +8,8 @@ export interface AusentismoItem {
   Cantidad: number;
 }
 
-// La respuesta del backend es un array de strings (claves)
-export type AusentismoResponse = string[];
+// CORRECIÓN: La respuesta del backend es un array de objetos con Clave y Cantidad
+export type AusentismoResponse = AusentismoItem[];
 
 export interface AusentismoRequest {
   codigos: string[];

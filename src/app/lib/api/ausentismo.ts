@@ -1,4 +1,3 @@
-
 import { apiClient } from './client'
 import { AusentismoResponse, AusentismoRequest } from '@/app/(features)/ausentismo/types'
 
@@ -21,12 +20,13 @@ export const getAusencias = async (ueb: string, fecha: string, claves: string) =
     return res.data;
 }
 
-// Para el PDF, mantenemos el formato actual si el endpoint existe
-export const downloadAusenciasPdf = async (ueb: string, fecha: string, claves: string[]) => {
+// CORRECIÓN: Cambiar el parámetro claves de string[] a string
+export const downloadAusenciasPdf = async (ueb: string, fecha: string, claves: string) => {
     // Convertir fecha de YYYY-MM a MM-YYYY
     const [year, month] = fecha.split('-');
     const date = `${month}-${year}`;
     
+    // CORRECIÓN: Usar el string de claves directamente
     const url = `/export/pdf/clavesAusentismo?ueb=${ueb}&fecha=${date}&clave=${claves}`;
     const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
     return res.data;
