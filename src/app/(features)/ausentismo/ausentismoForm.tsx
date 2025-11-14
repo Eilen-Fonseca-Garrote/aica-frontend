@@ -12,11 +12,10 @@ interface AusentismoFormProps {
   onChangeUeb: (v: string) => void;
   onChangeFecha: (v: string) => void;
   onChangeClaves: (v: string) => void;
-  onCalculate: () => void;
-  onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  onCalculate: (claves: string) => void;  // Cambiar para recibir claves
+  onDownload: (e: React.MouseEvent<HTMLAnchorElement>, claves: string) => void;  // Cambiar para recibir claves
   loading?: boolean;
 }
-
 export default function AusentismoForm({
   ueb,
   fecha,
@@ -86,27 +85,30 @@ export default function AusentismoForm({
   };
 
   const handleCalculate = () => {
-    if (!validateInputFields()) return;
+  if (!validateInputFields()) return;
     
     // Convertir selectedItems a string de claves separadas por comas
-    const clavesParam = selectedItems.map(item => item.ClvCod).join(',');
-    onChangeClaves(clavesParam);
-    
-    onCalculate();
+    // Convertir selectedItems a string de claves separadas por comas
+  const clavesParam = selectedItems.map(item => item.ClvCod).join(',');
+  console.log("Claves a enviar al cálculo:", clavesParam);
+  console.log("Claves seleccionadas:", selectedItems);
+   // Pasar las claves directamente a onCalculate
+  onCalculate(clavesParam);
   };
 
-  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (!validateInputFields()) return;
+const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault();
+  if (!validateInputFields()) return;
     
     // Convertir selectedItems a string de claves separadas por comas
-    const clavesParam = selectedItems.map(item => item.ClvCod).join(',');
-    onChangeClaves(clavesParam);
-    
-    onDownload(e);
-  };
+  const clavesParam = selectedItems.map(item => item.ClvCod).join(',');
+  console.log("Claves a enviar para PDF:", clavesParam);
+  
+  // Pasar las claves directamente a onDownload
+  onDownload(e, clavesParam);
+};
 
-
+  // En la función validateInputFields, agregar validación de formato de fecha
 const validateInputFields = () => {
   if (ueb === "0") {
     alert("Por favor, seleccione una UEB válida");
@@ -119,22 +121,14 @@ const validateInputFields = () => {
   // Validar formato YYYY-MM
   const fechaRegex = /^\d{4}-\d{2}$/;
   if (!fechaRegex.test(fecha)) {
-    alert("Formato de fecha inválido. Use YYYY-MM");
+    alert("Formato de fecha inválido. Use YYYY-MM (ej: 2024-12)");
     return false;
   }
+  
+  console.log("Validación exitosa - UEB:", ueb, "Fecha:", fecha, "Claves seleccionadas:", selectedItems.length);
   return true;
 };
-  /*const validateInputFields = () => {
-    if (ueb === "0") {
-      alert("Por favor, seleccione una UEB válida");
-      return false;
-    }
-    if (!fecha) {
-      alert("Por favor, seleccione una fecha");
-      return false;
-    }
-    return true;
-  }; */
+  
 
   return (
     <div className="p-4 space-y-4">
@@ -204,6 +198,7 @@ const validateInputFields = () => {
           </div>
         </div>
 
+
         {/* Columna derecha - Elementos seleccionados */}
         <div className="space-y-2">
           <div className="font-medium text-sm">Elementos Seleccionados</div>
@@ -245,12 +240,35 @@ const validateInputFields = () => {
         </div>
       </div>
 
-      <hr className="border-gray-200" />
-      <AusentismoActions 
-        onCalculate={handleCalculate} 
-        onDownload={handleDownload}
-        loading={loading}
-      />
+      
+    {/* Indicador de claves seleccionadas */}
+    <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+      <div className="font-medium text-sm text-blue-800">Claves seleccionadas para búsqueda:</div>
+      <div className="text-sm text-blue-600 mt-1">
+        {selectedItems.length === 0 ? (
+          <span className="italic">No hay claves seleccionadas (se usarán todas las claves)</span>
+        ) : (
+          <div className="flex flex-wrap gap-2 mt-1">
+            {selectedItems.map(item => (
+              <span key={item.ClvCod} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                {item.ClvCod}: {item.ClvDesc}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="text-xs text-blue-500 mt-1">
+        {selectedItems.length} claves seleccionadas | Códigos: {selectedItems.map(item => item.ClvCod).join(', ')}
+      </div>
     </div>
-  );
+
+    <hr className="border-gray-200" />
+    <AusentismoActions 
+      onCalculate={handleCalculate} 
+      onDownload={handleDownload}
+      loading={loading}
+    />
+  </div>
+);
+
 }

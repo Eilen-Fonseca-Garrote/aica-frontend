@@ -46,75 +46,77 @@ export default function AusentismoPage() {
     }
   }, [ueb])
 
-  const handleCalculate = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      console.log("Calculando ausentismo para UEB:", ueb, "Mes/Año:", fecha, "Claves:", clavesSeleccionadas)
-      
-      const response = await getAusencias(ueb, fecha, clavesSeleccionadas)
-      
-      // Convertir la respuesta del backend (array de strings) al formato que espera el frontend
-      const formattedData: AusentismoItem[] = response.map(clave => ({
-        Clave: clave,
-        Cantidad: 1 // El backend no devuelve cantidades, así que usamos 1 como placeholder
-      }))
-      
-      setData(formattedData)
-      
-      console.log("Datos de ausentismo obtenidos:", formattedData)
-    } catch (err: unknown) {
-  console.error("Error al calcular ausentismo:", err)
-      
-  if (err instanceof Error) {
-    setError(`Ocurrió un error: ${err.message}`)
-  } else if (typeof err === 'object' && err !== null && 'response' in err) {
-    const errorWithResponse = err as { response?: { status: number } }
-    if (errorWithResponse.response?.status === 404) {
+  
+   // Modificar handleCalculate y handleDownload:
+
+const handleCalculate = async (clavesParam: string) => {
+  setLoading(true)
+  setError(null)
+  try {
+    console.log("=== DEBUG AUSENTISMO ===")
+    console.log("UEB:", ueb)
+    console.log("Fecha:", fecha)
+    console.log("Claves recibidas del formulario:", clavesParam)
+    
+    const response = await getAusencias(ueb, fecha, clavesParam)
+    
+    console.log("Respuesta completa del backend:", response)
+    
+    // Convertir la respuesta del backend al formato que espera el frontend
+    const formattedData: AusentismoItem[] = Array.isArray(response) 
+      ? response.map(clave => ({
+          Clave: clave,
+          Cantidad: 1 // Placeholder ya que el backend no devuelve cantidades
+        }))
+      : [];
+    
+    setData(formattedData)
+    
+    console.log("Datos formateados para mostrar:", formattedData)
+    
+  } catch (err: any) {
+    console.error("Error detallado:", err)
+    if (err.response?.status === 404) {
       setError('El servicio de ausentismo no está disponible. Contacte al administrador.')
-    } else if (errorWithResponse.response?.status === 400) {
+    } else if (err.response?.status === 400) {
       setError('Parámetros inválidos. Verifique la fecha y UEB.')
     } else {
       setError('Ocurrió un error inesperado durante la búsqueda.')
     }
-  } else {
-    setError('Ocurrió un error inesperado durante la búsqueda.')
+    setData([])
+  } finally {
+    setLoading(false)
   }
-  setData([])
 }
-   
-  }
 
-  const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    if (loading) return
-    
-    setLoading(true)
-    setError(null)
-    try {
-      console.log("Descargando PDF de ausentismo para UEB:", ueb, "Mes/Año:", fecha, "Claves:", clavesSeleccionadas)
-      
-      const file = await downloadAusenciasPdf(ueb, fecha, clavesSeleccionadas)
-      downloadFile(file, `ausentismo-${uebNombres[ueb]}-${fecha}.pdf`)
-      
-      console.log("PDF de ausentismo descargado exitosamente")
-   } catch (err: unknown) {
-  console.error("Error al descargar PDF de ausentismo:", err)
+const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, clavesParam: string) => {
+  e.preventDefault()
+  if (loading) return
   
-  if (err instanceof Error) {
-    setError(`Error al descargar: ${err.message}`)
-  } else if (typeof err === 'object' && err !== null && 'response' in err) {
-    const errorWithResponse = err as { response?: { status: number } }
-    if (errorWithResponse.response?.status === 404) {
+  setLoading(true)
+  setError(null)
+  try {
+    console.log("Descargando PDF de ausentismo para UEB:", ueb, "Mes/Año:", fecha, "Claves:", clavesParam)
+    
+    const file = await downloadAusenciasPdf(ueb, fecha, clavesParam)
+    downloadFile(file, `ausentismo-${uebNombres[ueb]}-${fecha}.pdf`)
+    
+    console.log("PDF de ausentismo descargado exitosamente")
+  } catch (err: any) {
+    console.error("Error al descargar PDF de ausentismo:", err)
+    
+    if (err.response?.status === 404) {
       setError('El servicio de descarga PDF no está disponible. Contacte al administrador.')
     } else {
       setError('Ocurrió un error inesperado durante la descarga.')
     }
-  } else {
-    setError('Ocurrió un error inesperado durante la descarga.')
+  } finally {
+    setLoading(false)
   }
 }
-  }
+
+  
+    
 
   return (
     <div className='p-4'>

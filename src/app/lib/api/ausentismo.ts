@@ -1,3 +1,4 @@
+
 import { apiClient } from './client'
 import { AusentismoResponse, AusentismoRequest } from '@/app/(features)/ausentismo/types'
 
