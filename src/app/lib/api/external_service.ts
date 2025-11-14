@@ -2,7 +2,6 @@ import { externalServiceClient } from './client'
 import { Direccion } from '@/app/(features)/promedio/types'
 import { ClaveAusentismo } from '@/app/(features)/ausentismo/types'
 
-// Definir interfaces para los datos brutos del backend
 interface RawInterruptosData {
   "UEB/Dirección"?: string;
   direcciones?: string;
@@ -26,7 +25,7 @@ export const getClavesAusentismo = async (ueb: string)=> {
     return res.data
 }
 
-// Función de normalización reutilizable
+
 const normalizeInterruptosData = (data: RawInterruptosData[]) => {
     return data.map(item => ({
         ...item,
@@ -39,6 +38,7 @@ const normalizeInterruptosData = (data: RawInterruptosData[]) => {
 
 export const getInterruptosCovid = async (ueb: string, date: string) => {
     const url = `/recursosHumanos/interruptoCovid?ueb=${ueb}&fecha=${date}`  
+    console.log(`🌐 Llamando COVID: ${url}`);
     const res = await externalServiceClient.get<RawInterruptosData[]>(url)
     
     const normalizedData = normalizeInterruptosData(res.data);
