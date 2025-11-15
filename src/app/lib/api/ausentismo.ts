@@ -20,14 +20,24 @@ export const getAusencias = async (ueb: string, fecha: string, claves: string) =
     return res.data;
 }
 
-// CORRECIÓN: Cambiar el parámetro claves de string[] a string
 export const downloadAusenciasPdf = async (ueb: string, fecha: string, claves: string) => {
     // Convertir fecha de YYYY-MM a MM-YYYY
     const [year, month] = fecha.split('-');
     const date = `${month}-${year}`;
     
-    // CORRECIÓN: Usar el string de claves directamente
-    const url = `/export/pdf/clavesAusentismo?ueb=${ueb}&fecha=${date}&clave=${claves}`;
-    const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
+    // Convertir string de claves a array
+    const codigos = claves ? claves.split(',') : [];
+    
+    const requestBody: AusentismoRequest = {
+        codigos,
+        date,
+        ueb
+    };
+    
+    //  POST y enviar el requestBody
+    const url = `/export/pdf/clavesAusentismo`;
+    const res = await apiClient.post<Blob>(url, requestBody, { 
+        responseType: 'blob' 
+    });
     return res.data;
 }
