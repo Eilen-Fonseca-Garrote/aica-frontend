@@ -12,6 +12,7 @@ export const getInterruptos = async (ueb: number, fecha: string) => {
   return res.data;
 };
 
+
 export const downloadInterruptosPdf = async (ueb: string, fecha: string) => {
   // Convertir fecha de YYYY-MM a MM-YYYY
   const [year, month] = fecha.split('-');

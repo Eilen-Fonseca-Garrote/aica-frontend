@@ -13,15 +13,31 @@ export interface InterruptosEntry {
   produccion48: number;
 }
 
+// El backend retorna estas propiedades adicionales cuando ueb = 0
 export interface InterruptosResponse {
   interruptos?: InterruptosEntry[] | null;
+  interruptosAica?: InterruptosEntry[] | null;
+  interruptosLiorad?: InterruptosEntry[] | null;
+  interruptosJT?: InterruptosEntry[] | null;
+  interruptosCitox?: InterruptosEntry[] | null;
+  interruptosSH?: InterruptosEntry[] | null;
   totalReub: TotalResult;
   totalCovid: TotalResult;
   totalProd25: TotalResult;
   totalProd48: TotalResult;
+  totales: {
+    [key: string]: {
+      [key: string]: TotalResult;
+    };
+  };
+  totalesInt: {
+    Covid: TotalResult;
+    Reubic: TotalResult;
+    Prod25: TotalResult;
+    Prod48: TotalResult;
+  } | null;
 }
 
-// Tipo para las filas de la tabla
 export interface InterruptosTableRow {
   direccion: string;
   covid: number;
@@ -29,7 +45,6 @@ export interface InterruptosTableRow {
   produccion100: number;
   produccion60: number;
 }
-
 
 /*
 export interface TotalInterruptosUEB {

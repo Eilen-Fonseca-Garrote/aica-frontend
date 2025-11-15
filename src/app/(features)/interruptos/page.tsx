@@ -68,56 +68,91 @@ export default function InterruptosPage() {
     }
   }
 
-  const transformToTableData = (result: InterruptosResponse, ueb: number): InterruptosTableRow[] => {
-    const tableData: InterruptosTableRow[] = [];
+ // features/interruptos/page.tsx - Solo la función transformToTableData actualizada
+const transformToTableData = (result: InterruptosResponse, ueb: number): InterruptosTableRow[] => {
+  const tableData: InterruptosTableRow[] = [];
 
-    // Para UEB específica - mostrar direcciones individuales
-    if (ueb !== 0 && result.interruptos) {
-      result.interruptos.forEach(item => {
-        tableData.push({
-          direccion: item.Direccion,
-          covid: item.covid,
-          reubicacion: item.reubicados,
-          produccion100: item.produccion25,
-          produccion60: item.produccion48
-        });
+  // Para UEB específica (ueb !== 0)
+  if (ueb !== 0 && result.interruptos) {
+    result.interruptos.forEach(item => {
+      tableData.push({
+        direccion: item.Direccion,
+        covid: item.covid,
+        reubicacion: item.reubicados,
+        produccion100: item.produccion25,
+        produccion60: item.produccion48
       });
-    } 
-    // Para "Todas las UEBs" - mostrar solo los totales por UEB
-    else if (ueb === 0) {
-      // Aquí puedes agregar lógica para mostrar múltiples UEBs si es necesario
-      // Por ahora, mostramos solo los totales generales
-    }
+    });
+  }
+  // Para "Todas las UEBs" (ueb === 0) - usar totales por UEB
+  else if (ueb === 0 && result.totales) {
+    // Procesar cada UEB del objeto totales
+    Object.entries(result.totales).forEach(([uebName, uebData]) => {
+      tableData.push({
+        direccion: `UEB ${uebName}`,
+        covid: uebData.Covid?.Total || 0,
+        reubicacion: uebData.Reubic?.Total || 0,
+        produccion100: uebData.Prod25?.Total || 0,
+        produccion60: uebData.Prod48?.Total || 0
+      });
+    });
+  }
 
-    // Agregar totales generales
-    if (result.totalCovid && result.totalReub && result.totalProd25 && result.totalProd48) {
-      tableData.push(
-        {
-          direccion: "Total Femenino",
-          covid: result.totalCovid.F,
-          reubicacion: result.totalReub.F,
-          produccion100: result.totalProd25.F,
-          produccion60: result.totalProd48.F
-        },
-        {
-          direccion: "Total Masculino", 
-          covid: result.totalCovid.M,
-          reubicacion: result.totalReub.M,
-          produccion100: result.totalProd25.M,
-          produccion60: result.totalProd48.M
-        },
-        {
-          direccion: "Total General",
-          covid: result.totalCovid.Total,
-          reubicacion: result.totalReub.Total,
-          produccion100: result.totalProd25.Total,
-          produccion60: result.totalProd48.Total
-        }
-      );
-    }
+  // Agregar totales generales - usar totalesInt cuando ueb === 0
+  if (ueb === 0 && result.totalesInt) {
+    tableData.push(
+      {
+        direccion: "Total Femenino",
+        covid: result.totalesInt.Covid.F,
+        reubicacion: result.totalesInt.Reubic.F,
+        produccion100: result.totalesInt.Prod25.F,
+        produccion60: result.totalesInt.Prod48.F
+      },
+      {
+        direccion: "Total Masculino", 
+        covid: result.totalesInt.Covid.M,
+        reubicacion: result.totalesInt.Reubic.M,
+        produccion100: result.totalesInt.Prod25.M,
+        produccion60: result.totalesInt.Prod48.M
+      },
+      {
+        direccion: "Total General",
+        covid: result.totalesInt.Covid.Total,
+        reubicacion: result.totalesInt.Reubic.Total,
+        produccion100: result.totalesInt.Prod25.Total,
+        produccion60: result.totalesInt.Prod48.Total
+      }
+    );
+  }
+  // Para UEB específica, usar los totales individuales
+  else if (ueb !== 0 && result.totalCovid && result.totalReub && result.totalProd25 && result.totalProd48) {
+    tableData.push(
+      {
+        direccion: "Total Femenino",
+        covid: result.totalCovid.F,
+        reubicacion: result.totalReub.F,
+        produccion100: result.totalProd25.F,
+        produccion60: result.totalProd48.F
+      },
+      {
+        direccion: "Total Masculino", 
+        covid: result.totalCovid.M,
+        reubicacion: result.totalReub.M,
+        produccion100: result.totalProd25.M,
+        produccion60: result.totalProd48.M
+      },
+      {
+        direccion: "Total General",
+        covid: result.totalCovid.Total,
+        reubicacion: result.totalReub.Total,
+        produccion100: result.totalProd25.Total,
+        produccion60: result.totalProd48.Total
+      }
+    );
+  }
 
-    return tableData;
-  };
+  return tableData;
+};
 
   return (
     <div className="p-4">

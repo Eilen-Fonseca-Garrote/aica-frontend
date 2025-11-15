@@ -38,17 +38,19 @@ export default function InterruptosForm({
     onDownload(e);
   };
 
-  const validateInputFields = () => {
-    if (ueb === "0") {
-      alert("Por favor, seleccione una UEB válida");
-      return false;
-    }
-    if (!fecha) {
-      alert("Por favor, seleccione una fecha");
-      return false;
-    }
-    return true;
-  };
+
+const validateInputFields = () => {
+  // Permitir ueb "0" (Todas las UEBs)
+  if (!ueb) {
+    alert("Por favor, seleccione una UEB");
+    return false;
+  }
+  if (!fecha) {
+    alert("Por favor, seleccione una fecha");
+    return false;
+  }
+  return true;
+};
 
   return (
     <div className="p-4 space-y-4">
