@@ -2,10 +2,10 @@
 import React from 'react';
 import Card from '../uiLibrary/Card';
 import Table from '../uiLibrary/Table';
-import { InterruptosData } from './types';
+import { InterruptosTableRow } from './types';
 
 interface InterruptosResultProps {
-  data: InterruptosData[];
+  data: InterruptosTableRow[];
 }
 
 const InterruptosResult: React.FC<InterruptosResultProps> = ({ data }) => {
@@ -23,7 +23,7 @@ const InterruptosResult: React.FC<InterruptosResultProps> = ({ data }) => {
     reubicacion: row.reubicacion,
     produccion100: row.produccion100,
     produccion60: row.produccion60,
-    className: row.direccion === "Total" 
+    className: row.direccion === "Total General" 
       ? "font-semibold bg-gray-50" 
       : row.direccion.includes("Total") 
         ? "font-semibold" 
