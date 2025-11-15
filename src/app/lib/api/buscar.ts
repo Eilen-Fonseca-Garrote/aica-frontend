@@ -40,6 +40,5 @@ export const buscarInformacionLaborPorCi = async (ueb: string, ci: string) => {
 export const buscarMisionesCondecoracionesPorCi = async (ueb: string, ci: string) => {
     const url = `/buscarTrabajador/condecMisionesTrabajador?ci=${ci}&ueb=${ueb}&type=M`
     const res = await apiClient.get<BuscarTrabajadorMisionesCondecResponse[]>(url)
-    console.log(res.data)
     return res.data
 }

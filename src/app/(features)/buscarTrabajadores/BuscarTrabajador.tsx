@@ -118,8 +118,8 @@ export default function BuscarTrabajador() {
     const misionData = await getWorkAchievementsData(worker.ci)
     setSelectedWorkerMissionData(misionData[0])
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   }catch(error){
-    console.error("Error fetching worker profile data:", error)
   }finally{
     setLoadingProfile(false)
   }
@@ -217,8 +217,8 @@ const handleSubmit = async (e: React.FormEvent) => {
     } else {
       setResults([])
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error("Error fetching workers:", error)
     setError(true)
     setResults([])
   } finally {
