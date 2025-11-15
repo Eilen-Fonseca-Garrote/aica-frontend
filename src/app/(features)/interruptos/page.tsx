@@ -19,10 +19,9 @@ function getDefaultDate(): string {
 export default function InterruptosPage() {
   const [ueb, setUeb] = useState('0')
   const [fecha, setFecha] = useState(getDefaultDate())
-  const [interruptosData, setInterruptosData] = useState<InterruptosResponse | null>(null)
-  const [tableData, setTableData] = useState<InterruptosTableRow[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [tableData, setTableData] = useState<InterruptosTableRow[]>([])
 
   const handleCalculate = async () => {
     if (!fecha) {
@@ -32,14 +31,12 @@ export default function InterruptosPage() {
 
     setLoading(true)
     setError(null)
-    setInterruptosData(null)
     setTableData([])
 
     try {
-      const result: InterruptosResponse = await getInterruptos(Number(ueb), formatDateForBackend(fecha))
-      setInterruptosData(result)
+      const result: InterruptosResponse = await getInterruptos(Number(ueb), fecha)
       
-      // Transformación SIMPLE para la tabla
+      // Transformar los datos para la tabla
       const tableRows = transformToTableData(result, Number(ueb))
       setTableData(tableRows)
     } catch (err: unknown) {
@@ -61,7 +58,7 @@ export default function InterruptosPage() {
     setError(null)
 
     try {
-      const file = await downloadInterruptosPdf(Number(ueb), formatDateForBackend(fecha))
+      const file = await downloadInterruptosPdf(ueb, fecha)
       downloadFile(file, `Interruptos_${ueb}_${fecha}.pdf`)
     } catch (err: unknown) {
       console.error('Error en descarga:', err)
@@ -71,15 +68,10 @@ export default function InterruptosPage() {
     }
   }
 
-  const formatDateForBackend = (date: string): string => {
-    const [year, month] = date.split('-')
-    return `${month}-${year}`
-  }
-
   const transformToTableData = (result: InterruptosResponse, ueb: number): InterruptosTableRow[] => {
     const tableData: InterruptosTableRow[] = [];
 
-    // Para UEB específica
+    // Para UEB específica - mostrar direcciones individuales
     if (ueb !== 0 && result.interruptos) {
       result.interruptos.forEach(item => {
         tableData.push({
@@ -90,9 +82,14 @@ export default function InterruptosPage() {
           produccion60: item.produccion48
         });
       });
+    } 
+    // Para "Todas las UEBs" - mostrar solo los totales por UEB
+    else if (ueb === 0) {
+      // Aquí puedes agregar lógica para mostrar múltiples UEBs si es necesario
+      // Por ahora, mostramos solo los totales generales
     }
 
-    // Agregar totales
+    // Agregar totales generales
     if (result.totalCovid && result.totalReub && result.totalProd25 && result.totalProd48) {
       tableData.push(
         {

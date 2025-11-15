@@ -13,14 +13,34 @@ export interface InterruptosEntry {
   produccion48: number;
 }
 
+export interface InterruptosResponse {
+  interruptos?: InterruptosEntry[] | null;
+  totalReub: TotalResult;
+  totalCovid: TotalResult;
+  totalProd25: TotalResult;
+  totalProd48: TotalResult;
+}
+
+// Tipo para las filas de la tabla
+export interface InterruptosTableRow {
+  direccion: string;
+  covid: number;
+  reubicacion: number;
+  produccion100: number;
+  produccion60: number;
+}
+
+
+/*
 export interface TotalInterruptosUEB {
   Covid: TotalResult;
   Reubic: TotalResult;
   Prod25: TotalResult;
   Prod48: TotalResult;
-}
 
-export interface InterruptosResponse {
+} */
+
+/*  export interface InterruptosResponse {
   interruptos?: InterruptosEntry[] | null;
   interruptosAica?: InterruptosEntry[] | null;
   interruptosLiorad?: InterruptosEntry[] | null;
@@ -37,13 +57,4 @@ export interface InterruptosResponse {
     };
   };
   totalesInt: TotalInterruptosUEB | null;
-}
-
-// Tipo para la tabla del frontend - BASADO en InterruptosEntry pero con nombres consistentes
-export interface InterruptosTableRow {
-  direccion: string;
-  covid: number;
-  reubicacion: number;
-  produccion100: number;
-  produccion60: number;
-}
+}   */
