@@ -27,6 +27,7 @@ const AusentismoResult: React.FC<AusentismoResultProps> = ({
             <tr className="text-center">
               <th className="py-2 px-4 w-1/2">Código Clave</th>
               <th className="py-2 px-4 w-1/2">Cantidad de Trabajadores</th>
+               <th className="py-2 px-4 w-1/2">Horas totales</th>
             </tr>
           </thead>
           <tbody>
@@ -39,8 +40,9 @@ const AusentismoResult: React.FC<AusentismoResultProps> = ({
             ) : (
               data.map((item, idx) => (
                 <tr key={idx} className="text-center border-t border-gray-200">
-                  <td className="py-2">{item.Clave}</td>
-                  <td>{item.Cantidad}</td>
+                  <td className="py-2">{item.CLAVE}</td>
+                  <td>{item.CANTIDAD}</td>
+                   <td>{item.HORAS}</td>
                 </tr>
               ))
             )}
