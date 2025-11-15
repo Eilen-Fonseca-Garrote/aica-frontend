@@ -61,7 +61,7 @@ export default function InterruptosPage() {
     setError(null)
 
     try {
-      const file = await downloadInterruptosPdf(ueb, formatDateForBackend(fecha))
+      const file = await downloadInterruptosPdf(Number(ueb), formatDateForBackend(fecha))
       downloadFile(file, `Interruptos_${ueb}_${fecha}.pdf`)
     } catch (err: unknown) {
       console.error('Error en descarga:', err)
