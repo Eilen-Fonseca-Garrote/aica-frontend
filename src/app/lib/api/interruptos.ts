@@ -17,8 +17,9 @@ export const getInterruptos = async (ueb: number, fecha: string) => {
 export const downloadInterruptosPdf = async (ueb: string, fecha: string) => {
   // Convertir fecha de YYYY-MM a MM-YYYY
   const [year, month] = fecha.split('-');
-  const date = `${month}-${year}`;
-  const url = `/export/pdf/interruptos?ueb=${ueb}&fecha=${date}`;
+  //const date = `${month}-${year}`;
+  //const url = `/export/pdf/interruptos?ueb=${ueb}&fecha=${date}`;
+   const url = `/export/pdf/interruptos-test`;
   const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
   return res.data;
 };
