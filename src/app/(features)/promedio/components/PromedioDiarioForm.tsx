@@ -82,6 +82,7 @@ export default function PromedioDiarioForm({
         />
         <input
           type="date"
+          data-testid="date-input"
           value={fecha}
           onChange={(e) => onChangeFecha(e.target.value)}
           className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"

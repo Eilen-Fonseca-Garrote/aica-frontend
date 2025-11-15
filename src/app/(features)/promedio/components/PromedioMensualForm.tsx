@@ -60,6 +60,7 @@ export default function PromedioMensualForm({
           options={uebOptions}
         />
         <input
+          data-testid="month-input"
           type="month"
           value={fecha}
           onChange={(e) => onChangeFecha(e.target.value)}

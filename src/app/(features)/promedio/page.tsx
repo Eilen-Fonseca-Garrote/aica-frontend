@@ -41,7 +41,6 @@ export default function PromedioPage() {
   fetchAddresses()
 }, [uebDiario])
 
-
     const handlePromedioMensual = async () => {
       setLoading(true)
       setError(null)
@@ -52,8 +51,8 @@ export default function PromedioPage() {
         const data = await getPromedioMensual(uebMensual, fechaMensual)
         setMensualData(data.promedio)
         setMensualTotal(data.total)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
-        console.error(err)
         setError('Ocurrió un error inesperado durante la búsqueda.')
       } finally {
         setLoading(false)
