@@ -58,14 +58,14 @@ interface CustomJWT {
   user: CustomUser;
 }
 
-const authOptions: NextAuthOptions = {
+const nextAuth = NextAuth({
   providers: [
     {
       id: 'identity-server',
       name: 'WSO2IS',
       clientId: process.env.WSO2IS_CLIENT_ID!,
       clientSecret: process.env.WSO2IS_CLIENT_SECRET!,
-      type: 'oauth' as const,
+      type: 'oauth',
       wellKnown:
         process.env.WSO2IS_HOST +
         '/t/' +
@@ -130,7 +130,7 @@ const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      const customToken = token as CustomJWT;
+      const customToken: CustomJWT = token;
       
       session.accessToken = customToken.accessToken;
       session.user = customToken.user;
@@ -139,6 +139,8 @@ const authOptions: NextAuthOptions = {
     },
   },
   debug: process.env.NODE_ENV !== 'production',
-};
+})
 
-export const { GET, POST } = NextAuth(authOptions);
+
+export const GET = nextAuth;
+export const POST = nextAuth;

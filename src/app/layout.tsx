@@ -1,6 +1,6 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,7 +10,6 @@ import AicaLogo from "public/img/aica-logo.jpg";
 import NoProfilePic from "public/img/nofoto.jpg";
 import "./globals.css";
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
 import AuthProvider from "./api/auth/auth.provider";
 
 // Componente separado para el contenido del layout que usa useSession
@@ -42,11 +41,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col bg-gray-100">
       <div className="flex flex-1">
         {/* Sidebar */}
         <aside
-          className={`bg-[#0B1A20] text-white flex flex-col transition-all duration-300 ease-in-out overflow-hidden ${
+          className={`bg-[#0B1A20] text-white flex flex-col transition-all duration-300 max-h-screen ease-in-out overflow-y-auto ${
             collapsed ? "w-0" : "w-72"
           }`}
         >
@@ -82,7 +81,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                     {getUserInitials()}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col overflow-hidden">
+                <div className="flex flex-col">
                   <span className="text-sm font-medium truncate">
                     {getDisplayName()}
                   </span>
@@ -142,7 +141,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 flex flex-col overflow-auto max-h-screen">
           <header className="flex items-center justify-between bg-white text-gray-700 px-4 py-3 border-b border-gray-200 shadow-sm">
             <button
               className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded transition-colors"
@@ -188,9 +187,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <html lang="es">
-      <body className="h-screen overflow-hidden">
+    <html lang="es" className="bg-white">
+      <body className="h-screen">
         <SessionProvider>
           <AuthProvider>
             <LayoutContent>{children}</LayoutContent>

@@ -16,7 +16,7 @@ const AusentismoResult: React.FC<AusentismoResultProps> = ({
   const hasData = data.length > 0;
 
   return (
-    <div className="rounded-lg shadow border border-gray-200 bg-white overflow-hidden text-black">
+    <div className="rounded-lg shadow border border-gray-200 bg-white text-black">
       <div className="bg-green-600 text-white px-4 py-2 font-semibold text-lg">
         Claves de Ausentismo - {uebNombre} - {fecha}
       </div>

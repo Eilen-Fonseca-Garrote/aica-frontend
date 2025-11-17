@@ -20,7 +20,7 @@ export default function ListarTrabajadores() {
   return (
     <div className="space-y-2">
       {/* Filtrar Trabajadores */}
-      <div className="border border-gray-300 rounded overflow-hidden">
+      <div className="border border-gray-300 rounded">
         <button
           onClick={() => toggleSection("filtrar")}
           className="w-full px-4 py-3 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors"
@@ -44,7 +44,7 @@ export default function ListarTrabajadores() {
       </div>
 
       {/* Exportar Trabajadores */}
-      <div className="border border-gray-300 rounded overflow-hidden">
+      <div className="border border-gray-300 rounded">
         <button
           onClick={() => toggleSection("exportar")}
           className="w-full px-4 py-3 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors"

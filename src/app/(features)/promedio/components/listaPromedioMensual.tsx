@@ -31,7 +31,7 @@ const PromedioMensualResult: React.FC<Props> = ({ title, promedio, total }) => {
   }
 
   return (
-    <div className="mb-6 border rounded-lg shadow-sm overflow-hidden text-black">
+    <div className="mb-6 border rounded-lg shadow-sm text-black">
       {title && (
         <div className="bg-gray-100 px-4 py-2 border-b">
           <h3 className="font-semibold text-gray-700">{title}</h3>

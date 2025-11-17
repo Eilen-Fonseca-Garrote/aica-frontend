@@ -27,7 +27,7 @@ export default function ToggleSection({
     <div
       className={`${
         color === "teal" ? "bg-teal-600" : "bg-green-600"
-      } rounded overflow-hidden`}
+      } rounded`}
     >
       <button
         onClick={() => setExpanded(!expanded)}

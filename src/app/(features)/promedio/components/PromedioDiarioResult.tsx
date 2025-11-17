@@ -11,7 +11,7 @@ const PromedioDiarioResult: React.FC<PromedioDiarioResultProps> = ({ promedio })
   const hasData = promedio.length > 0;
 
   return (
-    <div className="rounded-lg shadow border border-gray-200 bg-white overflow-hidden text-black">
+    <div className="rounded-lg shadow border border-gray-200 bg-white text-black">
       <div className="bg-green-600 text-white px-4 py-2 font-semibold text-lg">
         Promedio Diario
       </div>

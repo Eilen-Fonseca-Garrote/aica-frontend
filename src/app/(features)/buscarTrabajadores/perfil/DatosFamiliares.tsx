@@ -32,7 +32,7 @@ export default function DatosFamiliares({familiarData }: DatosFamiliaresProps) {
       </div>
 
       {/* Card: Familiares en la empresa */}
-      <div className="border border-green-500 rounded-2xl shadow-sm overflow-hidden">
+      <div className="border border-green-500 rounded-2xl shadow-sm">
         <div className="bg-green-500 text-white px-4 py-2 flex justify-between items-center">
           <h3 className="font-semibold">Familiares en la Empresa</h3>
         </div>
