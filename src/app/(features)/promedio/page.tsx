@@ -60,10 +60,7 @@ export default function PromedioPage() {
   }
 
   const downloadPromedioMensual = async () => {
-      setLoading(true)
       setError(null)
-      setMensualData([])
-      setDiarioData([])
 
       try {
         const file = await downloadPromedioMensualPdf(uebMensual, fechaMensual)
@@ -94,10 +91,7 @@ export default function PromedioPage() {
   }
 
   const downloadPromedioDiario = async () => {
-      setLoading(true)
       setError(null)
-      setMensualData([])
-      setDiarioData([])
 
       try {
         const file = await downloadPromedioDiarioPdf(uebDiario, fechaDiario, direccionFuncional)
