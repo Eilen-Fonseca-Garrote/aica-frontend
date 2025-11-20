@@ -173,6 +173,13 @@ export default function BuscarTrabajador() {
     return workerAchievementsData
   }
 
+  const goBackToResults = () => {
+    setSelectedWorker(null)
+    if(results && results.length < 2){
+      setResults(null)
+    }
+  }
+
 
 
 const handleSubmit = async (e: React.FormEvent) => {
@@ -468,7 +475,7 @@ const mapWorkerAchievementsList = (
 
               <div className="flex justify-end">
                 {selectedWorker &&(
-                  <Button onClick={() => setSelectedWorker(null)} className="bg-blue-400 hover:bg-blue-700 text-white mr-4">
+                  <Button onClick={goBackToResults} className="bg-blue-400 hover:bg-blue-700 text-white mr-4">
                   Atras
                 </Button>
                 )}
