@@ -467,6 +467,11 @@ const mapWorkerAchievementsList = (
               <hr className="my-4" />
 
               <div className="flex justify-end">
+                {selectedWorker &&(
+                  <Button onClick={() => setSelectedWorker(null)} className="bg-blue-400 hover:bg-blue-700 text-white mr-4">
+                  Atras
+                </Button>
+                )}
                 <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
                   {loading ? "Buscando..." : <>Buscar <Search className="ml-2 h-4 w-4" /></>}
                 </Button>
