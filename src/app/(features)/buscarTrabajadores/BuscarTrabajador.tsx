@@ -40,7 +40,7 @@ export default function BuscarTrabajador() {
     mision: false,
   })
 
-  const [results, setResults] = useState<TrabajadorPersonalData[]>([])
+  const [results, setResults] = useState<TrabajadorPersonalData[] | null>(null)
   const [selectedWorker, setSelectedWorker] = useState<TrabajadorPersonalData | null>(null)
   const [selectedWorkerFamliyData, setSelectedWorkerFamliyData] = useState<TrabajadorFamilyData | null>(null)
   const [selectedWorkerStudiesData, setSelectedWorkerStudiesData] = useState<TrabajadorEstudiosData | null>(null)
@@ -480,9 +480,9 @@ const mapWorkerAchievementsList = (
 
             {!loading && error &&<p className="text-red-500 text-2xl mt-4">Ha ocurrido un error al realizar la búsqueda. Por favor contacte a un administrador</p>}
 
-            {!loading && !loadingProfile && !error && results.length == 0 && !selectedWorker && 
+            {!loading && !loadingProfile && !error && results?.length == 0 && !selectedWorker && 
             <p className="text-gray-500 text-2xl mt-4">No se encontraron trabajadores con los criterios de búsqueda seleccionados</p>}
-            {!loading && results.length > 0 && !selectedWorker && (
+            {!loading && results && results?.length > 0 && !selectedWorker && (
               <SearchResultsTable personalData={results} selectWorker={handleSelectWorker} />
             )}
             
