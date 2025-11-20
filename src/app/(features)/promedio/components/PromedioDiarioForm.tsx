@@ -1,11 +1,16 @@
+import { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import Select from "../../uiLibrary/Select";
 import PromedioActions from "./PromedioActions";
 import { Direccion } from "../types";
+import CustomDatePicker from "../../uiLibrary/DatePicker";
 
 interface PromedioDiarioFormProps {
   ueb: string;
   direccionFuncional: string;
-  fecha: string;
+  fecha: string; // expected format "YYYY-MM-DD"
   addresses: Direccion[];
   onChangeUeb: (v: string) => void;
   onChangeDireccion: (v: string) => void;
@@ -34,22 +39,13 @@ export default function PromedioDiarioForm({
     { label: "SH+", value: "57" },
   ];
 
-  const handleCalculate = () => {
-    if(!validateInputFields()) return;
-    onCalculate();
-  };
-
-  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if(!validateInputFields()) return;
-    onDownload(e);
-  };
 
   const validateInputFields = () => {
-      if (ueb === "0") {
+    if (ueb === "0") {
       alert("Por favor, seleccione una UEB válida");
       return false;
     }
-    if(!direccionFuncional || direccionFuncional === "0"){
+    if (!direccionFuncional || direccionFuncional === "0") {
       alert("Por favor, seleccione una Dirección Funcional válida");
       return false;
     }
@@ -57,9 +53,18 @@ export default function PromedioDiarioForm({
       alert("Por favor, seleccione una fecha");
       return false;
     }
-
     return true;
-  }
+  };
+
+  const handleCalculate = () => {
+    if (!validateInputFields()) return;
+    onCalculate();
+  };
+
+  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!validateInputFields()) return;
+    onDownload(e);
+  };
 
   return (
     <div className="p-4 space-y-4">
@@ -73,18 +78,18 @@ export default function PromedioDiarioForm({
           value={direccionFuncional}
           onChange={(e) => onChangeDireccion(e.target.value)}
           options={[
-              { label: "Seleccionar Dirección..", value: "0" },
-              ...Object.values(addresses).map((d) => ({
-                label: d.Unidad.trim(),
-                value: d.Area["0"].EstNV1.toString(),
-              })),
-            ]}
+            { label: "Seleccionar Dirección..", value: "0" },
+            ...Object.values(addresses).map((d) => ({
+              label: d.Unidad.trim(),
+              value: d.Area["0"].EstNV1.toString(),
+            })),
+          ]}
         />
-        <input
-          type="date"
-          data-testid="date-input"
+        <CustomDatePicker
           value={fecha}
-          onChange={(e) => onChangeFecha(e.target.value)}
+          onChange={onChangeFecha}
+          pickerType="day"
+          placeholder="Seleccione fecha"
           className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
         />
       </div>
