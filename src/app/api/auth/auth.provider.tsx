@@ -2,18 +2,25 @@
 
 import { FC, ReactNode } from 'react';
 import { signIn, useSession } from 'next-auth/react';
+import { AUTH_DISABLED_IN_DEV } from '@/app/lib/auth-config';
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-  const { data: session, status } = useSession({
-    required: true,
+  const { status } = useSession({
+    required: !AUTH_DISABLED_IN_DEV,
     onUnauthenticated() {
-      signIn('identity-server');
+      if (!AUTH_DISABLED_IN_DEV) {
+        signIn('identity-server');
+      }
     },
   });
+
+  if (AUTH_DISABLED_IN_DEV) {
+    return <>{children}</>;
+  }
 
   if (status === 'loading') {
     return (

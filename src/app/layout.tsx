@@ -11,6 +11,7 @@ import NoProfilePic from "public/img/nofoto.jpg";
 import "./globals.css";
 import Link from "next/link";
 import AuthProvider from "./api/auth/auth.provider";
+import { AUTH_DISABLED_IN_DEV } from "@/app/lib/auth-config";
 
 // Componente separado para el contenido del layout que usa useSession
 function LayoutContent({ children }: { children: React.ReactNode }) {
@@ -18,26 +19,37 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
 
   const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+    if (AUTH_DISABLED_IN_DEV) {
+      return;
+    }
+    signOut({ callbackUrl: "/" });
   };
 
-  // Función para obtener iniciales del usuario
+  // Funcion para obtener iniciales del usuario
   const getUserInitials = () => {
     if (session?.user?.name) {
-      return session.user.name.split(' ').map(n => n.charAt(0)).join('').toUpperCase();
+      return session.user.name
+        .split(" ")
+        .map((n) => n.charAt(0))
+        .join("")
+        .toUpperCase();
     }
-    return 'U';
+    return "U";
   };
 
-  // Función para obtener el nombre para mostrar
+  // Funcion para obtener el nombre para mostrar
   const getDisplayName = () => {
-    return session?.user?.name || session?.user?.fullName || 'Usuario';
+    return session?.user?.name || session?.user?.fullName || "Usuario";
   };
 
-  // Función para obtener el email o rol para mostrar
+  // Funcion para obtener el email o rol para mostrar
   const getDisplaySubtitle = () => {
-    return session?.user?.email || 
-           (session?.user?.role ? session.user.role.replace('_', ' ') : 'Sistema de Personal de Aica');
+    return (
+      session?.user?.email ||
+      (session?.user?.role
+        ? session.user.role.replace("_", " ")
+        : "Sistema de Personal de Aica")
+    );
   };
 
   return (
@@ -127,16 +139,18 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             </nav>
 
             {/* Logout */}
-            <div className="p-4 border-t border-gray-600 mt-auto">
-              <Button 
-                variant="ghost"
-                className="w-full justify-start text-white hover:bg-[#263037] hover:text-white transition-all duration-300"
-                onClick={handleSignOut}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                <span className="whitespace-nowrap">Cerrar sesión</span>
-              </Button>
-            </div>
+            {!AUTH_DISABLED_IN_DEV && (
+              <div className="p-4 border-t border-gray-600 mt-auto">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-white hover:bg-[#263037] hover:text-white transition-all duration-300"
+                  onClick={handleSignOut}
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  <span className="whitespace-nowrap">Cerrar sesion</span>
+                </Button>
+              </div>
+            )}
           </div>
         </aside>
 
@@ -146,35 +160,39 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             <button
               className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded transition-colors"
               onClick={() => setCollapsed((prev) => !prev)}
-              title={collapsed ? "Expandir menú" : "Contraer menú"}
+              title={collapsed ? "Expandir menu" : "Contraer menu"}
             >
               <Menu className="h-6 w-6" />
             </button>
-            
-            {/* Información adicional del usuario */}
+
+            {/* Informacion adicional del usuario */}
             <div className="flex items-center space-x-4">
-              {session?.user && (
-                <>
-                  <span className="text-sm text-gray-600 hidden md:inline">
-                    {session.user.email}
-                  </span>
-                  {session.user.uebId && (
-                    <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                      UEB ID: {session.user.uebId}
+              {AUTH_DISABLED_IN_DEV ? (
+                <span className="text-sm text-amber-700 bg-amber-100 px-2 py-1 rounded">
+                  Desarrollo sin autenticacion
+                </span>
+              ) : (
+                session?.user && (
+                  <>
+                    <span className="text-sm text-gray-600 hidden md:inline">
+                      {session.user.email}
                     </span>
-                  )}
-                  <span className="text-sm text-gray-600 bg-blue-100 px-2 py-1 rounded capitalize">
-                    {session.user.role?.replace('_', ' ') || 'user'}
-                  </span>
-                </>
+                    {session.user.uebId && (
+                      <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                        UEB ID: {session.user.uebId}
+                      </span>
+                    )}
+                    <span className="text-sm text-gray-600 bg-blue-100 px-2 py-1 rounded capitalize">
+                      {session.user.role?.replace("_", " ") || "user"}
+                    </span>
+                  </>
+                )
               )}
             </div>
           </header>
 
           {/* Contenido principal con scroll */}
-          <div className="flex-1 overflow-auto bg-white">
-            {children}
-          </div>
+          <div className="flex-1 overflow-auto bg-white">{children}</div>
         </main>
       </div>
     </div>
@@ -187,8 +205,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [collapsed, setCollapsed] = useState(false);
-
   return (
     <html lang="es" className="bg-white">
       <body className="h-screen">
