@@ -11,6 +11,19 @@ jest.mock('@/app/lib/api/reportes', () => ({
   downloadAllWorkersXls: jest.fn(),
 }))
 
+jest.mock('@/app/lib/api/listarTrabajadores', () => ({
+  getListarTrabajadoresOptions: jest.fn().mockResolvedValue({
+    direcciones: [],
+    municipios: [],
+    nivelEscolar: [],
+    cargos: [],
+    categoriasCientificas: [],
+  }),
+  getDireccionesAreas: jest.fn().mockResolvedValue([]),
+  getSubCategoriasCientificas: jest.fn().mockResolvedValue([]),
+  filtrarTrabajadores: jest.fn(),
+}))
+
 jest.mock('next/link', () => {
   return ({ children, href }: { children: React.ReactNode; href: string }) => {
     return <a href={href}>{children}</a>
@@ -44,6 +57,7 @@ jest.mock('lucide-react', () => ({
   ArrowLeft: () => <div>ArrowLeft</div>,
   FileSpreadsheet: () => <div>FileSpreadsheet</div>,
   Search: () => <div>Search</div>,
+  Loader2: () => <div>Loader2</div>,
 }))
 
 // Importar después de los mocks
@@ -86,7 +100,7 @@ describe('<ListarTrabajadoresPage /> - Pruebas Simplificadas', () => {
     expect(screen.getByText("Exportar Trabajadores")).toBeInTheDocument()
     
     // Verificar que las secciones están inicialmente colapsadas
-    expect(screen.queryByText("Contenido de filtros...")).not.toBeInTheDocument()
+    expect(screen.queryByText("Seleccionar Direccion...")).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /excel/i })).not.toBeInTheDocument()
   })
 
