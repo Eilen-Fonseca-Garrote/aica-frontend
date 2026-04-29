@@ -64,7 +64,7 @@ const validateInputFields = () => {
           type="month"
           value={fecha}
           onChange={(e) => onChangeFecha(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+          className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
         />
       </div>
       <hr className="border-gray-200" />

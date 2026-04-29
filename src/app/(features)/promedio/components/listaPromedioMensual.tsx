@@ -33,13 +33,13 @@ const PromedioMensualResult: React.FC<Props> = ({ title, promedio, total }) => {
   return (
     <div className="mb-6 border rounded-lg shadow-sm text-black">
       {title && (
-        <div className="bg-gray-100 px-4 py-2 border-b">
-          <h3 className="font-semibold text-gray-700">{title}</h3>
+        <div className="bg-[#0a8ca8] px-4 py-2 border-b border-[#08778f]">
+          <h3 className="font-semibold text-white">{title}</h3>
         </div>
       )}
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm">
-          <thead className="bg-gray-50">
+          <thead className="bg-[#0a8ca8] text-white">
             <tr>
               <th className="text-left p-2">Dirección</th>
               <th className="p-2 text-center">Físico</th>

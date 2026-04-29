@@ -11,19 +11,19 @@ const downloadModelo14B = async () => {
 
 export default function Modelo14BPage() {
   return (
-    <div className="grid md:grid-cols-2 gap-4 rounded-lg shadow-sm p-6">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="border-b px-4 py-3 font-semibold text-gray-700">
+    <div className="rounded-lg bg-white p-6">
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="border-b border-[#08778f] bg-[#0a8ca8] px-4 py-3 font-semibold text-white">
           Modelo 14B
         </div>
         <div className="p-4">
           <button
             type="button"
             onClick={downloadModelo14B}
-            className="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 text-white font-medium"
+            className="inline-flex h-10 items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f]"
           >
-            <FileSpreadsheet className="h-6 w-6" />
-        <span className="text-xs">Excel</span>
+            <FileSpreadsheet className="h-4 w-4" />
+            <span className="text-xs">Excel</span>
           </button>
         </div>
       </div>

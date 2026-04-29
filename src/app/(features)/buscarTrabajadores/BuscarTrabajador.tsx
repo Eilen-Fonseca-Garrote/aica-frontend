@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import Card from "@/app/(features)/uiLibrary/Card"
 import { Search } from "lucide-react"
 import ToggleSection from "../uiLibrary/ToggleSection"
@@ -27,6 +26,9 @@ import {
   TrabajadorMisionesCondecData, 
   TrabajadorPersonalData
 } from "./types"
+
+const TEXT_ACTION_CLASS =
+  "inline-flex items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:text-gray-400 disabled:cursor-not-allowed"
 
 export default function BuscarTrabajador() {
   const [form, setForm] = useState({
@@ -358,7 +360,7 @@ const mapWorkerAchievementsList = (
 
   return (
     <div className="p-4">
-      <ToggleSection title="Buscar Trabajadores" color="teal" defaultExpanded={true}>
+      <ToggleSection title="Buscar Trabajadores" color="blue" variant="minimal" defaultExpanded={true}>
         <div className="space-y-6">
           {/* === Search Form === */}
           <Card className="p-6 bg-white">
@@ -475,13 +477,17 @@ const mapWorkerAchievementsList = (
 
               <div className="flex justify-end">
                 {selectedWorker &&(
-                  <Button onClick={goBackToResults} className="bg-blue-400 hover:bg-blue-700 text-white mr-4">
+                  <button
+                    type="button"
+                    onClick={goBackToResults}
+                    className={`${TEXT_ACTION_CLASS} mr-4`}
+                  >
                   Atras
-                </Button>
+                </button>
                 )}
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
+                <button type="submit" className={TEXT_ACTION_CLASS}>
                   {loading ? "Buscando..." : <>Buscar <Search className="ml-2 h-4 w-4" /></>}
-                </Button>
+                </button>
               </div>
             </form>
           </Card>
@@ -490,7 +496,7 @@ const mapWorkerAchievementsList = (
           <div>
             {loading && <p className="text-gray-500 text-2xl mt-4">Buscando trabajadores...</p>}
 
-            {!loading && error &&<p className="text-red-500 text-2xl mt-4">Ha ocurrido un error al realizar la búsqueda. Por favor contacte a un administrador</p>}
+            {!loading && error &&<p className="text-[#0a8ca8] text-2xl mt-4">Ha ocurrido un error al realizar la búsqueda. Por favor contacte a un administrador</p>}
 
             {!loading && !loadingProfile && !error && results?.length == 0 && !selectedWorker && 
             <p className="text-gray-500 text-2xl mt-4">No se encontraron trabajadores con los criterios de búsqueda seleccionados</p>}

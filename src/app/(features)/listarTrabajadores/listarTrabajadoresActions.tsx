@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FileSpreadsheet, Search } from "lucide-react"
@@ -42,22 +41,23 @@ export default function ListarTrabajadoresActions() {
   }
 
   return (
-    <div className="flex items-end gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-[auto_minmax(260px,1fr)_auto] gap-4 md:gap-6">
       {/* Excel Button */}
-      <Button
-        onClick={handleExportExcel}
-        disabled={isExporting}
-        className="bg-green-600 hover:bg-green-700 text-white px-6 py-6 flex flex-col items-center gap-1 disabled:opacity-50"
-      >
-        <FileSpreadsheet className="h-6 w-6" />
-        <span className="text-xs">
-          {isExporting ? "Exportando..." : "Excel"}
-        </span>
-      </Button>
+      <div className="md:pt-7">
+        <button
+          type="button"
+          onClick={handleExportExcel}
+          disabled={isExporting}
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
+        >
+          <FileSpreadsheet className="h-4 w-4" />
+          <span>{isExporting ? "Exportando..." : "Excel"}</span>
+        </button>
+      </div>
 
       {/* Date Input */}
-      <div className="flex-1">
-        <Label htmlFor="fecha" className="text-gray-700 mb-2 block">
+      <div>
+        <Label htmlFor="fecha" className="text-[#0a8ca8] mb-2 block font-semibold">
           Fecha:
         </Label>
         <Input
@@ -65,19 +65,22 @@ export default function ListarTrabajadoresActions() {
           type="date"
           value={fecha}
           onChange={(e) => setFecha(e.target.value)}
-          className="w-full"
+          className="h-10 w-full border-gray-300 focus-visible:border-[#0a8ca8] focus-visible:ring-[#0a8ca8]/30"
           placeholder="DD-MM-YYYY"
         />
       </div>
 
       {/* Buscar Button */}
-      <Button
-        onClick={handleBuscar}
-        className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-6 flex flex-col items-center gap-1"
-      >
-        <Search className="h-6 w-6" />
-        <span className="text-xs">Buscar</span>
-      </Button>
+      <div className="md:pt-7">
+        <button
+          type="button"
+          onClick={handleBuscar}
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f]"
+        >
+          <Search className="h-4 w-4" />
+          <span>Buscar</span>
+        </button>
+      </div>
     </div>
   )
 }

@@ -1,22 +1,19 @@
-import { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
-import Select from "../../uiLibrary/Select";
-import PromedioActions from "./PromedioActions";
-import { Direccion } from "../types";
-import CustomDatePicker from "../../uiLibrary/DatePicker";
+import "react-datepicker/dist/react-datepicker.css"
+import Select from "../../uiLibrary/Select"
+import PromedioActions from "./PromedioActions"
+import { Direccion } from "../types"
+import CustomDatePicker from "../../uiLibrary/DatePicker"
 
 interface PromedioDiarioFormProps {
-  ueb: string;
-  direccionFuncional: string;
-  fecha: string; // expected format "YYYY-MM-DD"
-  addresses: Direccion[];
-  onChangeUeb: (v: string) => void;
-  onChangeDireccion: (v: string) => void;
-  onChangeFecha: (v: string) => void;
-  onCalculate: () => void;
-  onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  ueb: string
+  direccionFuncional: string
+  fecha: string
+  addresses: Direccion[]
+  onChangeUeb: (v: string) => void
+  onChangeDireccion: (v: string) => void
+  onChangeFecha: (v: string) => void
+  onCalculate: () => void
+  onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 export default function PromedioDiarioForm({
@@ -37,48 +34,43 @@ export default function PromedioDiarioForm({
     { label: "CITOX", value: "100" },
     { label: "JULIO TRIGO", value: "55" },
     { label: "SH+", value: "57" },
-  ];
-
+  ]
 
   const validateInputFields = () => {
     if (ueb === "0") {
-      alert("Por favor, seleccione una UEB válida");
-      return false;
+      alert("Por favor, seleccione una UEB válida")
+      return false
     }
     if (!direccionFuncional || direccionFuncional === "0") {
-      alert("Por favor, seleccione una Dirección Funcional válida");
-      return false;
+      alert("Por favor, seleccione una Dirección Funcional válida")
+      return false
     }
     if (!fecha) {
-      alert("Por favor, seleccione una fecha");
-      return false;
+      alert("Por favor, seleccione una fecha")
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
   const handleCalculate = () => {
-    if (!validateInputFields()) return;
-    onCalculate();
-  };
+    if (!validateInputFields()) return
+    onCalculate()
+  }
 
   const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!validateInputFields()) return;
-    onDownload(e);
-  };
+    if (!validateInputFields()) return
+    onDownload(e)
+  }
 
   return (
     <div className="p-4 space-y-4">
       <div className="grid grid-cols-3 gap-4">
-        <Select
-          value={ueb}
-          onChange={(e) => onChangeUeb(e.target.value)}
-          options={uebOptions}
-        />
+        <Select value={ueb} onChange={(e) => onChangeUeb(e.target.value)} options={uebOptions} />
         <Select
           value={direccionFuncional}
           onChange={(e) => onChangeDireccion(e.target.value)}
           options={[
-            { label: "Seleccionar Dirección..", value: "0" },
+            { label: "Seleccionar Dirección...", value: "0" },
             ...Object.values(addresses).map((d) => ({
               label: d.Unidad.trim(),
               value: d.Area["0"].EstNV1.toString(),
@@ -90,11 +82,11 @@ export default function PromedioDiarioForm({
           onChange={onChangeFecha}
           pickerType="day"
           placeholder="Seleccione fecha"
-          className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+          className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
         />
       </div>
       <hr className="border-gray-200" />
       <PromedioActions onCalculate={handleCalculate} onDownload={handleDownload} />
     </div>
-  );
+  )
 }

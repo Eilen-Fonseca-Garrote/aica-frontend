@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Card from "@/app/(features)/uiLibrary/Card"
-import { Button } from "@/components/ui/button"
 import { ChevronDown, ChevronUp, Eye } from "lucide-react"
 import { TrabajadorPersonalData } from "../types"
 
@@ -89,15 +88,15 @@ export default function SearchResultsTable({
 
   return (
     <div className="w-full">
-      <Card className="shadow-md border border-gray-300" title={title}>
+      <Card className="shadow-sm border border-gray-200" title={title}>
         <table className="w-full table-auto border-collapse text-sm">
           <thead>
-            <tr className="bg-gray-50 text-gray-700 text-left">
+            <tr className="bg-[#0a8ca8] text-white text-left">
               <th className="px-4 py-2 border-b">
                 <button
                   type="button"
                   onClick={() => handleSortByColumn("nombre")}
-                  className="inline-flex items-center gap-1.5 hover:text-gray-900"
+                  className="inline-flex items-center gap-1.5 text-white hover:text-gray-100"
                 >
                   Nombre y Apellidos
                   {renderSortArrows("nombre")}
@@ -107,7 +106,7 @@ export default function SearchResultsTable({
                 <button
                   type="button"
                   onClick={() => handleSortByColumn("ci")}
-                  className="inline-flex items-center gap-1.5 hover:text-gray-900"
+                  className="inline-flex items-center gap-1.5 text-white hover:text-gray-100"
                 >
                   CI
                   {renderSortArrows("ci")}
@@ -119,7 +118,7 @@ export default function SearchResultsTable({
                     <button
                       type="button"
                       onClick={() => handleSortByColumn("direccion_ueb")}
-                      className="inline-flex items-center gap-1.5 hover:text-gray-900"
+                      className="inline-flex items-center gap-1.5 text-white hover:text-gray-100"
                     >
                       Direccion
                       {renderSortArrows("direccion_ueb")}
@@ -129,7 +128,7 @@ export default function SearchResultsTable({
                     <button
                       type="button"
                       onClick={() => handleSortByColumn("area")}
-                      className="inline-flex items-center gap-1.5 hover:text-gray-900"
+                      className="inline-flex items-center gap-1.5 text-white hover:text-gray-100"
                     >
                       Area
                       {renderSortArrows("area")}
@@ -153,14 +152,14 @@ export default function SearchResultsTable({
                     </>
                   )}
                   <td className="px-4 py-2 text-center">
-                    <Button
-                      size="sm"
-                      className="bg-green-600 hover:bg-green-700 text-white"
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center text-[#0a8ca8] hover:text-[#08778f]"
                       title="Ver Datos del Trabajador"
                       onClick={() => handleViewProfile(worker)}
                     >
                       <Eye className="h-4 w-4" />
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               ))

@@ -75,8 +75,8 @@ export const DatosPersonales: React.FC<DatosPersonalesProps> = ({ worker }) => {
       </div>
 
       {/* Señas Particulares */}
-      <div className="border border-green-500 rounded">
-        <ToggleSection title="Señas Particulares" color="green">
+      <div className="border border-gray-200 rounded">
+        <ToggleSection title="Señas Particulares" color="blue" variant="minimal">
           <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <strong>Grupo Sanguíneo</strong>
@@ -103,8 +103,8 @@ export const DatosPersonales: React.FC<DatosPersonalesProps> = ({ worker }) => {
       </div>
 
       {/* Otros datos */}
-      <div className="border border-green-500 rounded">
-        <ToggleSection title="Otros Datos" color="green">
+      <div className="border border-gray-200 rounded">
+        <ToggleSection title="Otros Datos" color="blue" variant="minimal">
           <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <strong>Talla Pantalón</strong>
@@ -124,3 +124,4 @@ export const DatosPersonales: React.FC<DatosPersonalesProps> = ({ worker }) => {
     </div>
   )
 }
+

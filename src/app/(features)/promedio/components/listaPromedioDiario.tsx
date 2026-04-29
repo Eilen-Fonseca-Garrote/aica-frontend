@@ -23,7 +23,7 @@ const PromedioDiarioResult: React.FC<Props> = ({ promedio }) => {
     <div className="border rounded-lg shadow-sm text-black">
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm border border-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-[#0a8ca8] text-white">
             <tr>
               <th className="p-2 text-center">Fecha</th>
               <th className="p-2 text-center">Promedio</th>

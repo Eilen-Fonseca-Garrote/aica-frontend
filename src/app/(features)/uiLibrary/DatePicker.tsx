@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef, InputHTMLAttributes, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -42,14 +42,27 @@ export default function CustomDatePicker({
     }
   };
 
+  const PickerInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+    ({ className: inputClassName, placeholder: inputPlaceholder, ...inputProps }, ref) => (
+      <input
+        ref={ref}
+        data-testid={pickerType === "month" ? "month-input" : "date-input"}
+        className={className ?? inputClassName}
+        placeholder={placeholder ?? inputPlaceholder}
+        {...inputProps}
+      />
+    )
+  );
+
+  PickerInput.displayName = "PickerInput";
+
   return (
     <DatePicker
       selected={selectedDate}
       onChange={handleChange}
       dateFormat={pickerType === "month" ? "yyyy-MM" : "yyyy-MM-dd"}
       showMonthYearPicker={pickerType === "month"}
-      className={className}
-      placeholderText={placeholder}
+      customInput={<PickerInput />}
     />
   );
 }

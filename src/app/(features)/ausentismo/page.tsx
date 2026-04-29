@@ -157,7 +157,8 @@ const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, clavesPara
     <div className='p-4'>
       <ToggleSection
         title="Cantidad Trabajadores por Clave de Ausentismo"
-        color="green"
+        color="blue"
+        variant="minimal"
         defaultExpanded={true}
       >
         <div className='p-5 space-y-6 bg-white'>
@@ -180,7 +181,7 @@ const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, clavesPara
             {loading ? (
               <p className="text-gray-500 text-2xl mt-4">Calculando ausentismo...</p>
             ) : error ? (
-              <div className="text-red-500 text-center">
+              <div className="text-[#0a8ca8] text-center">
                 <p className="text-xl font-semibold mb-2">Error</p>
                 <p>{error}</p>
               </div>

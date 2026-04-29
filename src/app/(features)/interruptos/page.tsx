@@ -158,7 +158,8 @@ const transformToTableData = (result: InterruptosResponse, ueb: number): Interru
     <div className="p-4">
       <ToggleSection
         title="Trabajadores Interruptos"
-        color="green"
+        color="blue"
+        variant="minimal"
         defaultExpanded={true}
       >
         <div className="p-5 space-y-6 bg-white">
@@ -177,7 +178,7 @@ const transformToTableData = (result: InterruptosResponse, ueb: number): Interru
             {loading ? (
               <p className="text-gray-500 text-2xl mt-4">Calculando interruptos...</p>
             ) : error ? (
-              <p className="text-red-500 text-2xl mt-4">
+              <p className="text-[#0a8ca8] text-2xl mt-4">
                 Ha ocurrido un error calculando los interruptos. Por favor contacte a un administrador
               </p>
             ) : tableData.length > 0 ? (

@@ -13,7 +13,7 @@ export default function WorkerAchievements({
   return (
     <div className="space-y-4">
       {/* Condecoraciones */}
-      <ToggleSection title="Condecoraciones" color="green">
+      <ToggleSection title="Condecoraciones" color="blue" variant="minimal">
         {misiones.codigo_cond ? (
           <table className="min-w-full table-auto border-collapse">
             <thead className="bg-gray-50">
@@ -35,7 +35,7 @@ export default function WorkerAchievements({
       </ToggleSection>
 
       {/* Misiones */}
-      <ToggleSection title="Misiones" color="green">
+      <ToggleSection title="Misiones" color="blue" variant="minimal">
         {misiones.codigo_mis ? (
           <table className="min-w-full table-auto border-collapse">
             <thead className="bg-gray-50">
@@ -62,3 +62,4 @@ export default function WorkerAchievements({
     </div>
   )
 }
+

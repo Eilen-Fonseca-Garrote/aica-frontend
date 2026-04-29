@@ -108,7 +108,8 @@ export default function PromedioPage() {
     <div className='p-4'>
       <ToggleSection
       title="Promedio Trabajadores"
-      color="green"
+      color="blue"
+      variant="minimal"
       defaultExpanded={true}
       >
           <div className='p-5 space-y-6 bg-white'>
@@ -144,7 +145,7 @@ export default function PromedioPage() {
               {loading ? (
                 <p className="text-gray-500 text-2xl mt-4">Calculando promedio...</p>
               ) : !loading && error ? (
-                <p className="text-red-500 text-2xl mt-4">Ha ocurrido un error calculando el promedio. Por favor contacte a un administrador</p>
+                <p className="text-[#0a8ca8] text-2xl mt-4">Ha ocurrido un error calculando el promedio. Por favor contacte a un administrador</p>
               ) : mensualData.length > 0 && mensualTotal ? (
                 <PromedioMensualResult promedio={mensualData} total={mensualTotal[0]} />
               ) : diarioData.length > 0 ? (

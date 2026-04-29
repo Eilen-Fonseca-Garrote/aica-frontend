@@ -14,7 +14,7 @@ interface SelectProps {
 export default function Select({ value, options, onChange }: SelectProps) {
   return (
     <select
-      className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+      className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
       value={value}
       onChange={onChange}
     >

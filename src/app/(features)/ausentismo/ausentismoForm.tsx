@@ -146,7 +146,7 @@ const validateInputFields = () => {
           placeholder="YYYY-MM"
           pattern="\d{4}-\d{2}"
           inputMode="numeric"
-          className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black disabled:opacity-50"
+          className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black disabled:opacity-50"
           disabled={loading}
         />
       </div>
@@ -165,14 +165,15 @@ const validateInputFields = () => {
             placeholder="Filtrar disponibles..."
             value={leftFilter}
             onChange={(e) => setLeftFilter(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+            className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
           />
           
           <div className="border border-gray-300 rounded bg-white">
             <div className="flex items-center justify-center py-2 border-b border-gray-300">
               <button 
+                type="button"
                 onClick={moveAllFilteredToSelected}
-                className="text-sm text-gray-600 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"
+                className="text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f]"
                 title="Mover todos los elementos filtrados a seleccionados"
               >
                 &gt;&gt;
@@ -206,14 +207,15 @@ const validateInputFields = () => {
             placeholder="Filtrar seleccionados..."
             value={rightFilter}
             onChange={(e) => setRightFilter(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+            className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
           />
           
           <div className="border border-gray-300 rounded bg-white">
             <div className="flex items-center justify-center py-2 border-b border-gray-300">
               <button 
+                type="button"
                 onClick={moveAllFilteredToAvailable}
-                className="text-sm text-gray-600 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"
+                className="text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f]"
                 title="Remover todos los elementos filtrados de seleccionados"
               >
                 &lt;&lt;

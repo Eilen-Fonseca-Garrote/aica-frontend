@@ -51,15 +51,15 @@ export default function DatosEstudios({ estudiosData }: DatosEstudiosProps) {
       </div>
 
       {/* 3️⃣ LANGUAGES */}
-      <Card className="border border-green-200">
-        <div className="flex justify-between items-center border-b pb-2 mb-3">
-          <h3 className="font-semibold text-green-700">Idiomas que Domina</h3>
+      <Card className="border border-gray-200">
+        <div className="flex justify-between items-center bg-[#0a8ca8] text-white px-3 py-2 rounded mb-3">
+          <h3 className="font-semibold">Idiomas que Domina</h3>
         </div>
 
         {hasIdiomas ? (
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm border-collapse">
-              <thead className="bg-green-50">
+              <thead className="bg-[#0a8ca8] text-white">
                 <tr>
                   <th className="text-left p-2 border-b">Idioma</th>
                   <th className="text-left p-2 border-b">Lee</th>

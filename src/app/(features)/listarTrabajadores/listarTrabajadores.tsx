@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { ChevronUp, Loader2, Search } from "lucide-react"
 import ListarTrabajadoresActions from "./listarTrabajadoresActions"
-import { Button } from "@/components/ui/button"
 import {
   filtrarTrabajadores,
   getDireccionesAreas,
@@ -117,6 +116,12 @@ const EMPTY_OPTIONS: ListarTrabajadoresFilterOptions = {
   cargos: [],
   categoriasCientificas: [],
 }
+
+const TEXT_ACTION_CLASS =
+  "inline-flex items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:text-gray-400 disabled:cursor-not-allowed"
+
+const OPERATOR_BUTTON_CLASS =
+  "px-2 py-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:text-gray-400 disabled:cursor-not-allowed"
 
 const getWorkerValue = (worker: Record<string, unknown>, keys: string[]) => {
   for (const key of keys) {
@@ -592,8 +597,8 @@ export default function ListarTrabajadores() {
 
     return (
       <div className="mt-6">
-        <div className="px-4 py-3 bg-gray-50 text-sm text-gray-700 flex flex-wrap gap-2 rounded-t border border-gray-200">
-          <span className="font-semibold">Total:</span>
+        <div className="px-4 py-3 bg-[#0a8ca8] text-sm text-white flex flex-wrap gap-2 rounded-t border border-[#08778f]">
+          <span className="font-semibold text-white">Total:</span>
           <span>{results.total}</span>
         </div>
         <SearchResultsTable
@@ -609,17 +614,17 @@ export default function ListarTrabajadores() {
   return (
     <div className="space-y-2">
       {/* Filtrar Trabajadores */}
-      <div className="border border-gray-300 rounded">
+      <div className="border border-gray-300 rounded overflow-hidden">
         <button
           onClick={() => toggleSection("filtrar")}
-          className="w-full px-4 py-3 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors"
+          className="w-full px-4 py-3 flex items-center justify-between bg-[#0a8ca8] text-white hover:bg-[#08778f] transition-colors"
         >
-          <span className="font-medium text-gray-700">Filtrar Trabajadores</span>
+          <span className="font-semibold text-white">Filtrar Trabajadores</span>
           <div className="flex items-center gap-2">
             {expandedSections.filtrar ? (
-              <ChevronUp className="h-5 w-5 text-gray-600" />
+              <ChevronUp className="h-5 w-5 text-white" />
             ) : (
-              <span className="text-2xl font-light text-red-500 border-2 border-red-500 w-8 h-8 flex items-center justify-center rounded">
+              <span className="text-2xl font-light text-white w-8 h-8 flex items-center justify-center">
                 +
               </span>
             )}
@@ -730,7 +735,7 @@ export default function ListarTrabajadores() {
                     <button
                       type="button"
                       onClick={toggleEdadOperator}
-                      className="px-3 py-2 border border-cyan-600 text-cyan-700 rounded text-sm font-semibold"
+                      className={OPERATOR_BUTTON_CLASS}
                     >
                       {form.edadOperator}
                     </button>
@@ -937,7 +942,7 @@ export default function ListarTrabajadores() {
                     <button
                       type="button"
                       onClick={toggleFechaGradOperator}
-                      className="px-3 py-2 border border-cyan-600 text-cyan-700 rounded text-sm font-semibold"
+                      className={OPERATOR_BUTTON_CLASS}
                     >
                       {form.fechaGradOperator}
                     </button>
@@ -956,7 +961,7 @@ export default function ListarTrabajadores() {
                     <button
                       type="button"
                       onClick={toggleFechaAltaOperator}
-                      className="px-3 py-2 border border-cyan-600 text-cyan-700 rounded text-sm font-semibold"
+                      className={OPERATOR_BUTTON_CLASS}
                     >
                       {form.fechaAltaOperator}
                     </button>
@@ -1053,18 +1058,18 @@ export default function ListarTrabajadores() {
 
               <div className="flex justify-end">
                 {selectedWorker && (
-                  <Button
+                  <button
                     type="button"
                     onClick={goBackToResults}
-                    className="bg-blue-500 hover:bg-blue-600 text-white mr-3"
+                    className={`${TEXT_ACTION_CLASS} mr-3`}
                   >
                     Atras
-                  </Button>
+                  </button>
                 )}
                 <button
                   type="submit"
                   disabled={loadingResults || loadingOptions}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700 disabled:opacity-60"
+                  className={TEXT_ACTION_CLASS}
                 >
                   {loadingResults || loadingOptions ? (
                     <>
@@ -1081,7 +1086,7 @@ export default function ListarTrabajadores() {
               </div>
             </form>
 
-            {errorMessage && <p className="text-sm text-red-600 mt-4">{errorMessage}</p>}
+            {errorMessage && <p className="text-sm text-[#0a8ca8] mt-4">{errorMessage}</p>}
 
             {results?.filtrosAplicados?.length ? (
               <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded text-sm text-gray-700 flex flex-wrap gap-2">
@@ -1102,16 +1107,16 @@ export default function ListarTrabajadores() {
       </div>
 
       {/* Exportar Trabajadores */}
-      <div className="border border-gray-300 rounded">
+      <div className="border border-gray-300 rounded overflow-hidden">
         <button
           onClick={() => toggleSection("exportar")}
-          className="w-full px-4 py-3 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors"
+          className="w-full px-4 py-3 flex items-center justify-between bg-[#0a8ca8] text-white hover:bg-[#08778f] transition-colors"
         >
-          <span className="font-medium text-gray-700">Exportar Trabajadores</span>
+          <span className="font-semibold text-white">Exportar Trabajadores</span>
           {expandedSections.exportar ? (
-            <ChevronUp className="h-5 w-5 text-gray-600" />
+            <ChevronUp className="h-5 w-5 text-white" />
           ) : (
-            <span className="text-2xl font-light text-gray-600">+</span>
+            <span className="text-2xl font-light text-white">+</span>
           )}
         </button>
         {expandedSections.exportar && (

@@ -32,8 +32,8 @@ export default function DatosFamiliares({familiarData }: DatosFamiliaresProps) {
       </div>
 
       {/* Card: Familiares en la empresa */}
-      <div className="border border-green-500 rounded-2xl shadow-sm">
-        <div className="bg-green-500 text-white px-4 py-2 flex justify-between items-center">
+      <div className="border border-gray-200 rounded-lg shadow-sm">
+        <div className="px-4 py-2 flex justify-between items-center border-b border-[#08778f] bg-[#0a8ca8] text-white">
           <h3 className="font-semibold">Familiares en la Empresa</h3>
         </div>
 
@@ -41,7 +41,7 @@ export default function DatosFamiliares({familiarData }: DatosFamiliaresProps) {
           {hasFamiliares ? (
             <table className="min-w-full table-auto border-collapse">
               <thead>
-                <tr className="bg-gray-100 text-left">
+                <tr className="bg-[#0a8ca8] text-white text-left">
                   <th className="px-4 py-2 border">Nombre del Familiar</th>
                   <th className="px-4 py-2 border">CI del Familiar</th>
                   <th className="px-4 py-2 border">Parentezco</th>

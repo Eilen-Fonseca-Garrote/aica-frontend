@@ -155,7 +155,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 flex flex-col overflow-auto max-h-screen">
+        <main className="flex-1 flex flex-col overflow-auto max-h-screen min-h-screen">
           <header className="flex items-center justify-between bg-white text-gray-700 px-4 py-3 border-b border-gray-200 shadow-sm">
             <button
               className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded transition-colors"

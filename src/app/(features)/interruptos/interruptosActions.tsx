@@ -1,5 +1,6 @@
 // features/interruptos/components/InterruptosActions.tsx
-import Button from "../uiLibrary/Button";
+const TEXT_ACTION_CLASS =
+  "inline-flex items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] no-underline disabled:text-gray-400 disabled:cursor-not-allowed";
 
 interface InterruptosActionsProps {
   onCalculate: () => void;
@@ -12,12 +13,14 @@ export default function InterruptosActions({
 }: InterruptosActionsProps) {
   return (
     <div className="flex justify-between">
-      <Button onClick={onCalculate}>Calcular</Button>
+      <button type="button" onClick={onCalculate} className={TEXT_ACTION_CLASS}>
+        Calcular
+      </button>
 
       <a
         href="#"
         onClick={onDownload}
-        className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition flex items-center gap-2"
+        className={TEXT_ACTION_CLASS}
       >
         Descargar <i className="fa fa-file-pdf" />
       </a>

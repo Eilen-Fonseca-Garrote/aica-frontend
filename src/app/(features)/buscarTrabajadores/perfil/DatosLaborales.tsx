@@ -56,7 +56,7 @@ export default function DatosLaborales({ laborData }: Props) {
       {/* Card: Organizaciones */}
       <div className="border rounded-2xl shadow p-4 bg-white">
         <details className="group">
-          <summary className="flex justify-between items-center cursor-pointer font-semibold text-green-700">
+          <summary className="flex justify-between items-center cursor-pointer font-semibold bg-[#0a8ca8] text-white px-3 py-2 rounded">
             <span>Organizaciones a las que pertenece</span>
             <span className="transition-transform group-open:rotate-45">＋</span>
           </summary>
@@ -73,14 +73,14 @@ export default function DatosLaborales({ laborData }: Props) {
       {/* Card: Historial de Cargos */}
       <div className="border rounded-2xl shadow p-4 bg-white">
         <details className="group">
-          <summary className="flex justify-between items-center cursor-pointer font-semibold text-green-700">
+          <summary className="flex justify-between items-center cursor-pointer font-semibold bg-[#0a8ca8] text-white px-3 py-2 rounded">
             <span>Historial de Cargos</span>
             <span className="transition-transform group-open:rotate-45">＋</span>
           </summary>
 
           <div className="mt-4 overflow-x-auto">
             <table className="min-w-full border text-sm text-left">
-              <thead className="bg-gray-100 text-gray-700 uppercase">
+              <thead className="bg-[#0a8ca8] text-white uppercase">
                 <tr>
                   <th className="px-4 py-2">Cargo</th>
                   <th className="px-4 py-2">Salario</th>

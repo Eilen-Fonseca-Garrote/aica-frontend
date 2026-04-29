@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { downloadFile } from "@/app/lib/helpers"
 import { downloadModeloRL4Xls } from "@/app/lib/api/reportes"
 import { FileSpreadsheet } from "lucide-react"
@@ -10,6 +9,9 @@ interface ModeloRl4ActionsProps {
   mesAnio: string
   diasNoLaborables: string
 }
+
+const TEXT_ACTION_CLASS =
+  "inline-flex h-10 items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:text-gray-400 disabled:cursor-not-allowed"
 
 export default function ModeloRl4Actions({ mesAnio, diasNoLaborables }: ModeloRl4ActionsProps) {
   const [downloading, setDownloading] = useState(false);
@@ -27,10 +29,15 @@ export default function ModeloRl4Actions({ mesAnio, diasNoLaborables }: ModeloRl
 
   return (
     <div className="flex justify-end">
-      <Button disabled={downloading} onClick={handleExportarExcel} className="bg-green-600 hover:bg-green-700 text-white px-6 py-6 flex flex-col items-center gap-1">
-         <FileSpreadsheet className="h-6 w-6" />
-        <span className="text-xs">Excel</span>
-      </Button>
+      <button
+        type="button"
+        disabled={downloading}
+        onClick={handleExportarExcel}
+        className={TEXT_ACTION_CLASS}
+      >
+         <FileSpreadsheet className="h-4 w-4" />
+        <span>Excel</span>
+      </button>
     </div>
   )    
 }
