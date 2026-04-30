@@ -3,6 +3,7 @@ import Select from "@/app/(features)/uiLibrary/Select";
 import AusentismoActions from "./ausentismoActions";
 import { useState, useMemo, useEffect } from "react"
 import { ClaveAusentismo } from "./types";
+import MonthPicker from "../uiLibrary/MonthPicker";
 
 interface AusentismoFormProps {
   ueb: string;
@@ -139,16 +140,7 @@ const validateInputFields = () => {
           options={uebOptions}
         />
 
-        <input
-          type="month"
-          value={fecha}
-          onChange={(e) => onChangeFecha(e.target.value)}
-          placeholder="YYYY-MM"
-          pattern="\d{4}-\d{2}"
-          inputMode="numeric"
-          className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black disabled:opacity-50"
-          disabled={loading}
-        />
+        <MonthPicker value={fecha} onChange={onChangeFecha} />
       </div>
 
       <div className="mt-3 text-xs text-gray-600">
