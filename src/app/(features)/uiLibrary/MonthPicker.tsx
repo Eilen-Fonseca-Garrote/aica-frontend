@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, InputHTMLAttributes, useState } from "react";
+import { forwardRef, InputHTMLAttributes, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,15 +11,33 @@ interface CustomMonthPickerProps {
   className?: string;
 }
 
+const parseMonthValue = (value: string): Date | null => {
+  if (!value) return null;
+
+
+  const normalized = value.match(/^\d{4}-\d{2}$/)
+    ? value
+    : value.match(/^\d{2}-\d{4}$/)
+    ? `${value.slice(3)}-${value.slice(0, 2)}`
+    : "";
+
+  if (!normalized) return null;
+
+  const parsed = new Date(`${normalized}-01`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
 export default function CustomMonthPicker({
   value,
   onChange,
   placeholder = "Seleccione mes y año",
   className,
 }: CustomMonthPickerProps) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    value ? new Date(`${value}-01`) : null
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | null>(() => parseMonthValue(value));
+
+  useEffect(() => {
+    setSelectedDate(parseMonthValue(value));
+  }, [value]);
 
   const handleChange = (date: Date | null) => {
     setSelectedDate(date);
