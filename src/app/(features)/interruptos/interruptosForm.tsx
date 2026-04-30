@@ -1,5 +1,6 @@
 // features/interruptos/components/InterruptosForm.tsx
 import Select from "../uiLibrary/Select";
+import CustomMonthPicker from "../uiLibrary/MonthPicker";
 import InterruptosActions from "@/app/(features)/interruptos/interruptosActions";
 
 interface InterruptosFormProps {
@@ -60,10 +61,10 @@ const validateInputFields = () => {
           onChange={(e) => onChangeUeb(e.target.value)}
           options={uebOptions}
         />
-        <input
-          type="month"
+        <CustomMonthPicker
           value={fecha}
-          onChange={(e) => onChangeFecha(e.target.value)}
+          onChange={onChangeFecha}
+          placeholder="Seleccione mes y año"
           className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
         />
       </div>
