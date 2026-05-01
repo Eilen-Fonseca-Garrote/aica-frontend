@@ -26,10 +26,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     localStorage.clear();
     sessionStorage.clear();
     for (const { name } of (await cookieStore.getAll())) {
-      if (name) cookieStore.delete(name);
+      if (name) await cookieStore.delete(name);
     }
 
-    await signOut({ redirect: true, callbackUrl: "/" });
+    location.href = '/';
+    //await signOut({ redirect: true, callbackUrl: "/" });
   };
 
   // Funcion para obtener iniciales del usuario
