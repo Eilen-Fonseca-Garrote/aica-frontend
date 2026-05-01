@@ -18,11 +18,17 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const { data: session } = useSession();
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     if (AUTH_DISABLED_IN_DEV) {
       return;
     }
-    signOut({ callbackUrl: "/" });
+
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+      sessionStorage.clear();
+    }
+
+    await signOut({ redirect: true, callbackUrl: "/" });
   };
 
   // Funcion para obtener iniciales del usuario
