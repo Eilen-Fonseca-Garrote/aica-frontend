@@ -1,4 +1,3 @@
-// features/interruptos/components/InterruptosForm.tsx
 import Select from "../uiLibrary/Select";
 import CustomMonthPicker from "../uiLibrary/MonthPicker";
 import InterruptosActions from "@/app/(features)/interruptos/interruptosActions";

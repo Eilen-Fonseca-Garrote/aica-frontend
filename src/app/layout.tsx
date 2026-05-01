@@ -18,11 +18,17 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const { data: session } = useSession();
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     if (AUTH_DISABLED_IN_DEV) {
       return;
     }
-    signOut({ callbackUrl: "/" });
+
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+      sessionStorage.clear();
+    }
+
+    await signOut({ redirect: true, callbackUrl: "/" });
   };
 
   // Funcion para obtener iniciales del usuario
@@ -45,10 +51,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   // Funcion para obtener el email o rol para mostrar
   const getDisplaySubtitle = () => {
     return (
-      session?.user?.email ||
-      (session?.user?.role
-        ? session.user.role.replace("_", " ")
-        : "Sistema de Personal de Aica")
+      session?.user?.email || "Sistema de Personal de Aica"
     );
   };
 
@@ -100,11 +103,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                   <span className="text-xs text-gray-300 truncate">
                     {getDisplaySubtitle()}
                   </span>
-                  {session?.user?.uebId && (
+                  {session?.user?.uebId ? (
                     <span className="text-xs text-gray-400">
                       UEB: {session.user.uebId}
                     </span>
-                  )}
+                  ): null}
                 </div>
               </div>
             </div>
@@ -177,11 +180,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                     <span className="text-sm text-gray-600 hidden md:inline">
                       {session.user.email}
                     </span>
-                    {session.user.uebId && (
+                    {session.user.uebId ? (
                       <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
                         UEB ID: {session.user.uebId}
                       </span>
-                    )}
+                    ): null}
                     <span className="text-sm text-gray-600 bg-blue-100 px-2 py-1 rounded capitalize">
                       {session.user.role?.replace("_", " ") || "user"}
                     </span>

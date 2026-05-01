@@ -1,4 +1,3 @@
-// AusentismoPage.test.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import AusentismoPage from './page'
 
@@ -16,7 +15,6 @@ jest.mock('@/app/lib/helpers', () => ({
   downloadFile: jest.fn(),
 }))
 
-// Importar después de los mocks
 import * as api from "@/app/lib/api/ausentismo"
 import * as externalService from "@/app/lib/api/external_service"
 import { downloadFile } from '@/app/lib/helpers'

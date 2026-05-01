@@ -1,4 +1,3 @@
-// features/interruptos/components/InterruptosResult.tsx
 import React from 'react';
 import Card from '../uiLibrary/Card';
 import Table from '../uiLibrary/Table';

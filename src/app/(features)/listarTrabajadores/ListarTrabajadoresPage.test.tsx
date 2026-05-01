@@ -60,7 +60,6 @@ jest.mock('lucide-react', () => ({
   Loader2: () => <div>Loader2</div>,
 }))
 
-// Importar después de los mocks
 import * as reportes from "@/app/lib/api/reportes"
 
 // Cast explícito a jest.Mock

@@ -1,4 +1,3 @@
-// AusentismoResult.tsx
 import React from 'react';
 import { AusentismoItem } from './types';
 
