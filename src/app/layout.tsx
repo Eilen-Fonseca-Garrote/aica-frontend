@@ -25,8 +25,16 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
     localStorage.clear();
     sessionStorage.clear();
-    for (const { name } of (await cookieStore.getAll())) {
-      if (name) await cookieStore.delete(name);
+
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const [nombre] = cookie.split('=');
+      const nombreTrimmed = nombre.trim();
+
+      if (nombreTrimmed) {
+        document.cookie = `${nombreTrimmed}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        document.cookie = `${nombreTrimmed}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+      }
     }
 
     location.href = '/';
