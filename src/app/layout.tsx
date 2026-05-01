@@ -26,10 +26,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     localStorage.clear();
     sessionStorage.clear();
     for (const { name } of (await cookieStore.getAll())) {
-      if (name) cookieStore.delete(name);
+      if (name) await cookieStore.delete(name);
     }
 
-    await signOut({ redirect: true, callbackUrl: "/" });
+    location.href = '/';
+    //await signOut({ redirect: true, callbackUrl: "/" });
   };
 
   // Funcion para obtener iniciales del usuario
@@ -171,26 +172,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
             {/* Informacion adicional del usuario */}
             <div className="flex items-center space-x-4">
-              {AUTH_DISABLED_IN_DEV ? (
+              {AUTH_DISABLED_IN_DEV && (
                 <span className="text-sm text-amber-700 bg-amber-100 px-2 py-1 rounded">
                   Desarrollo sin autenticacion
                 </span>
-              ) : (
-                session?.user && (
-                  <>
-                    <span className="text-sm text-gray-600 hidden md:inline">
-                      {session.user.email}
-                    </span>
-                    {session.user.uebId ? (
-                      <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                        UEB ID: {session.user.uebId}
-                      </span>
-                    ): null}
-                    <span className="text-sm text-gray-600 bg-blue-100 px-2 py-1 rounded capitalize">
-                      {session.user.role?.replace("_", " ") || "user"}
-                    </span>
-                  </>
-                )
               )}
             </div>
           </header>
