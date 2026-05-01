@@ -1,5 +1,4 @@
 
-// menu principal del sistema
 import BuscarTrabajador from "./(features)/buscarTrabajadores/BuscarTrabajador"
 import { IoAdd, IoStatsChart, IoPersonAdd, IoRemove } from "react-icons/io5";
 

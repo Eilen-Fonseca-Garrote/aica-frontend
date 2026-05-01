@@ -1,4 +1,3 @@
-// ModeloRl4Page.test.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import ModeloRl4Page from './page'
 
@@ -11,7 +10,6 @@ jest.mock('@/app/lib/helpers', () => ({
   downloadFile: jest.fn(),
 }))
 
-// Importar después de los mocks
 import * as reportes from "@/app/lib/api/reportes"
 import { downloadFile } from '@/app/lib/helpers'
 

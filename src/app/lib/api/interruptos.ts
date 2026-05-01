@@ -1,4 +1,3 @@
-// lib/api/interruptos.ts
 import { InterruptosResponse } from '@/app/(features)/interruptos/types';
 import { apiClient } from './client';
 
