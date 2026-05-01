@@ -23,9 +23,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    if (typeof window !== "undefined") {
-      localStorage.clear();
-      sessionStorage.clear();
+    localStorage.clear();
+    sessionStorage.clear();
+    for (const { name } of (await cookieStore.getAll())) {
+      if (name) cookieStore.delete(name);
     }
 
     await signOut({ redirect: true, callbackUrl: "/" });
