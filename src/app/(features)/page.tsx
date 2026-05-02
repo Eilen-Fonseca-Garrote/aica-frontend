@@ -1,5 +1,5 @@
 
-import BuscarTrabajador from "./(features)/buscarTrabajadores/BuscarTrabajador"
+import BuscarTrabajador from "./buscarTrabajadores/BuscarTrabajador"
 import { IoAdd, IoStatsChart, IoPersonAdd, IoRemove } from "react-icons/io5";
 
 
