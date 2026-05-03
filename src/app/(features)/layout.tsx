@@ -14,14 +14,12 @@ import { redirect } from "next/navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
-  const { data: session } = useSession();
-  const hasRedirect = !AUTH_DISABLED_IN_DEV && !session;
+  const { data: session, status } = useSession();
 
-  // handle redirection
-  useLayoutEffect(() => {
-    if (hasRedirect) redirect('/signin');
-  });
-  if (hasRedirect) return null;
+  if (!AUTH_DISABLED_IN_DEV) {
+    if (status === 'loading') return null;
+    if (status === 'unauthenticated') return redirect('/signin');
+  }
 
   const handleSignOut = async () => {
     if (AUTH_DISABLED_IN_DEV) {
