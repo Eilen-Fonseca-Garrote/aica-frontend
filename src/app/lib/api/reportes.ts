@@ -37,3 +37,10 @@ export const downloadTrabajadoresFisicosXls = async (fecha: string) => {
   const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
   return res.data;
 };
+
+export const downloadTrabajadoresFisicosPdf = async (fecha: string) => {
+  const params = new URLSearchParams({ fecha });
+  const url = `/export/pdf/trabajadores-fisicos?${params.toString()}`;
+  const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
+  return res.data;
+};
