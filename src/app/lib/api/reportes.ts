@@ -24,3 +24,9 @@ export const downloadAllWorkersXls = async () => {
   
   return res.data
 }
+
+export const downloadAllWorkersPdf = async () => {
+  const url = `/export/pdf/all-workers`
+  const res = await apiClient.get<Blob>(url, { responseType: 'blob' })
+  return res.data
+}
