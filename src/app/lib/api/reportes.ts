@@ -30,3 +30,10 @@ export const downloadAllWorkersPdf = async () => {
   const res = await apiClient.get<Blob>(url, { responseType: 'blob' })
   return res.data
 }
+
+export const downloadTrabajadoresFisicosXls = async (fecha: string) => {
+  const params = new URLSearchParams({ fecha });
+  const url = `/export/excel/trabajadores-fisicos?${params.toString()}`;
+  const res = await apiClient.get<Blob>(url, { responseType: 'blob' });
+  return res.data;
+};

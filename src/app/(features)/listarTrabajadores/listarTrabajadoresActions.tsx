@@ -4,14 +4,21 @@ import { useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import CustomDatePicker from "../uiLibrary/DatePicker"
 import { FileSpreadsheet, FileText } from "lucide-react"
-import { downloadAllWorkersXls, downloadAllWorkersPdf } from "@/app/lib/api/reportes"
+import {
+  downloadAllWorkersXls,
+  downloadAllWorkersPdf,
+  downloadTrabajadoresFisicosXls,
+} from "@/app/lib/api/reportes"
 
 export default function ListarTrabajadoresActions() {
-  const [fecha, setFecha] = useState("2026-04-10")
+  const [fecha, setFecha] = useState(
+    new Date().toISOString().split("T")[0], // Fecha de hoy por defecto
+  )
   const [isExportingXls, setIsExportingXls] = useState(false)
   const [isExportingPdf, setIsExportingPdf] = useState(false)
+  const [isExportingBioadmin, setIsExportingBioadmin] = useState(false)
 
-  // ── Helper reutilizable para disparar la descarga ──────────────────────────
+  // ── Helper reutilizable ────────────────────────────────────────────────────
   const triggerDownload = (blob: Blob, filename: string) => {
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement("a")
@@ -23,14 +30,19 @@ export default function ListarTrabajadoresActions() {
     window.URL.revokeObjectURL(url)
   }
 
+  const isAnyExporting = isExportingXls || isExportingPdf || isExportingBioadmin
+
   // ── Excel SIGERH ───────────────────────────────────────────────────────────
   const handleExportExcel = async () => {
     try {
       setIsExportingXls(true)
       const blob = await downloadAllWorkersXls()
-      triggerDownload(blob, `trabajadores_${new Date().toISOString().split("T")[0]}.xlsx`)
+      triggerDownload(
+        blob,
+        `trabajadores_${new Date().toISOString().split("T")[0]}.xlsx`,
+      )
     } catch (error) {
-      console.error("Error al exportar Excel:", error)
+      console.error("Error al exportar Excel SIGERH:", error)
       alert("Error al exportar el archivo Excel")
     } finally {
       setIsExportingXls(false)
@@ -42,9 +54,12 @@ export default function ListarTrabajadoresActions() {
     try {
       setIsExportingPdf(true)
       const blob = await downloadAllWorkersPdf()
-      triggerDownload(blob, `trabajadores_${new Date().toISOString().split("T")[0]}.pdf`)
+      triggerDownload(
+        blob,
+        `trabajadores_${new Date().toISOString().split("T")[0]}.pdf`,
+      )
     } catch (error) {
-      console.error("Error al exportar PDF:", error)
+      console.error("Error al exportar PDF SIGERH:", error)
       alert("Error al exportar el archivo PDF")
     } finally {
       setIsExportingPdf(false)
@@ -52,10 +67,23 @@ export default function ListarTrabajadoresActions() {
   }
 
   // ── Excel Bioadmin ─────────────────────────────────────────────────────────
-  const handleExportBioadmin = () => {
-    console.log("Buscando trabajadores fisicos con fecha:", fecha)
-    alert(`Buscando trabajadores fisicos para la fecha: ${fecha}`)
-    // TODO: implementar cuando esté listo en backend
+  const handleExportBioadmin = async () => {
+    // ✅ Validación de fecha antes de llamar al backend
+    if (!fecha) {
+      alert("Seleccione una fecha para exportar el reporte Bioadmin.")
+      return
+    }
+
+    try {
+      setIsExportingBioadmin(true)
+      const blob = await downloadTrabajadoresFisicosXls(fecha)
+      triggerDownload(blob, `trabajadores_fisicos_${fecha}.xlsx`)
+    } catch (error) {
+      console.error("Error al exportar Excel Bioadmin:", error)
+      alert("Error al exportar el archivo Excel Bioadmin. Verifique la fecha seleccionada.")
+    } finally {
+      setIsExportingBioadmin(false)
+    }
   }
 
   return (
@@ -65,7 +93,7 @@ export default function ListarTrabajadoresActions() {
       <button
         type="button"
         onClick={handleExportExcel}
-        disabled={isExportingXls || isExportingPdf}
+        disabled={isAnyExporting}
         className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
       >
         <FileSpreadsheet className="h-4 w-4" />
@@ -76,7 +104,7 @@ export default function ListarTrabajadoresActions() {
       <button
         type="button"
         onClick={handleExportPdf}
-        disabled={isExportingXls || isExportingPdf}
+        disabled={isAnyExporting}
         className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
       >
         <FileText className="h-4 w-4" />
@@ -87,14 +115,14 @@ export default function ListarTrabajadoresActions() {
       <button
         type="button"
         onClick={handleExportBioadmin}
-        disabled={isExportingXls || isExportingPdf}
+        disabled={isAnyExporting || !fecha}
         className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
       >
         <FileSpreadsheet className="h-4 w-4" />
-        <span>Excel Bioadmin</span>
+        <span>{isExportingBioadmin ? "Exportando..." : "Excel Bioadmin"}</span>
       </button>
 
-      {/* Date Picker para Bioadmin */}
+      {/* Date Picker — requerido para Bioadmin */}
       <span className="text-sm text-gray-700">
         Fecha del reporte:{" "}
         <CustomDatePicker
