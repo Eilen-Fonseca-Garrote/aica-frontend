@@ -70,31 +70,4 @@ export const getInterruptos100 = async (ueb: string, date: string) => {
 }
 
 
-/*
-export const getInterruptosCovid = async (ueb: string, date: string)=> {
-    const url = `/recursosHumanos/interruptoCovid?ueb=${ueb}&fecha=${date}`  
-    const res = await externalServiceClient.get<InterruptosDataCovid[]>(url)
 
-    return res.data
-}
-
-export const getInterruptosReub = async (ueb: string, date: string)=> {
-    const url = `/recursosHumanos/interruptoReubicacion?ueb=${ueb}&fecha=${date}`  
-    const res = await externalServiceClient.get<InterruptosDataReub[]>(url)
-
-    return res.data
-}
-export const getInterruptos60 = async (ueb: string, date: string)=> {
-    const url = `/recursosHumanos/interrupto60?ueb=${ueb}&fecha=${date}`  
-    const res = await externalServiceClient.get<InterruptosData60[]>(url)
-
-    return res.data
-}
-export const getInterruptos100 = async (ueb: string, date: string)=> {
-     const url = `/recursosHumanos/interrupto?ueb=${ueb}&fecha=${date}` // cambiar url del servicio, revisar y arreglar interfaz para seleccionar claves 
-    const res = await externalServiceClient.get<InterruptosData100[]>(url)
-
-    return res.data
-}
-
-*/
