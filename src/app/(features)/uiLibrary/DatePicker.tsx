@@ -19,7 +19,7 @@ export default function CustomDatePicker({
   placeholder = "Select date",
   className,
 }: CustomDatePickerProps) {
-  // Convert string value to Date
+  
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     value ? new Date(pickerType === "month" ? `${value}-01` : value) : null
   );
@@ -57,12 +57,13 @@ export default function CustomDatePicker({
   PickerInput.displayName = "PickerInput";
 
   return (
-    <DatePicker
-      selected={selectedDate}
-      onChange={handleChange}
-      dateFormat={pickerType === "month" ? "yyyy-MM" : "yyyy-MM-dd"}
-      showMonthYearPicker={pickerType === "month"}
-      customInput={<PickerInput />}
-    />
-  );
+  <DatePicker
+    selected={selectedDate}
+    onChange={handleChange}
+    dateFormat={pickerType === "month" ? "yyyy-MM" : "yyyy-MM-dd"}
+    showMonthYearPicker={pickerType === "month"}
+    maxDate={new Date()}  // ← esto bloquea días/meses futuros
+    customInput={<PickerInput />}
+  />
+);
 }

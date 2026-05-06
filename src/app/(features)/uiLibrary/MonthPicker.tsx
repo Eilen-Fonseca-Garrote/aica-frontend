@@ -65,12 +65,13 @@ export default function CustomMonthPicker({
   MonthInput.displayName = "MonthInput";
 
   return (
-    <DatePicker
-      selected={selectedDate}
-      onChange={handleChange}
-      dateFormat="yyyy-MM"
-      showMonthYearPicker
-      customInput={<MonthInput />}
-    />
-  );
+  <DatePicker
+    selected={selectedDate}
+    onChange={handleChange}
+    dateFormat="yyyy-MM"
+    showMonthYearPicker
+    maxDate={new Date()}  // ← esto bloquea meses futuros
+    customInput={<MonthInput />}
+  />
+);
 }
