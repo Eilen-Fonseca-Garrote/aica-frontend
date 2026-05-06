@@ -16,7 +16,7 @@ const InterruptosResult: React.FC<InterruptosResultProps> = ({ data }) => {
     { key: 'produccion60', label: 'Interruptos de Producción 60%' },
   ];
 
-  const rows = data.map((row: any) => ({
+  const rows = data.map((row) => ({
   direccion: row.isHeader
     ? <span className="font-bold text-[#0a8ca8] tracking-wide">{row.direccion}</span>
     : row.direccion,
