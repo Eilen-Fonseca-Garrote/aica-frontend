@@ -16,19 +16,22 @@ const InterruptosResult: React.FC<InterruptosResultProps> = ({ data }) => {
     { key: 'produccion60', label: 'Interruptos de Producción 60%' },
   ];
 
-  const rows = data.map((row) => ({
-    direccion: row.direccion,
-    covid: row.covid,
-    reubicacion: row.reubicacion,
-    produccion100: row.produccion100,
-    produccion60: row.produccion60,
-    // Aplicar estilos especiales para las filas de totales
-    className: row.direccion === "Total General" 
-      ? "font-semibold bg-gray-50" 
-      : row.direccion.includes("Total") 
-        ? "font-semibold" 
-        : ""
-  }));
+  const rows = data.map((row: any) => ({
+  direccion: row.isHeader
+    ? <span className="font-bold text-[#0a8ca8] tracking-wide">{row.direccion}</span>
+    : row.direccion,
+  covid:         row.isHeader ? '' : row.covid,
+  reubicacion:   row.isHeader ? '' : row.reubicacion,
+  produccion100: row.isHeader ? '' : row.produccion100,
+  produccion60:  row.isHeader ? '' : row.produccion60,
+  className: row.isHeader
+    ? 'bg-[#e8f6f9]'
+    : row.direccion?.includes('Total General')
+      ? 'font-bold bg-gray-100'
+      : row.direccion?.includes('Total')
+        ? 'font-semibold'
+        : '',
+}));
 
   return (
     <Card title="Trabajadores Interruptos">
