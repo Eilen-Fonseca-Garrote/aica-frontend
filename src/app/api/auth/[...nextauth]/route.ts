@@ -1,38 +1,22 @@
+// api/auth/[...nextauth]/route.ts
 import NextAuth, { NextAuthOptions, type User as NextAuthUser } from 'next-auth';
 import { RoleEnum } from '@/app/lib/api/role.enum';
 
-// Función para obtener el rol
 const getRol = (groups: string[]): RoleEnum => {
-  if (groups.includes('Internal/p_gestor_empresa')) {
-    return RoleEnum.ADMIN_ENTERPRISE;
-  }
-  if (groups.includes('Internal/p_gestor_ueb')) {
-    return RoleEnum.ADMIN_UEB;
-  }
+  if (groups.includes('Internal/p_gestor_empresa')) return RoleEnum.ADMIN_ENTERPRISE;
+  if (groups.includes('Internal/p_gestor_ueb')) return RoleEnum.ADMIN_UEB;
   return RoleEnum.USER;
 };
 
-// Función para obtener el UEB ID
 const getUebId = (groups: string[]): number => {
-  if (groups.includes('Internal/p_gestor_aica')) {
-    return 16;
-  }
-  if (groups.includes('Internal/p_gestor_liorad')) {
-    return 25;
-  }
-  if (groups.includes('Internal/p_gestor_jt')) {
-    return 55;
-  }
-  if (groups.includes('Internal/p_gestor_citox')) {
-    return 100;
-  }
-  if (groups.includes('Internal/p_gestor_sh')) {
-    return 57;
-  }
+  if (groups.includes('Internal/p_gestor_aica')) return 16;
+  if (groups.includes('Internal/p_gestor_liorad')) return 25;
+  if (groups.includes('Internal/p_gestor_jt')) return 55;
+  if (groups.includes('Internal/p_gestor_citox')) return 100;
+  if (groups.includes('Internal/p_gestor_sh')) return 57;
   return 0;
 };
 
-// Interfaz para el profile de WSO2
 interface WSO2Profile {
   sub: string;
   name?: string;
@@ -41,7 +25,6 @@ interface WSO2Profile {
   groups?: string[];
 }
 
-// Interfaz para nuestro User extendido
 interface CustomUser extends NextAuthUser {
   username: string;
   fullName: string;
@@ -52,9 +35,9 @@ interface CustomUser extends NextAuthUser {
   policies: string;
 }
 
-// Interfaz para el token personalizado
 interface CustomJWT {
   accessToken: string;
+  idToken: string; // ← NUEVO: necesario para el logout de WSO2
   user: CustomUser;
 }
 
@@ -77,17 +60,12 @@ const nextAuth = NextAuth({
         },
       },
       profile(profile: WSO2Profile): CustomUser {
-        console.log('Profile received:', profile);
         const groups = profile.groups || [];
-        
         return {
-          // Propiedades base requeridas por NextAuth
           id: profile.sub,
           name: profile.name || '',
           email: profile.email || '',
           image: null,
-          
-          // Nuestras propiedades extendidas
           username: profile.sub,
           fullName: profile.preferred_username || profile.name || '',
           role: getRol(groups),
@@ -97,9 +75,7 @@ const nextAuth = NextAuth({
           policies: '',
         };
       },
-      httpOptions: {
-        timeout: 10000,
-      },
+      httpOptions: { timeout: 10000 },
     },
   ],
   callbacks: {
@@ -107,16 +83,14 @@ const nextAuth = NextAuth({
       if (account && profile) {
         const customProfile = profile as WSO2Profile;
         const customToken = token as CustomJWT;
-        
+
         customToken.accessToken = account.access_token!;
+        customToken.idToken = account.id_token!; // ← NUEVO: guardar id_token en el JWT
         customToken.user = {
-          // Propiedades base
           id: customProfile.sub,
           name: customProfile.name || '',
           email: customProfile.email || '',
           image: null,
-          
-          // Propiedades extendidas
           username: customProfile.sub,
           fullName: customProfile.preferred_username || customProfile.name || '',
           role: getRol(customProfile.groups || []),
@@ -130,17 +104,45 @@ const nextAuth = NextAuth({
     },
 
     async session({ session, token }) {
-      const customToken: CustomJWT = token;
-      
+      const customToken = token as CustomJWT;
       session.accessToken = customToken.accessToken;
       session.user = customToken.user;
-      
       return session;
     },
   },
-  debug: process.env.NODE_ENV !== 'production',
-})
 
+  // ← NUEVO: redirigir al endpoint de logout de WSO2IS al cerrar sesión
+  events: {
+    async signOut({ token }) {
+      const customToken = token as CustomJWT;
+      const idToken = customToken?.idToken;
+
+      if (idToken) {
+        const wso2Host = process.env.WSO2IS_HOST;
+        const tenantName = process.env.WSO2IS_TENANT_NAME;
+        const postLogoutUri = encodeURIComponent(
+          process.env.NEXTAUTH_URL + '/api/auth/signout'
+        );
+
+        // Construir la URL de logout de WSO2IS con id_token_hint
+        // Esto invalida la sesión SSO en el servidor de identidad
+        const logoutUrl =
+          `${wso2Host}/t/${tenantName}/oidc/logout` +
+          `?id_token_hint=${idToken}` +
+          `&post_logout_redirect_uri=${postLogoutUri}` +
+          `&state=sign_out_confirm`;
+
+        try {
+          await fetch(logoutUrl, { method: 'GET' });
+        } catch (e) {
+          console.error('Error al cerrar sesión en WSO2IS:', e);
+        }
+      }
+    },
+  },
+
+  debug: process.env.NODE_ENV !== 'production',
+});
 
 export const GET = nextAuth;
 export const POST = nextAuth;

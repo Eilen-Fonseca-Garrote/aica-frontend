@@ -3,13 +3,10 @@ import NextAuth from 'next-auth'
 
 declare module 'next-auth' {
   interface User {
-    // Propiedades base requeridas por NextAuth
     id: string
     name?: string | null
-    email?: string | null  
+    email?: string | null
     image?: string | null
-    
-    // Nuestras propiedades extendidas
     username: string
     fullName: string
     role: RoleEnum
@@ -21,6 +18,7 @@ declare module 'next-auth' {
 
   interface Session {
     accessToken: string
+    idToken: string // ← NUEVO
     user: User
   }
 }
@@ -28,6 +26,7 @@ declare module 'next-auth' {
 declare module 'next-auth/jwt' {
   interface JWT {
     accessToken: string
+    idToken: string // ← NUEVO
     user: User
   }
 }
