@@ -59,6 +59,7 @@ jest.mock('lucide-react', () => ({
   ChevronDown: () => <div>ChevronDown</div>,
   ChevronLeft: () => <div>ChevronLeft</div>,
   ChevronRight: () => <div>ChevronRight</div>,
+  X: () => <div>X</div>,
   ArrowLeft: () => <div>ArrowLeft</div>,
   Eye: () => <div>Eye</div>,
   FileSpreadsheet: () => <div>FileSpreadsheet</div>,

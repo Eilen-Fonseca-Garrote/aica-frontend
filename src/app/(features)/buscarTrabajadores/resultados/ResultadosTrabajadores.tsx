@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Card from "@/app/(features)/uiLibrary/Card"
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye } from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, X } from "lucide-react"
 import { TrabajadorPersonalData } from "../types"
 
 interface SearchResultsTableProps {
@@ -32,8 +32,12 @@ export default function SearchResultsTable({
   const [sortState, setSortState] = useState<{
     column: SortColumn
     direction: SortDirection
-  } | null>(null)
+  } | null>({
+    column: "nombre",
+    direction: "asc",
+  })
   const [currentPage, setCurrentPage] = useState(1)
+  const [resultsSearchTerm, setResultsSearchTerm] = useState("")
 
   const handleViewProfile = (worker: TrabajadorPersonalData) => {
     selectWorker(worker)
@@ -69,8 +73,31 @@ export default function SearchResultsTable({
     return value ? String(value).trim() : ""
   }
 
+  const normalizeSearchValue = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim()
+
+  const normalizedResultsSearchTerm = normalizeSearchValue(resultsSearchTerm)
+
+  const filteredData = normalizedResultsSearchTerm
+    ? personalData.filter((worker) => {
+        const searchableValues = [
+          worker.nombre ?? "",
+          worker.ci ?? "",
+          ...(showLocationColumns ? [worker.direccion_ueb ?? "", worker.area ?? ""] : []),
+        ]
+
+        return searchableValues.some((value) =>
+          normalizeSearchValue(String(value)).includes(normalizedResultsSearchTerm),
+        )
+      })
+    : personalData
+
   const sortedData = sortState
-    ? [...personalData].sort((workerA, workerB) => {
+    ? [...filteredData].sort((workerA, workerB) => {
         const valueA = getWorkerSortableValue(workerA, sortState.column)
         const valueB = getWorkerSortableValue(workerB, sortState.column)
 
@@ -87,7 +114,7 @@ export default function SearchResultsTable({
         const compareResult = textCollator.compare(valueA, valueB)
         return sortState.direction === "asc" ? compareResult : -compareResult
       })
-    : personalData
+    : filteredData
 
   const dataSignature = useMemo(
     () => personalData.map((worker) => `${worker.ci}|${worker.nombre}`).join("||"),
@@ -95,8 +122,16 @@ export default function SearchResultsTable({
   )
 
   useEffect(() => {
+    setSortState({
+      column: "nombre",
+      direction: "asc",
+    })
     setCurrentPage(1)
   }, [dataSignature])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [resultsSearchTerm])
 
   const totalItems = sortedData.length
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
@@ -122,6 +157,27 @@ export default function SearchResultsTable({
   return (
     <div className="w-full">
       <Card className="shadow-sm border border-gray-200" title={title}>
+        <div className="mb-4 max-w-fit">
+          <div className="relative">
+            <input
+              type="text"
+              value={resultsSearchTerm}
+              onChange={(event) => setResultsSearchTerm(event.target.value)}
+              placeholder="Buscar en resultados..."
+              className="w-full rounded border border-gray-300 px-3 py-2 pr-9 text-sm"
+            />
+            {resultsSearchTerm ? (
+              <button
+                type="button"
+                onClick={() => setResultsSearchTerm("")}
+                aria-label="Limpiar busqueda en resultados"
+                className="absolute inset-y-0 right-2 inline-flex items-center text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
+        </div>
         <table className="w-full table-auto border-collapse text-sm">
           <thead>
             <tr className="bg-[#0a8ca8] text-white text-left">
