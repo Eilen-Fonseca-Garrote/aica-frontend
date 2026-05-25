@@ -65,14 +65,6 @@ export const getListarTrabajadoresOptions = async (ueb: string) => {
   return res.data
 }
 
-export const getDireccionesAreas = async (ueb: string, direccionId: string) => {
-  const url =
-    `/listarTrabajadores/areas?ueb=${encodeURIComponent(ueb)}` +
-    `&direccionId=${encodeURIComponent(direccionId)}`
-  const res = await apiClient.get<SelectOption[]>(url)
-  return res.data
-}
-
 export const getSubCategoriasCientificas = async (
   ueb: string,
   categoria: string,

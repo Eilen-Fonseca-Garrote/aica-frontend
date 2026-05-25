@@ -9,6 +9,9 @@ import ListarTrabajadoresPage from './page'
 // Mock de las dependencias
 jest.mock('@/app/lib/api/reportes', () => ({
   downloadAllWorkersXls: jest.fn(),
+  downloadAllWorkersPdf: jest.fn(),
+  downloadTrabajadoresFisicosXls: jest.fn(),
+  downloadTrabajadoresFisicosPdf: jest.fn(),
 }))
 
 jest.mock('@/app/lib/api/listarTrabajadores', () => ({
@@ -19,7 +22,6 @@ jest.mock('@/app/lib/api/listarTrabajadores', () => ({
     cargos: [],
     categoriasCientificas: [],
   }),
-  getDireccionesAreas: jest.fn().mockResolvedValue([]),
   getSubCategoriasCientificas: jest.fn().mockResolvedValue([]),
   filtrarTrabajadores: jest.fn(),
 }))
@@ -56,6 +58,7 @@ jest.mock('lucide-react', () => ({
   ChevronUp: () => <div>ChevronUp</div>,
   ArrowLeft: () => <div>ArrowLeft</div>,
   FileSpreadsheet: () => <div>FileSpreadsheet</div>,
+  FileText: () => <div>FileText</div>,
   Search: () => <div>Search</div>,
   Loader2: () => <div>Loader2</div>,
 }))
@@ -116,11 +119,11 @@ describe('<ListarTrabajadoresPage /> - Pruebas Simplificadas', () => {
     // Expandir sección de exportar
     fireEvent.click(screen.getByText("Exportar Trabajadores"))
     
-    const excelButton = screen.getByRole('button', { name: /excel/i })
+    const excelButton = screen.getAllByRole('button', { name: /excel/i })[0]
     
     // Verificar estado inicial del botón
     expect(excelButton).not.toBeDisabled()
-    expect(screen.getByText("Excel")).toBeInTheDocument()
+    expect(screen.getAllByText("Excel").length).toBeGreaterThan(0)
 
     // Iniciar exportación
     fireEvent.click(excelButton)
@@ -138,7 +141,7 @@ describe('<ListarTrabajadoresPage /> - Pruebas Simplificadas', () => {
     await waitFor(() => {
       expect(excelButton).not.toBeDisabled()
     })
-    expect(screen.getByText("Excel")).toBeInTheDocument()
+    expect(screen.getAllByText("Excel").length).toBeGreaterThan(0)
   })
 
   // =========================================================================
@@ -153,7 +156,7 @@ describe('<ListarTrabajadoresPage /> - Pruebas Simplificadas', () => {
     // Expandir sección de exportar
     fireEvent.click(screen.getByText("Exportar Trabajadores"))
     
-    const excelButton = screen.getByRole('button', { name: /excel/i })
+    const excelButton = screen.getAllByRole('button', { name: /excel/i })[0]
     
     // Iniciar exportación
     fireEvent.click(excelButton)
@@ -163,7 +166,7 @@ describe('<ListarTrabajadoresPage /> - Pruebas Simplificadas', () => {
 
     // Esperar a que se maneje el error
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith("Error al exportar el archivo")
+      expect(window.alert).toHaveBeenCalledWith("Error al exportar el archivo Excel")
     })
 
     // Verificar que el botón se habilita nuevamente después del error
@@ -188,11 +191,11 @@ describe('<ListarTrabajadoresPage /> - Pruebas Simplificadas', () => {
     // Expandir sección de exportar
     fireEvent.click(screen.getByText("Exportar Trabajadores"));
     
-    const excelButton = screen.getByRole('button', { name: /excel/i });
+    const excelButton = screen.getAllByRole('button', { name: /excel/i })[0];
     
     // Verificar estado inicial
     expect(excelButton).not.toBeDisabled();
-    expect(screen.getByText("Excel")).toBeInTheDocument();
+    expect(screen.getAllByText("Excel").length).toBeGreaterThan(0);
 
     // Iniciar exportación
     fireEvent.click(excelButton);
@@ -211,6 +214,6 @@ describe('<ListarTrabajadoresPage /> - Pruebas Simplificadas', () => {
       expect(excelButton).not.toBeDisabled();
     }, { timeout: 2000 });
     
-    expect(screen.getByText("Excel")).toBeInTheDocument();
+    expect(screen.getAllByText("Excel").length).toBeGreaterThan(0);
   });
 });
