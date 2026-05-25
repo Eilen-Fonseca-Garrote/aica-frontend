@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import PromedioSection from './components/PromedioSection'
 import PromedioMensualForm from './components/PromedioMensualForm'
 import PromedioDiarioForm from './components/PromedioDiarioForm'
@@ -26,20 +26,38 @@ export default function PromedioPage() {
   const [diarioData, setDiarioData] = useState<PromedioDiario[]>([])
 
   const [addresses, setAddresses] = useState<Direccion[]>([])
+  const addressRequestIdRef = useRef(0)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-  const fetchAddresses = async () => {
-    if(uebDiario != "0"){
-    const data = await getDireccionesPorUeb(uebDiario)
-    setAddresses(data)
-  }
-  }
+  const handleUebDiarioChange = (nextUeb: string) => {
+    const requestId = addressRequestIdRef.current + 1
+    addressRequestIdRef.current = requestId
 
-  fetchAddresses()
-}, [uebDiario])
+    setUebDiario(nextUeb)
+    setDireccionFuncional('0')
+    setAddresses([])
+
+    if (nextUeb === '0') {
+      return
+    }
+
+    void getDireccionesPorUeb(nextUeb)
+      .then((data) => {
+        if (requestId !== addressRequestIdRef.current) {
+          return
+        }
+        setAddresses(data)
+      })
+      .catch((err) => {
+        if (requestId !== addressRequestIdRef.current) {
+          return
+        }
+        console.error(err)
+        setAddresses([])
+      })
+  }
 
     const handlePromedioMensual = async () => {
       setLoading(true)
@@ -131,7 +149,7 @@ export default function PromedioPage() {
                   fecha={fechaDiario}
                   direccionFuncional={direccionFuncional}
                   addresses={addresses}
-                  onChangeUeb={setUebDiario}
+                  onChangeUeb={handleUebDiarioChange}
                   onChangeDireccion={setDireccionFuncional}
                   onChangeFecha={setFechaDiario}
                   onCalculate={handlePromedioDiario}
