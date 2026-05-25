@@ -71,12 +71,25 @@ function getHomeInterruptosTotal(response: InterruptosResponse) {
     Prod48: response.totalProd48,
   }
 
-  return (
+  const baseTotal =
     toSafeNumber(totals.Covid?.Total) +
     toSafeNumber(totals.Reubic?.Total) +
     toSafeNumber(totals.Prod25?.Total) +
     toSafeNumber(totals.Prod48?.Total)
-  )
+
+  // Legacy compatibility:
+  // In the old Laravel home (`todosInterruptos`), SH+ Prod25 reused the previous
+  // UEB (CITOX) Prod25 total due to a missing reassignment.
+  // To match historical dashboard values, we reproduce that behavior here.
+  const citoxProd25 = toSafeNumber(response.totales?.CITOX?.Prod25?.Total)
+  const shProd25 = toSafeNumber(response.totales?.SH?.Prod25?.Total)
+  const hasCitoxAndSh = citoxProd25 > 0 && shProd25 > 0
+
+  if (hasCitoxAndSh) {
+    return baseTotal - shProd25 + citoxProd25
+  }
+
+  return baseTotal
 }
 
 async function calculateHomeStats(referenceMonth: string): Promise<HomeStats> {
