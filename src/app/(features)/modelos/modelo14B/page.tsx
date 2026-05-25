@@ -29,7 +29,7 @@ export default function Modelo14BPage() {
   return (
     <div className="rounded-lg bg-white p-6">
       <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="border-b border-[#08778f] bg-[#0a8ca8] px-4 py-3 font-semibold text-white">
+        <div className="px-4 py-3 font-semibold text-[#0a8ca8]">
           Modelo 14B
         </div>
         <div className="p-4">
