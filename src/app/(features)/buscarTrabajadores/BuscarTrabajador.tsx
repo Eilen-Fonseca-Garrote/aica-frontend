@@ -510,8 +510,7 @@ const mapWorkerAchievementsList = (
             {!loading && !loadingProfile && selectedWorker && (
               <WorkerProfile
                 worker={selectedWorker}
-                imagenTrab="/img/default-profile.jpg"
-                ueb="100"
+                ueb={form.ueb}
                 laborData={selectedWorkerLaborData}
                 estudiosData={selectedWorkerStudiesData}
                 familiarData={selectedWorkerFamliyData}

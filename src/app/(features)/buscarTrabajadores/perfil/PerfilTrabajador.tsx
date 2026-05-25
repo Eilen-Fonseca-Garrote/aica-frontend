@@ -1,20 +1,44 @@
 "use client"
 
+import { useEffect, useMemo, useState } from "react"
 import Card from "@/app/(features)/uiLibrary/Card"
 import { Tabs } from "@/components/ui/tabs"
 import { TrabajadorEstudiosData, TrabajadorFamilyData, TrabajadorLaborData, TrabajadorMisionesCondecData, TrabajadorPersonalData } from "../types"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import NoProfilePic from "public/img/nofoto.jpg"
 import { DatosPersonales } from "./DatosPersonales"
 import DatosFamiliares from "./DatosFamiliares"
 import DatosEstudios from "./DatosEstudios"
 import DatosLaborales from "./DatosLaborales"
 import DatosCondecoracionesMisiones from "./DatosCondecoracionesMisiones"
 
+const DEFAULT_PROFILE_IMAGE = "/img/nofoto.jpg"
+
+const buildPhotoCandidates = (ci: string, imagenTrab?: string) => {
+  const candidates: string[] = []
+  const providedImage = imagenTrab?.trim()
+
+  if (providedImage) {
+    candidates.push(providedImage)
+  }
+
+  const photosBaseUrl = process.env.NEXT_PUBLIC_FOTOS_AICA?.trim() ?? ""
+  if (photosBaseUrl && ci) {
+    const normalizedBaseUrl = photosBaseUrl.endsWith("/")
+      ? photosBaseUrl
+      : `${photosBaseUrl}/`
+    const encodedCi = encodeURIComponent(ci.trim())
+
+    candidates.push(`${normalizedBaseUrl}${encodedCi}.JPG`)
+    candidates.push(`${normalizedBaseUrl}${encodedCi}.jpg`)
+  }
+
+  candidates.push(DEFAULT_PROFILE_IMAGE)
+
+  return Array.from(new Set(candidates.filter(Boolean)))
+}
 
 interface WorkerProfileProps {
   worker: TrabajadorPersonalData
-  imagenTrab: string
+  imagenTrab?: string
   ueb: string
   laborData?: TrabajadorLaborData | null
   estudiosData?: TrabajadorEstudiosData | null
@@ -24,12 +48,33 @@ interface WorkerProfileProps {
 
 export default function WorkerProfile({
   worker,
+  imagenTrab,
   ueb,
   laborData,
   estudiosData,
   familiarData,
   misiones,
 }: WorkerProfileProps) {
+  const photoCandidates = useMemo(
+    () => buildPhotoCandidates(worker.ci, imagenTrab),
+    [worker.ci, imagenTrab],
+  )
+  const [photoCandidateIndex, setPhotoCandidateIndex] = useState(0)
+
+  useEffect(() => {
+    setPhotoCandidateIndex(0)
+  }, [photoCandidates])
+
+  const currentPhoto =
+    photoCandidates[Math.min(photoCandidateIndex, photoCandidates.length - 1)] ??
+    DEFAULT_PROFILE_IMAGE
+
+  const handlePhotoError = () => {
+    setPhotoCandidateIndex((currentIndex) =>
+      currentIndex < photoCandidates.length - 1 ? currentIndex + 1 : currentIndex,
+    )
+  }
+
   const getUebName = (uebCode: string) => {
     switch (uebCode) {
       case "100":
@@ -38,6 +83,8 @@ export default function WorkerProfile({
         return "LIORAD"
       case "55":
         return "JULIO TRIGO"
+      case "57":
+        return "SH+"
       default:
         return "AICA"
     }
@@ -50,12 +97,15 @@ export default function WorkerProfile({
       {/* LEFT COLUMN: Profile Info */}
       <div className="col-span-1">
         <Card className="border border-gray-200 shadow-sm">
-            <div className="flex justify-center mb-4">
-                <Avatar className="h-10 w-10">
-                      <AvatarImage src={NoProfilePic} alt="avatar" />
-                      <AvatarFallback className="bg-gray-500">AL</AvatarFallback>
-                </Avatar>
-            </div>
+          <div className="mb-4 flex justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={currentPhoto}
+              alt={`Foto de ${worker.nombre}`}
+              onError={handlePhotoError}
+              className="h-28 w-28 rounded-full border border-gray-200 object-cover"
+            />
+          </div>
             <h3 className="text-lg font-semibold">
               {worker.nombre}
             </h3>
