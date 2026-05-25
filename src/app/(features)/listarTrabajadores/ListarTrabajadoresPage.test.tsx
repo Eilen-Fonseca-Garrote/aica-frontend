@@ -56,7 +56,11 @@ jest.mock('../uiLibrary/ToggleSection', () => ({
 // Mock simplificado para los iconos de Lucide React
 jest.mock('lucide-react', () => ({
   ChevronUp: () => <div>ChevronUp</div>,
+  ChevronDown: () => <div>ChevronDown</div>,
+  ChevronLeft: () => <div>ChevronLeft</div>,
+  ChevronRight: () => <div>ChevronRight</div>,
   ArrowLeft: () => <div>ArrowLeft</div>,
+  Eye: () => <div>Eye</div>,
   FileSpreadsheet: () => <div>FileSpreadsheet</div>,
   FileText: () => <div>FileText</div>,
   Search: () => <div>Search</div>,

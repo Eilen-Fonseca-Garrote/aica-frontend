@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Card from "@/app/(features)/uiLibrary/Card"
-import { ChevronDown, ChevronUp, Eye } from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye } from "lucide-react"
 import { TrabajadorPersonalData } from "../types"
 
 interface SearchResultsTableProps {
@@ -11,6 +11,7 @@ interface SearchResultsTableProps {
   selectWorker: (worker: TrabajadorPersonalData) => void
   showLocationColumns?: boolean
   title?: string
+  pageSize?: number
 }
 
 type SortColumn = "nombre" | "ci" | "direccion_ueb" | "area"
@@ -26,11 +27,13 @@ export default function SearchResultsTable({
   selectWorker,
   showLocationColumns = false,
   title = "Resultados de la Busqueda",
+  pageSize = 10,
 }: SearchResultsTableProps) {
   const [sortState, setSortState] = useState<{
     column: SortColumn
     direction: SortDirection
   } | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const handleViewProfile = (worker: TrabajadorPersonalData) => {
     selectWorker(worker)
@@ -86,6 +89,36 @@ export default function SearchResultsTable({
       })
     : personalData
 
+  const dataSignature = useMemo(
+    () => personalData.map((worker) => `${worker.ci}|${worker.nombre}`).join("||"),
+    [personalData],
+  )
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [dataSignature])
+
+  const totalItems = sortedData.length
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
+  const currentPageSafe = Math.min(currentPage, totalPages)
+  const startIndex = (currentPageSafe - 1) * pageSize
+  const endIndex = startIndex + pageSize
+  const paginatedData = sortedData.slice(startIndex, endIndex)
+
+  useEffect(() => {
+    if (currentPage !== currentPageSafe) {
+      setCurrentPage(currentPageSafe)
+    }
+  }, [currentPage, currentPageSafe])
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(1, prev - 1))
+  }
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+  }
+
   return (
     <div className="w-full">
       <Card className="shadow-sm border border-gray-200" title={title}>
@@ -140,8 +173,8 @@ export default function SearchResultsTable({
             </tr>
           </thead>
           <tbody>
-            {sortedData.length > 0 ? (
-              sortedData.map((worker, idx) => (
+            {paginatedData.length > 0 ? (
+              paginatedData.map((worker, idx) => (
                 <tr key={idx} className="hover:bg-gray-100 border-b last:border-none">
                   <td className="px-4 py-2">{worker.nombre}</td>
                   <td className="px-4 py-2">{worker.ci}</td>
@@ -175,6 +208,36 @@ export default function SearchResultsTable({
             )}
           </tbody>
         </table>
+        {totalItems > 0 && (
+          <div className="mt-4 flex flex-col gap-3 border-t border-gray-200 pt-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-gray-600">
+              Mostrando {startIndex + 1}-{Math.min(endIndex, totalItems)} de {totalItems}
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handlePreviousPage}
+                disabled={currentPageSafe === 1}
+                className="inline-flex items-center gap-1 rounded border border-gray-300 px-3 py-1.5 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Anterior
+              </button>
+              <span className="text-sm text-gray-700">
+                Pagina {currentPageSafe} de {totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={handleNextPage}
+                disabled={currentPageSafe === totalPages}
+                className="inline-flex items-center gap-1 rounded border border-gray-300 px-3 py-1.5 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
+              >
+                Siguiente
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </Card>
     </div>
   )
