@@ -736,7 +736,7 @@ const mapToTrabajadorMisionesData = (
 
 export default function ListarTrabajadores() {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    filtrar: false,
+    filtrar: true,
     exportar: false,
   })
   const [form, setForm] = useState<FilterFormState>(INITIAL_FORM)
