@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --app-primary-color: #0a8ca8;
+  --app-primary-hover: #08778f;
+  --app-primary-soft: #0a8ca81a;
+  --app-sidebar-color: #0b1a20;
+  --app-sidebar-hover: #263037;
+  --app-sidebar-border: #334155;
 }
 
 :root {
@@ -25,4 +31,46 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.app-sidebar-link:hover {
+  background-color: var(--app-sidebar-hover);
+  border-left-color: var(--app-primary-color);
+}
+
+.app-sidebar-divider {
+  border-color: var(--app-sidebar-border);
+}
+
+/* Keep legacy hard-coded Tailwind color utilities tied to the saved theme. */
+.bg-\[\#0a8ca8\] {
+  background-color: var(--app-primary-color) !important;
+}
+
+.hover\:bg-\[\#08778f\]:hover {
+  background-color: var(--app-primary-hover) !important;
+}
+
+.hover\:bg-\[\#0a8ca8\]\/10:hover {
+  background-color: var(--app-primary-soft) !important;
+}
+
+.text-\[\#0a8ca8\] {
+  color: var(--app-primary-color) !important;
+}
+
+.hover\:text-\[\#08778f\]:hover {
+  color: var(--app-primary-hover) !important;
+}
+
+.border-\[\#08778f\] {
+  border-color: var(--app-primary-hover) !important;
+}
+
+.border-\[\#0a8ca8\] {
+  border-color: var(--app-primary-color) !important;
+}
+
+.focus\:ring-\[\#0a8ca8\]\/40:focus {
+  --tw-ring-color: var(--app-primary-soft) !important;
 }

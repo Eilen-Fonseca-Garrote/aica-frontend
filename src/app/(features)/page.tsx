@@ -28,6 +28,17 @@ const emptyPromedioTotals: TotalMensual = {
 
 const formatNumber = (value: number) => new Intl.NumberFormat("es-ES").format(value)
 
+function hasCompleteHomeStats(stats: HomeStats | null): stats is HomeStats {
+  if (!stats) return false
+
+  return [
+    stats.promedioTrabajadores,
+    stats.fisicos,
+    stats.fisicosMujeres,
+    stats.interruptos,
+  ].every(Number.isFinite)
+}
+
 function getPreviousMonthDate() {
   const today = new Date()
   const previousMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1)
@@ -136,49 +147,54 @@ export default function Page() {
     }
   }, [referenceMonth])
 
-  const boxes = [
+  const hasCompleteStats = hasCompleteHomeStats(stats)
+
+  const boxes = hasCompleteStats ? [
     {
-      value: stats ? formatNumber(stats.promedioTrabajadores) : "",
+      value: formatNumber(stats.promedioTrabajadores),
       label: "Promedio Trabajadores",
-      bgColor: "bg-[#0a8ca8]",
+      bgColor: "bg-[var(--app-primary-color)]",
       icon: <IoAdd className="text-4xl" />,
     },
     {
-      value: stats ? formatNumber(stats.fisicos) : "",
+      value: formatNumber(stats.fisicos),
       label: "Físicos",
-      bgColor: "bg-[#0a8ca8]",
+      bgColor: "bg-[var(--app-primary-color)]",
       icon: <IoStatsChart className="text-4xl" />,
     },
     {
-      value: stats ? formatNumber(stats.fisicosMujeres) : "",
+      value: formatNumber(stats.fisicosMujeres),
       label: "Físicos Mujeres",
-      bgColor: "bg-[#0a8ca8]",
+      bgColor: "bg-[var(--app-primary-color)]",
       icon: <IoPersonAdd className="text-4xl" />,
     },
     {
-      value: stats ? formatNumber(stats.interruptos) : "",
+      value: formatNumber(stats.interruptos),
       label: "Interruptos",
-      bgColor: "bg-[#0a8ca8]",
+      bgColor: "bg-[var(--app-primary-color)]",
       icon: <IoRemove className="text-4xl" />,
     },
-  ]
+  ] : []
 
   return (
     <>
-      <div className="flex flex-wrap -mx-2 p-4">
-        {boxes.map((box, index) => (
-          <div key={index} className="w-1/2 lg:w-1/4 px-2 mb-4">
-            <div className={`rounded-lg shadow p-4 text-white ${box.bgColor} flex justify-between items-center`}>
-              <div>
-                <h3 className="text-4xl font-bold">{box.value}</h3>
-                <p>{box.label}</p>
+      {boxes.length > 0 ? (
+        <div className="flex flex-wrap -mx-2 p-4">
+          {boxes.map((box, index) => (
+            <div key={index} className="w-1/2 lg:w-1/4 px-2 mb-4">
+              <div className={`rounded-lg shadow p-4 text-white ${box.bgColor} flex justify-between items-center`}>
+                <div>
+                  <h3 className="text-4xl font-bold">{box.value}</h3>
+                  <p>{box.label}</p>
+                </div>
+                <div className="text-4xl">{box.icon}</div>
               </div>
-              <div className="text-4xl">{box.icon}</div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : null}
       <BuscarTrabajador />
     </>
   )
 }
+

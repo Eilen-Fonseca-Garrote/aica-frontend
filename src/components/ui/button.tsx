@@ -13,12 +13,12 @@ export function Button({ variant = "default", size = "md", className = "", child
 
   const variantClass =
     variant === "ghost"
-      ? "bg-transparent text-white hover:bg-gray-700"
+      ? "bg-transparent text-white hover:bg-[var(--app-sidebar-hover)]"
       : variant === "primary"
-      ? "bg-blue-600 text-white hover:bg-blue-700"
+      ? "bg-[var(--app-primary-color)] text-white hover:bg-[var(--app-primary-hover)]"
       : variant === "danger"
       ? "bg-red-600 text-white hover:bg-red-700"
-      : "bg-blue-600 text-white hover:bg-blue-700";
+      : "bg-[var(--app-primary-color)] text-white hover:bg-[var(--app-primary-hover)]";
 
   const sizeClass =
     size === "icon"

@@ -28,7 +28,7 @@ const Table: React.FC<TableProps> = ({
   return (
     <div className="overflow-x-auto text-black">
       <table className="w-full border-collapse text-sm">
-        <thead className="bg-[#0a8ca8] text-white">
+        <thead className="bg-[var(--app-primary-color)] text-white">
           <tr>
             {headers.map((h) => (
               <th key={h.key} className={`py-2 px-4 text-center ${h.className || ''}`}>

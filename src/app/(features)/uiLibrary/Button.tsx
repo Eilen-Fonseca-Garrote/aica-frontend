@@ -13,10 +13,11 @@ export default function Button({
   const base =
     "px-4 py-2 rounded-lg font-medium transition focus:outline-none focus:ring-2";
   const variants = {
-    primary: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
+    primary:
+      "bg-[var(--app-primary-color)] text-white hover:bg-[var(--app-primary-hover)] focus:ring-[var(--app-primary-color)]",
     danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
     outline:
-      "border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-400",
+      "border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-[var(--app-primary-color)]",
   };
 
   return (

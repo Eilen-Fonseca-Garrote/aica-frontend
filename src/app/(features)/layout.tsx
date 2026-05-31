@@ -1,20 +1,34 @@
 'use client';
 
+/* eslint-disable @next/next/no-img-element */
 import { signOut, useSession } from "next-auth/react";
-import { useLayoutEffect, useState } from "react";
-import Image from "next/image";
+import { useMemo, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu } from "lucide-react";
-import AicaLogo from "public/img/aica-logo.jpg";
+import { LogOut, Menu, Settings } from "lucide-react";
 import NoProfilePic from "public/img/nofoto.jpg";
 import Link from "next/link";
 import { AUTH_DISABLED_IN_DEV } from "@/app/lib/auth-config";
 import { redirect } from "next/navigation";
+import { getResourceUrl } from "@/app/lib/api/systemInterface";
+import {
+  SystemInterfaceProvider,
+  useSystemInterfaceConfig,
+} from "@/app/lib/system-interface-context";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <SystemInterfaceProvider>
+      <AuthenticatedLayout>{children}</AuthenticatedLayout>
+    </SystemInterfaceProvider>
+  );
+}
+
+function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const { data: session, status } = useSession();
+  const { config } = useSystemInterfaceConfig();
+  const logoSrc = useMemo(() => getResourceUrl(config.logo), [config.logo]);
 
   if (!AUTH_DISABLED_IN_DEV) {
     if (status === 'loading') return null;
@@ -59,9 +73,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1">
         {/* Sidebar */}
         <aside
-          className={`bg-[#0B1A20] text-white flex flex-col transition-all duration-300 max-h-screen ease-in-out overflow-y-auto ${
+          className={`text-white flex flex-col transition-all duration-300 max-h-screen ease-in-out overflow-y-auto ${
             collapsed ? "w-0" : "w-72"
           }`}
+          style={{ backgroundColor: config.sidebarColor }}
         >
           {/* Sidebar Content Wrapper */}
           <div
@@ -70,14 +85,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             }`}
           >
             {/* Logo y nombre */}
-            <div className="flex items-center gap-3 p-4 border-b border-gray-600">
-              <Image
-                src={AicaLogo}
+            <div className="app-sidebar-divider flex items-center gap-3 p-4 border-b">
+              <img
+                src={logoSrc}
                 alt="logo AICA"
-                width={50}
-                height={50}
-                className="rounded"
-                priority
+                className="h-12 w-12 rounded object-contain bg-white/95 p-1"
+                onError={(event) => {
+                  event.currentTarget.src = "/img/aica-logo.jpg";
+                }}
               />
               <span className="text-base font-medium whitespace-nowrap">
                 <Link href={"/"} className="hover:text-gray-300 transition-colors">
@@ -87,7 +102,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             {/* User Profile */}
-            <div className="p-4 border-b border-gray-600">
+            <div className="app-sidebar-divider p-4 border-b">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={NoProfilePic.src} alt="avatar usuario" />
@@ -114,38 +129,44 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {/* Navigation Menu */}
             <nav className="flex-1 py-4">
               <Link href={"/listarTrabajadores"}>
-                <div className="p-4 hover:bg-[#263037] cursor-pointer transition-colors border-l-4 border-transparent hover:border-blue-400">
+                <div className="app-sidebar-link p-4 cursor-pointer transition-colors border-l-4 border-transparent">
                   Listar Trabajadores
                 </div>
               </Link>
               <Link href={"/promedio"}>
-                <div className="p-4 hover:bg-[#263037] cursor-pointer transition-colors border-l-4 border-transparent hover:border-blue-400">
+                <div className="app-sidebar-link p-4 cursor-pointer transition-colors border-l-4 border-transparent">
                   Promedio Trabajadores
                 </div>
               </Link>
               <Link href={"/interruptos"}>
-                <div className="p-4 hover:bg-[#263037] cursor-pointer transition-colors border-l-4 border-transparent hover:border-blue-400">
+                <div className="app-sidebar-link p-4 cursor-pointer transition-colors border-l-4 border-transparent">
                   Trabajadores Interruptos
                 </div>
               </Link>
               <Link href={"/ausentismo"}>
-                <div className="p-4 hover:bg-[#263037] cursor-pointer transition-colors border-l-4 border-transparent hover:border-blue-400">
+                <div className="app-sidebar-link p-4 cursor-pointer transition-colors border-l-4 border-transparent">
                   Claves de Ausentismo
                 </div>
               </Link>
               <Link href={"/modelos"}>
-                <div className="p-4 hover:bg-[#263037] cursor-pointer transition-colors border-l-4 border-transparent hover:border-blue-400">
+                <div className="app-sidebar-link p-4 cursor-pointer transition-colors border-l-4 border-transparent">
                   Modelos
+                </div>
+              </Link>
+              <Link href={"/configuracion/interfaz-del-sistema"}>
+                <div className="app-sidebar-link flex items-center gap-2 p-4 cursor-pointer transition-colors border-l-4 border-transparent">
+                  <Settings className="h-4 w-4" />
+                  Configuracion
                 </div>
               </Link>
             </nav>
 
             {/* Logout */}
             {!AUTH_DISABLED_IN_DEV && (
-              <div className="p-4 border-t border-gray-600 mt-auto">
+              <div className="app-sidebar-divider p-4 border-t mt-auto">
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-white hover:bg-[#263037] hover:text-white transition-all duration-300"
+                  className="w-full justify-start text-white hover:bg-[var(--app-sidebar-hover)] hover:text-white transition-all duration-300"
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-4 w-4 mr-2" />

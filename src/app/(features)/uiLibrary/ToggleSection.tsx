@@ -24,7 +24,7 @@ export default function ToggleSection({
       <div className="rounded border border-gray-200 overflow-hidden">
         <button
           onClick={() => setExpanded(!expanded)}
-          className="w-full px-4 py-3 flex items-center justify-between bg-[#0a8ca8] text-white transition-colors hover:bg-[#08778f] focus:outline-none"
+          className="w-full px-4 py-3 flex items-center justify-between bg-[var(--app-primary-color)] text-white transition-colors hover:bg-[var(--app-primary-hover)] focus:outline-none"
         >
           <span className="font-semibold">{title}</span>
           {expanded ? (
@@ -44,10 +44,10 @@ export default function ToggleSection({
   }
 
   return (
-    <div className="bg-[#0a8ca8] rounded">
+    <div className="bg-[var(--app-primary-color)] rounded">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full px-4 py-3 flex items-center justify-between text-white transition-colors hover:bg-[#08778f]"
+        className="w-full px-4 py-3 flex items-center justify-between text-white transition-colors hover:bg-[var(--app-primary-hover)]"
       >
         <span className="font-medium">{title}</span>
         {expanded ? (
