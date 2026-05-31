@@ -15,12 +15,12 @@ interface SelectProps
 const BASE_CLASS_NAME =
   "w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
 
-export default function Select({
+const Select = ({
   options,
   children,
   className,
   ...props
-}: SelectProps) {
+}: SelectProps) => {
   const selectClassName = className
     ? `${BASE_CLASS_NAME} ${className}`
     : BASE_CLASS_NAME
@@ -37,3 +37,5 @@ export default function Select({
     </select>
   )
 }
+
+export default Select

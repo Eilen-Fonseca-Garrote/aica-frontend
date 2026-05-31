@@ -7,7 +7,7 @@ interface PromedioDiarioResultProps {
   promedio: PromedioDiario[];
 }
 
-const PromedioDiarioResult: React.FC<PromedioDiarioResultProps> = ({ promedio }) => {
+const PromedioDiarioResult = ({ promedio }: PromedioDiarioResultProps) => {
   const hasData = promedio.length > 0;
 
   return (

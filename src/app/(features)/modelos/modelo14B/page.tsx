@@ -11,7 +11,7 @@ const TEXT_ACTION_CLASS =
   "inline-flex h-10 items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
 const TEXT_ACTION_LABEL_CLASS = "text-sm font-semibold text-[#0a8ca8]"
 
-export default function Modelo14BPage() {
+const Modelo14BPage = () => {
   const [exportStatus, setExportStatus] = useState<ExportStatus>("idle")
 
   const handleDownloadModelo14B = async () => {
@@ -51,3 +51,5 @@ export default function Modelo14BPage() {
     </div>
   )
 }
+
+export default Modelo14BPage

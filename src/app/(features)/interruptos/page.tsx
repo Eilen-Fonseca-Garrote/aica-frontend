@@ -16,7 +16,7 @@ function getDefaultDate(): string {
   return `${year}-${month}`
 }
 
-export default function InterruptosPage() {
+const InterruptosPage = () => {
   const [ueb, setUeb] = useState('0')
   const [fecha, setFecha] = useState(getDefaultDate())
   const [loading, setLoading] = useState(false)
@@ -192,3 +192,5 @@ const transformToTableData = (result: InterruptosResponse, ueb: number): Interru
     </div>
   )
 }
+
+export default InterruptosPage

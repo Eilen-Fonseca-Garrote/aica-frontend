@@ -12,13 +12,13 @@ interface CustomDatePickerProps {
   className?: string;
 }
 
-export default function CustomDatePicker({
+const CustomDatePicker = ({
   value,
   onChange,
   pickerType = "day",
   placeholder = "Select date",
   className,
-}: CustomDatePickerProps) {
+}: CustomDatePickerProps) => {
   
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     value ? new Date(pickerType === "month" ? `${value}-01` : value) : null
@@ -67,3 +67,5 @@ export default function CustomDatePicker({
   />
 );
 }
+
+export default CustomDatePicker

@@ -6,7 +6,7 @@ import { useState } from "react"
 import ModeloRl4Actions from "./exportarExcelActions"
 import MonthPicker from "../../uiLibrary/MonthPicker"
 
-export default function ModeloRl4Form() {
+const ModeloRl4Form = () => {
   const [mesAnio, setMesAnio] = useState("2025-09")
   const [diasNoLaborables, setDiasNoLaborables] = useState("8")
 
@@ -36,3 +36,5 @@ export default function ModeloRl4Form() {
     </div>
   )
 }
+
+export default ModeloRl4Form

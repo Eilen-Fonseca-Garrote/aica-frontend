@@ -11,7 +11,7 @@ import {
   downloadTrabajadoresFisicosPdf,
 } from "@/app/lib/api/reportes"
 
-export default function ListarTrabajadoresActions() {
+const ListarTrabajadoresActions = () => {
   const [fecha, setFecha] = useState(
     new Date().toISOString().split("T")[0],
   )
@@ -164,3 +164,5 @@ export default function ListarTrabajadoresActions() {
     </div>
   )
 }
+
+export default ListarTrabajadoresActions

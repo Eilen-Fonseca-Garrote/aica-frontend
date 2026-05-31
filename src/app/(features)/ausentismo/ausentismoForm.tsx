@@ -19,7 +19,7 @@ interface AusentismoFormProps {
   onDownload: (e: React.MouseEvent<HTMLAnchorElement>, claves: string) => void;  // Cambiar para recibir claves
   loading?: boolean;
 }
-export default function AusentismoForm({
+const AusentismoForm = ({
   ueb,
   fecha,
   claves,
@@ -30,7 +30,7 @@ export default function AusentismoForm({
   onCalculate,
   onDownload,
   loading = false,
-}: AusentismoFormProps) {
+}: AusentismoFormProps) => {
   const [leftFilter, setLeftFilter] = useState("");
   const [rightFilter, setRightFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState<ClaveAusentismo[]>([]);
@@ -259,3 +259,5 @@ const validateInputFields = () => {
 );
 
 }
+
+export default AusentismoForm

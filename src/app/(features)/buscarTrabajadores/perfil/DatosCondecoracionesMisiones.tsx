@@ -7,9 +7,9 @@ interface WorkerAchievementsProps {
   misiones: TrabajadorMisionesCondecData
 }
 
-export default function WorkerAchievements({
+const WorkerAchievements = ({
   misiones,
-}: WorkerAchievementsProps) {
+}: WorkerAchievementsProps) => {
   return (
     <div className="space-y-4">
       {/* Condecoraciones */}
@@ -63,3 +63,4 @@ export default function WorkerAchievements({
   )
 }
 
+export default WorkerAchievements

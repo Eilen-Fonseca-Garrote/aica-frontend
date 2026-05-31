@@ -130,7 +130,7 @@ function loadHomeStatsOnce(referenceMonth: string) {
   return request
 }
 
-export default function Page() {
+const Page = () => {
   const referenceMonth = useMemo(() => getPreviousMonthDate(), [])
   const [stats, setStats] = useState<HomeStats | null>(null)
 
@@ -198,3 +198,4 @@ export default function Page() {
   )
 }
 
+export default Page

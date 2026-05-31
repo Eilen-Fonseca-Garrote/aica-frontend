@@ -21,7 +21,7 @@ interface Props {
   total: TotalData;
 }
 
-const PromedioMensualResult: React.FC<Props> = ({ title, promedio, total }) => {
+const PromedioMensualResult = ({ title, promedio, total }: Props) => {
   if (!promedio || promedio.length === 0) {
     return (
       <div className="text-center text-gray-500 italic p-4">

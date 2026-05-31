@@ -17,12 +17,12 @@ interface TableProps {
   emptyMessage?: string;
 }
 
-const Table: React.FC<TableProps> = ({
+const Table = ({
   headers,
   rows,
   footer,
   emptyMessage = 'Sin datos disponibles',
-}) => {
+}: TableProps) => {
   const hasData = rows.length > 0;
 
   return (

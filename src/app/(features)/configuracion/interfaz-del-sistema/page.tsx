@@ -56,7 +56,7 @@ function buildInitialForm(config: SystemInterfacePayload): FormState {
   }
 }
 
-export default function SystemInterfaceConfigurationPage() {
+const SystemInterfaceConfigurationPage = () => {
   const { config, loading, setConfig } = useSystemInterfaceConfig()
   const [form, setForm] = useState<FormState>(() => buildInitialForm(config))
   const [logoFile, setLogoFile] = useState<File | null>(null)
@@ -361,7 +361,7 @@ export default function SystemInterfaceConfigurationPage() {
   )
 }
 
-function ImageUploader({
+const ImageUploader = ({
   accept,
   description,
   imageClassName,
@@ -375,7 +375,7 @@ function ImageUploader({
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   preview: string
-}) {
+}) => {
   return (
     <label className="group block cursor-pointer rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 transition hover:border-[var(--app-primary-color)] hover:bg-white">
       <input accept={accept} className="sr-only" type="file" onChange={onChange} />
@@ -400,7 +400,7 @@ function ImageUploader({
   )
 }
 
-function ColorPicker({
+const ColorPicker = ({
   label,
   onChange,
   options,
@@ -410,7 +410,7 @@ function ColorPicker({
   onChange: (value: string) => void
   options: string[]
   value: string
-}) {
+}) => {
   const colorInputValue = /^#[0-9a-fA-F]{6}$/.test(value)
     ? value
     : DEFAULT_SYSTEM_INTERFACE_CONFIG.primaryColor
@@ -452,3 +452,5 @@ function ColorPicker({
     </div>
   )
 }
+
+export default SystemInterfaceConfigurationPage

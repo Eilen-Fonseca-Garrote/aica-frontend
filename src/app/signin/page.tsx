@@ -3,7 +3,7 @@
 import { signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 
-export default function SignInPage() {
+const SignInPage = () => {
   useEffect(() => {
     signIn('identity-server', { callbackUrl: '/' });
   }, []);
@@ -17,3 +17,5 @@ export default function SignInPage() {
     </div>
   );
 }
+
+export default SignInPage

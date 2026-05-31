@@ -1,9 +1,11 @@
 import ModeloRl4Form from "./exportarExcel"
 
-export default function ModeloRl4Page() {
+const ModeloRl4Page = () => {
   return (
       <div>
         <ModeloRl4Form />
       </div>
   )
 }
+
+export default ModeloRl4Page

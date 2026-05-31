@@ -8,10 +8,10 @@ interface PromedioMensualResultProps {
   total: TotalMensual;
 }
 
-const PromedioMensualResult: React.FC<PromedioMensualResultProps> = ({
+const PromedioMensualResult = ({
   promedio,
   total,
-}) => {
+}: PromedioMensualResultProps) => {
   const headers = [
     { key: 'Unidad', label: 'Dirección', className: 'text-left w-[40%]' },
     { key: 'HPromFisic', label: 'Físico' },

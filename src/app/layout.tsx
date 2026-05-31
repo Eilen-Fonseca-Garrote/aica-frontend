@@ -4,11 +4,11 @@ import { SessionProvider } from 'next-auth/react';
 import './globals.css';
 
 // Layout principal que envuelve con los providers necesarios
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   return (
     <html lang="es" className="bg-white">
       <body className="h-screen">
@@ -17,3 +17,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export default RootLayout

@@ -10,7 +10,7 @@ interface Props {
   promedio: PromedioDiario[];
 }
 
-const PromedioDiarioResult: React.FC<Props> = ({ promedio }) => {
+const PromedioDiarioResult = ({ promedio }: Props) => {
   if (!promedio || promedio.length === 0) {
     return (
       <div className="text-center text-gray-500 italic p-4">

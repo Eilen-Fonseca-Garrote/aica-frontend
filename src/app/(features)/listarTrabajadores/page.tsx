@@ -3,7 +3,7 @@ import Link from "next/link"
 import ListarTrabajadores from "./listarTrabajadores"
 import ToggleSection from "../uiLibrary/ToggleSection"
 
-export default function ListarTrabajadoresPage() {
+const ListarTrabajadoresPage = () => {
   return (
     
       <div className="min-h-full bg-gray-100 p-4">
@@ -35,3 +35,5 @@ export default function ListarTrabajadoresPage() {
 
   )
 }
+
+export default ListarTrabajadoresPage

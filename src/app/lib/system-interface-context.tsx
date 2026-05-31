@@ -77,7 +77,7 @@ function applyConfigToDocument(config: SystemInterfaceConfig) {
   updateFavicon(config.favicon)
 }
 
-export function SystemInterfaceProvider({ children }: { children: React.ReactNode }) {
+export const SystemInterfaceProvider = ({ children }: { children: React.ReactNode }) => {
   const [config, setInternalConfig] = useState<SystemInterfaceConfig>(
     DEFAULT_SYSTEM_INTERFACE_CONFIG
   )

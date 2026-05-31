@@ -17,7 +17,7 @@ interface PromedioDiarioFormProps {
   onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
-export default function PromedioDiarioForm({
+const PromedioDiarioForm = ({
   ueb,
   direccionFuncional,
   fecha,
@@ -27,7 +27,7 @@ export default function PromedioDiarioForm({
   onChangeFecha,
   onCalculate,
   onDownload,
-}: PromedioDiarioFormProps) {
+}: PromedioDiarioFormProps) => {
   const validateInputFields = () => {
     if (ueb === "0") {
       alert("Por favor, seleccione una UEB valida")
@@ -82,3 +82,5 @@ export default function PromedioDiarioForm({
     </div>
   )
 }
+
+export default PromedioDiarioForm

@@ -7,7 +7,7 @@ interface InterruptosResultProps {
   data: InterruptosTableRow[];
 }
 
-const InterruptosResult: React.FC<InterruptosResultProps> = ({ data }) => {
+const InterruptosResult = ({ data }: InterruptosResultProps) => {
   const headers = [
     { key: 'direccion', label: 'Dirección', className: 'text-left w-[30%]' },
     { key: 'covid', label: 'Interruptos por Covid' },

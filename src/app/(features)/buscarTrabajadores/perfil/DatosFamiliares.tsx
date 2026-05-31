@@ -8,7 +8,7 @@ interface DatosFamiliaresProps {
   familiarData: TrabajadorFamilyData
 }
 
-export default function DatosFamiliares({familiarData }: DatosFamiliaresProps) {
+const DatosFamiliares = ({familiarData }: DatosFamiliaresProps) => {
   
 
   const hasFamiliares =familiarData.parentesco
@@ -67,3 +67,5 @@ export default function DatosFamiliares({familiarData }: DatosFamiliaresProps) {
     </div>
   )
 }
+
+export default DatosFamiliares

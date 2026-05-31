@@ -12,14 +12,14 @@ interface InterruptosFormProps {
   onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export default function InterruptosForm({
+const InterruptosForm = ({
   ueb,
   fecha,
   onChangeUeb,
   onChangeFecha,
   onCalculate,
   onDownload,
-}: InterruptosFormProps) {
+}: InterruptosFormProps) => {
   const handleCalculate = () => {
     if (!validateInputFields()) return;
     onCalculate();
@@ -64,3 +64,5 @@ const validateInputFields = () => {
     </div>
   );
 }
+
+export default InterruptosForm

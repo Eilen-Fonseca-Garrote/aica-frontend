@@ -32,7 +32,7 @@ import {
 const TEXT_ACTION_CLASS =
   "inline-flex items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:text-gray-400 disabled:cursor-not-allowed"
 
-export default function BuscarTrabajador() {
+const BuscarTrabajador = () => {
   const [form, setForm] = useState({
     ueb: "",
     ci: "",
@@ -519,3 +519,5 @@ const mapWorkerAchievementsList = (
     </div>
   )
 }
+
+export default BuscarTrabajador

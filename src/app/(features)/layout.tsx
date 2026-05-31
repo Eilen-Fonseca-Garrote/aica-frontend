@@ -16,7 +16,7 @@ import {
   useSystemInterfaceConfig,
 } from "@/app/lib/system-interface-context";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SystemInterfaceProvider>
       <AuthenticatedLayout>{children}</AuthenticatedLayout>
@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
+const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
   const [collapsed, setCollapsed] = useState(false);
   const { data: session, status } = useSession();
   const { config } = useSystemInterfaceConfig();
@@ -205,3 +205,5 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+export default Layout

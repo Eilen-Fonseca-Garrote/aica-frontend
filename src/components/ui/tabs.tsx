@@ -13,7 +13,7 @@ interface TabsProps {
   defaultTab?: string
 }
 
-export const Tabs: React.FC<TabsProps> = ({ tabs, defaultTab }) => {
+export const Tabs = ({ tabs, defaultTab }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(defaultTab || tabs[0].id)
 
   return (

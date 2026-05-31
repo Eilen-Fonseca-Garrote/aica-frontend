@@ -11,12 +11,12 @@ interface ToggleSectionProps {
   children: ReactNode
 }
 
-export default function ToggleSection({
+const ToggleSection = ({
   title,
   variant = "filled",
   defaultExpanded = false,
   children,
-}: ToggleSectionProps) {
+}: ToggleSectionProps) => {
   const [expanded, setExpanded] = useState(defaultExpanded)
 
   if (variant === "minimal") {
@@ -65,3 +65,5 @@ export default function ToggleSection({
     </div>
   )
 }
+
+export default ToggleSection

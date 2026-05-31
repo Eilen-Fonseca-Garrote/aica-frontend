@@ -3,7 +3,7 @@ interface PromedioSectionProps {
   children: React.ReactNode;
 }
 
-export default function PromedioSection({ title, children }: PromedioSectionProps) {
+const PromedioSection = ({ title, children }: PromedioSectionProps) => {
   return (
     <div className="rounded-lg shadow-sm border border-gray-200">
       <div className="bg-[#0a8ca8] px-4 py-2 border-b border-[#08778f]">
@@ -13,3 +13,5 @@ export default function PromedioSection({ title, children }: PromedioSectionProp
     </div>
   );
 }
+
+export default PromedioSection

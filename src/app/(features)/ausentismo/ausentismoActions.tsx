@@ -9,11 +9,11 @@ interface AusentismoActionsProps {
   loading?: boolean;
 }
 
-export default function AusentismoActions({
+const AusentismoActions = ({
   onCalculate,
   onDownload,
   loading = false,
-}: AusentismoActionsProps) {
+}: AusentismoActionsProps) => {
   return (
     <div className="flex justify-between">
       <button type="button" onClick={onCalculate} disabled={loading} className={TEXT_ACTION_CLASS}>
@@ -33,3 +33,5 @@ export default function AusentismoActions({
     </div>
   );
 }
+
+export default AusentismoActions

@@ -6,7 +6,7 @@ import ModeloRl4Page from "./modeloRL4/page"
 
 
 
-export default function ModelosPage() {
+const ModelosPage = () => {
   return (
     <div className="grid grid-cols-1 gap-4 p-4 xl:grid-cols-2 items-start">
         <div className="h-full">
@@ -33,3 +33,5 @@ export default function ModelosPage() {
     </div>
   )
 }
+
+export default ModelosPage

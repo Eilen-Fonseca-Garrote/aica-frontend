@@ -8,7 +8,7 @@ interface Props {
   laborData: TrabajadorLaborData
 }
 
-export default function DatosLaborales({ laborData }: Props) {
+const DatosLaborales = ({ laborData }: Props) => {
 
   return (
     <div className="space-y-6">
@@ -104,7 +104,7 @@ export default function DatosLaborales({ laborData }: Props) {
 }
 
 /** Small helper to keep label/value layout consistent */
-function Info({ label, value }: { label: string; value: React.ReactNode }) {
+const Info = ({ label, value }: { label: string; value: React.ReactNode }) => {
   return (
     <div>
       <strong className="block text-gray-700">{label}</strong>
@@ -112,3 +112,5 @@ function Info({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   )
 }
+
+export default DatosLaborales

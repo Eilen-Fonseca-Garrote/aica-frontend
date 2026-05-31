@@ -13,7 +13,7 @@ interface ModeloRl4ActionsProps {
 const TEXT_ACTION_CLASS =
   "inline-flex h-10 items-center gap-2 text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:text-gray-400 disabled:cursor-not-allowed"
 
-export default function ModeloRl4Actions({ mesAnio, diasNoLaborables }: ModeloRl4ActionsProps) {
+const ModeloRl4Actions = ({ mesAnio, diasNoLaborables }: ModeloRl4ActionsProps) => {
   const [downloading, setDownloading] = useState(false);
   
   const handleExportarExcel = async () => {
@@ -41,3 +41,5 @@ export default function ModeloRl4Actions({ mesAnio, diasNoLaborables }: ModeloRl
     </div>
   )    
 }
+
+export default ModeloRl4Actions

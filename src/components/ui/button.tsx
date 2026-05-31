@@ -8,7 +8,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: ButtonSize;
 }
 
-export function Button({ variant = "default", size = "md", className = "", children, ...props }: ButtonProps) {
+export const Button = ({ variant = "default", size = "md", className = "", children, ...props }: ButtonProps) => {
   const base = "rounded transition inline-flex items-center justify-center";
 
   const variantClass =

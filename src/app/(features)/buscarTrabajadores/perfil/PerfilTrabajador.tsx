@@ -46,7 +46,7 @@ interface WorkerProfileProps {
   misiones?: TrabajadorMisionesCondecData | null
 }
 
-export default function WorkerProfile({
+const WorkerProfile = ({
   worker,
   imagenTrab,
   ueb,
@@ -54,7 +54,7 @@ export default function WorkerProfile({
   estudiosData,
   familiarData,
   misiones,
-}: WorkerProfileProps) {
+}: WorkerProfileProps) => {
   const photoCandidates = useMemo(
     () => buildPhotoCandidates(worker.ci, imagenTrab),
     [worker.ci, imagenTrab],
@@ -172,3 +172,5 @@ export default function WorkerProfile({
     </div>
   )
 }
+
+export default WorkerProfile

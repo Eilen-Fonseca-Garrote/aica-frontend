@@ -6,10 +6,10 @@ interface PromedioActionsProps {
   onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export default function PromedioActions({
+const PromedioActions = ({
   onCalculate,
   onDownload,
-}: PromedioActionsProps) {
+}: PromedioActionsProps) => {
   return (
     <div className="flex justify-between">
       <button type="button" onClick={onCalculate} className={TEXT_ACTION_CLASS}>
@@ -26,3 +26,5 @@ export default function PromedioActions({
     </div>
   );
 }
+
+export default PromedioActions

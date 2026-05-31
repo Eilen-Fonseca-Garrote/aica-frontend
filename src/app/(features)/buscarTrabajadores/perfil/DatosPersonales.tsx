@@ -7,7 +7,7 @@ interface DatosPersonalesProps {
   worker: TrabajadorPersonalData
 }
 
-export const DatosPersonales: React.FC<DatosPersonalesProps> = ({ worker }) => {
+export const DatosPersonales = ({ worker }: DatosPersonalesProps) => {
 
   const displayValue = (val?: string | number) =>
     val && val !== "" && val !== "0" ? val : "NO ESPECIFICADO"

@@ -737,7 +737,7 @@ const mapToTrabajadorMisionesData = (
   }))
 }
 
-export default function ListarTrabajadores() {
+const ListarTrabajadores = () => {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     filtrar: true,
     exportar: false,
@@ -1797,3 +1797,5 @@ export default function ListarTrabajadores() {
     </div>
   )
 }
+
+export default ListarTrabajadores

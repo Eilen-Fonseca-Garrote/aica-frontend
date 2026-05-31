@@ -14,7 +14,7 @@ import { downloadFile } from '@/app/lib/helpers'
 import ToggleSection from '../uiLibrary/ToggleSection'
 
 
-export default function PromedioPage() {
+const PromedioPage = () => {
   const [uebMensual, setUebMensual] = useState('0')
   const [fechaMensual, setFechaMensual] = useState('')
   const [uebDiario, setUebDiario] = useState('0')
@@ -177,3 +177,5 @@ export default function PromedioPage() {
     </div>
   )
 }
+
+export default PromedioPage

@@ -8,13 +8,13 @@ interface CardProps {
   contentClassName?: string;
 }
 
-const Card: React.FC<CardProps> = ({
+const Card = ({
   title,
   children,
   className = '',
   titleClassName = '',
   contentClassName = '',
-}) => (
+}: CardProps) => (
   <div className={`rounded-lg shadow-sm border border-gray-200 bg-white ${className}`}>
     {title && (
       <div

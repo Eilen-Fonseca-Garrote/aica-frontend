@@ -7,11 +7,11 @@ interface AusentismoResultProps {
   fecha: string;
 }
 
-const AusentismoResult: React.FC<AusentismoResultProps> = ({ 
+const AusentismoResult = ({ 
   data, 
   uebNombre, 
   fecha 
-}) => {
+}: AusentismoResultProps) => {
   const hasData = data.length > 0;
 
   return (

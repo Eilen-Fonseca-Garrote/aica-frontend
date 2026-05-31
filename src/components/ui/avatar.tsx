@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export function Avatar({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export const Avatar = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={`rounded-full overflow-hidden bg-gray-200 ${className}`} {...props}>
       {children}
@@ -13,12 +13,12 @@ interface AvatarImageProps extends React.ComponentProps<typeof Image> {
   className?: string;
 }
 
-export function AvatarImage({
+export const AvatarImage = ({
   src,
   alt = "Avatar",
   className = "",
   ...props
-}: AvatarImageProps) {
+}: AvatarImageProps) => {
   return (
     <div className={`relative w-full h-full ${className}`}>
       <Image
@@ -32,7 +32,7 @@ export function AvatarImage({
   );
 }
 
-export function AvatarFallback({ children, className = "", ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export const AvatarFallback = ({ children, className = "", ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={`flex items-center justify-center w-full h-full bg-gray-400 text-white ${className}`} {...props}>
       {children}

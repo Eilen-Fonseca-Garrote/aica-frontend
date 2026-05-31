@@ -8,7 +8,7 @@ interface DatosEstudiosProps {
   estudiosData: TrabajadorEstudiosData
 }
 
-export default function DatosEstudios({ estudiosData }: DatosEstudiosProps) {
+const DatosEstudios = ({ estudiosData }: DatosEstudiosProps) => {
   if (!estudiosData) {
     return <p>No hay datos de estudios disponibles.</p>
   }
@@ -84,3 +84,5 @@ export default function DatosEstudios({ estudiosData }: DatosEstudiosProps) {
     </div>
   )
 }
+
+export default DatosEstudios

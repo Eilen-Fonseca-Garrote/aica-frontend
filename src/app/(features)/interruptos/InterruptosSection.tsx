@@ -4,7 +4,7 @@ interface InterruptosSectionProps {
   children: React.ReactNode;
 }
 
-export default function InterruptosSection({ title, children }: InterruptosSectionProps) {
+const InterruptosSection = ({ title, children }: InterruptosSectionProps) => {
   return (
     <div className="rounded-lg shadow-sm border border-gray-200">
       <div className="bg-[#0a8ca8] px-4 py-2 border-b border-[#08778f]">
@@ -14,3 +14,5 @@ export default function InterruptosSection({ title, children }: InterruptosSecti
     </div>
   );
 }
+
+export default InterruptosSection

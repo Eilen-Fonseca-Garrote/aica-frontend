@@ -4,12 +4,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "danger" | "outline";
 }
 
-export default function Button({
+const Button = ({
   variant = "primary",
   className = "",
   children,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   const base =
     "px-4 py-2 rounded-lg font-medium transition focus:outline-none focus:ring-2";
   const variants = {
@@ -26,3 +26,5 @@ export default function Button({
     </button>
   );
 }
+
+export default Button

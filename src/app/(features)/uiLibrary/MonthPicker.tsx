@@ -35,12 +35,12 @@ function parseYYYYMM(value: string): { year: number; month: number } | null {
   return { year, month };
 }
 
-export default function CustomMonthPicker({
+const CustomMonthPicker = ({
   value,
   onChange,
   placeholder = "Seleccione mes y año",
   className,
-}: CustomMonthPickerProps) {
+}: CustomMonthPickerProps) => {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth(); // 0-indexed
@@ -285,3 +285,5 @@ export default function CustomMonthPicker({
     </div>
   );
 }
+
+export default CustomMonthPicker

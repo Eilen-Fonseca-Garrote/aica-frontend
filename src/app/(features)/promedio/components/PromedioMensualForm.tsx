@@ -13,14 +13,14 @@ interface PromedioMensualFormProps {
   onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
-export default function PromedioMensualForm({
+const PromedioMensualForm = ({
   ueb,
   fecha,
   onChangeUeb,
   onChangeFecha,
   onCalculate,
   onDownload,
-}: PromedioMensualFormProps) {
+}: PromedioMensualFormProps) => {
   const validateInputFields = () => {
     if (ueb === "0") {
       alert("Por favor, seleccione una UEB válida")
@@ -59,3 +59,5 @@ export default function PromedioMensualForm({
     </div>
   )
 }
+
+export default PromedioMensualForm

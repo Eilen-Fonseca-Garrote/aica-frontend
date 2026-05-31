@@ -7,10 +7,10 @@ interface InterruptosActionsProps {
   onDownload: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export default function InterruptosActions({
+const InterruptosActions = ({
   onCalculate,
   onDownload,
-}: InterruptosActionsProps) {
+}: InterruptosActionsProps) => {
   return (
     <div className="flex justify-between">
       <button type="button" onClick={onCalculate} className={TEXT_ACTION_CLASS}>
@@ -27,3 +27,5 @@ export default function InterruptosActions({
     </div>
   );
 }
+
+export default InterruptosActions

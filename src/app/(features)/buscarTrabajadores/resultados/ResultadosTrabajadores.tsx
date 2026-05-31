@@ -22,13 +22,13 @@ const textCollator = new Intl.Collator("es", {
   sensitivity: "base",
 })
 
-export default function SearchResultsTable({
+const SearchResultsTable = ({
   personalData,
   selectWorker,
   showLocationColumns = false,
   title = "Resultados de la Busqueda",
   pageSize = 10,
-}: SearchResultsTableProps) {
+}: SearchResultsTableProps) => {
   const [sortState, setSortState] = useState<{
     column: SortColumn
     direction: SortDirection
@@ -298,3 +298,5 @@ export default function SearchResultsTable({
     </div>
   )
 }
+
+export default SearchResultsTable

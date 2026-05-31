@@ -10,7 +10,7 @@ import { downloadFile } from '@/app/lib/helpers'
 import ToggleSection from '../uiLibrary/ToggleSection'
 import { getClavesAusentismo } from '@/app/lib/api/external_service'
 
-export default function AusentismoPage() {
+const AusentismoPage = () => {
   const [ueb, setUeb] = useState('16')
   const [fecha, setFecha] = useState('')
   const [data, setData] = useState<AusentismoItem[]>([])
@@ -202,3 +202,5 @@ const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, clavesPara
     </div>
   )
 }
+
+export default AusentismoPage
