@@ -15,6 +15,17 @@ import {
 import { getDireccionesPorUeb } from "@/app/lib/api/external_service"
 import SearchResultsTable from "../buscarTrabajadores/resultados/ResultadosTrabajadores"
 import WorkerProfile from "../buscarTrabajadores/perfil/PerfilTrabajador"
+import Select from "../uiLibrary/Select"
+import {
+  BLOOD_GROUP_OPTIONS_WITH_PLACEHOLDER,
+  DEFENSE_LOCATION_OPTIONS_WITH_PLACEHOLDER,
+  MASTER_DOCTOR_OPTIONS_WITH_PLACEHOLDER,
+  RACE_OPTIONS_WITH_PLACEHOLDER,
+  SEX_OPTIONS_WITH_PLACEHOLDER,
+  SHIRT_SIZE_OPTIONS_WITH_PLACEHOLDER,
+  SHOE_SIZE_OPTIONS_WITH_PLACEHOLDER,
+  UEB_OPTIONS,
+} from "@/app/lib/constants/selectOptions"
 import {
   buscarInformacionEstudiosPorCi,
   buscarInformacionFamiliarPorCi,
@@ -32,14 +43,6 @@ import {
   TrabajadorMisionesCondecData,
   TrabajadorPersonalData,
 } from "../buscarTrabajadores/types"
-
-const UEB_OPTIONS = [
-  { value: "16", label: "AICA" },
-  { value: "25", label: "LIORAD" },
-  { value: "100", label: "CITOX" },
-  { value: "55", label: "JULIO TRIGO" },
-  { value: "57", label: "SH+" },
-]
 
 type FilterFormState = {
   uebSelect: string
@@ -1336,22 +1339,17 @@ export default function ListarTrabajadores() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">UEB</label>
-                  <select
+                  <Select
                     name="uebSelect"
                     value={form.uebSelect}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    {UEB_OPTIONS.map((ueb) => (
-                      <option key={ueb.value} value={ueb.value}>
-                        {ueb.label}
-                      </option>
-                    ))}
-                  </select>
+                    options={UEB_OPTIONS}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Dirección</label>
-                  <select
+                  <Select
                     name="direccionFSelect"
                     value={form.direccionFSelect}
                     onChange={handleSelectOrInputChange}
@@ -1363,11 +1361,11 @@ export default function ListarTrabajadores() {
                         {direccion.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Área</label>
-                  <select
+                  <Select
                     name="areaSelect"
                     value={form.areaSelect}
                     onChange={handleSelectOrInputChange}
@@ -1380,14 +1378,14 @@ export default function ListarTrabajadores() {
                         {area.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Municipio</label>
-                  <select
+                  <Select
                     name="municipioSelect"
                     value={form.municipioSelect}
                     onChange={handleSelectOrInputChange}
@@ -1399,7 +1397,7 @@ export default function ListarTrabajadores() {
                         {municipio.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Reparto</label>
@@ -1414,16 +1412,13 @@ export default function ListarTrabajadores() {
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Sexo</label>
-                  <select
+                  <Select
                     name="sexoSelect"
                     value={form.sexoSelect}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="">Seleccionar Sexo...</option>
-                    <option value="F">Femenino</option>
-                    <option value="M">Masculino</option>
-                  </select>
+                    options={SEX_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
               </div>
 
@@ -1461,29 +1456,20 @@ export default function ListarTrabajadores() {
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Grupo Sanguíneo</label>
-                  <select
+                  <Select
                     name="grupoFactor"
                     value={form.grupoFactor}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="">Seleccionar Grupo...</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                  </select>
+                    options={BLOOD_GROUP_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Nivel Escolar</label>
-                  <select
+                  <Select
                     name="nescolar"
                     value={form.nescolar}
                     onChange={handleSelectOrInputChange}
@@ -1495,21 +1481,17 @@ export default function ListarTrabajadores() {
                         {nivel.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Raza</label>
-                  <select
+                  <Select
                     name="raza"
                     value={form.raza}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="">Seleccionar Raza...</option>
-                    <option value="Blanca">Blanca</option>
-                    <option value="Mestiza">Mestiza</option>
-                    <option value="Negra">Negra</option>
-                  </select>
+                    options={RACE_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Carrera</label>
@@ -1527,20 +1509,13 @@ export default function ListarTrabajadores() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Talla Camisa/Blusa</label>
-                  <select
+                  <Select
                     name="camisa"
                     value={form.camisa}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="">Seleccionar Talla...</option>
-                    <option value="XS">XS</option>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                    <option value="XL">XL</option>
-                    <option value="XXL">XXL</option>
-                  </select>
+                    options={SHIRT_SIZE_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Talla Pantalón</label>
@@ -1554,21 +1529,13 @@ export default function ListarTrabajadores() {
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Talla Zapato</label>
-                  <select
+                  <Select
                     name="zapato"
                     value={form.zapato}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="">Seleccionar Talla...</option>
-                    {["34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47"].map(
-                      (talla) => (
-                        <option key={talla} value={talla}>
-                          {talla}
-                        </option>
-                      ),
-                    )}
-                  </select>
+                    options={SHOE_SIZE_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
               </div>
 
@@ -1623,16 +1590,13 @@ export default function ListarTrabajadores() {
                 </label>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Master/Doctor</label>
-                  <select
+                  <Select
                     name="master"
                     value={form.master}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="">Seleccionar Opción...</option>
-                    <option value="Master">Master</option>
-                    <option value="Doctor">Doctor</option>
-                  </select>
+                    options={MASTER_DOCTOR_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
               </div>
 
@@ -1691,7 +1655,7 @@ export default function ListarTrabajadores() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Cargo</label>
-                  <select
+                  <Select
                     name="cargo"
                     value={form.cargo}
                     onChange={handleSelectOrInputChange}
@@ -1703,26 +1667,21 @@ export default function ListarTrabajadores() {
                         {cargo.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Ubicación en la Defensa</label>
-                  <select
+                  <Select
                     name="ubicDef"
                     value={form.ubicDef}
                     onChange={handleSelectOrInputChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="">Seleccionar Ubicación...</option>
-                    <option value="BPD">BPD</option>
-                    <option value="No Incorporado">No Incorporado</option>
-                    <option value="MTT">MTT</option>
-                    <option value="Unidad Militar">Unidad Militar</option>
-                  </select>
+                    options={DEFENSE_LOCATION_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Categoría Científica</label>
-                  <select
+                  <Select
                     name="cat_cient"
                     value={form.cat_cient}
                     onChange={handleSelectOrInputChange}
@@ -1734,14 +1693,14 @@ export default function ListarTrabajadores() {
                         {categoria.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1 font-bold">Sub Categoría Científica</label>
-                  <select
+                  <Select
                     name="sub_cat_cient"
                     value={form.sub_cat_cient}
                     onChange={handleSelectOrInputChange}
@@ -1754,7 +1713,7 @@ export default function ListarTrabajadores() {
                         {subCategoria.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
               </div>
 

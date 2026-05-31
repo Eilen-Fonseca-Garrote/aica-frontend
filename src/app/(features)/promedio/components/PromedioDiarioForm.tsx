@@ -3,6 +3,7 @@ import Select from "../../uiLibrary/Select"
 import PromedioActions from "./PromedioActions"
 import { Direccion } from "../types"
 import CustomDatePicker from "../../uiLibrary/DatePicker"
+import { UEB_OPTIONS_WITH_ALL } from "@/app/lib/constants/selectOptions"
 
 interface PromedioDiarioFormProps {
   ueb: string
@@ -27,22 +28,13 @@ export default function PromedioDiarioForm({
   onCalculate,
   onDownload,
 }: PromedioDiarioFormProps) {
-  const uebOptions = [
-    { label: "Todas las UEBs", value: "0" },
-    { label: "AICA", value: "16" },
-    { label: "LIORAD", value: "25" },
-    { label: "CITOX", value: "100" },
-    { label: "JULIO TRIGO", value: "55" },
-    { label: "SH+", value: "57" },
-  ]
-
   const validateInputFields = () => {
     if (ueb === "0") {
-      alert("Por favor, seleccione una UEB válida")
+      alert("Por favor, seleccione una UEB valida")
       return false
     }
     if (!direccionFuncional || direccionFuncional === "0") {
-      alert("Por favor, seleccione una Dirección Funcional válida")
+      alert("Por favor, seleccione una Direccion Funcional valida")
       return false
     }
     if (!fecha) {
@@ -65,18 +57,18 @@ export default function PromedioDiarioForm({
   return (
     <div className="p-4 space-y-4">
       <div className="grid grid-cols-3 gap-4">
-        <Select value={ueb} onChange={(e) => onChangeUeb(e.target.value)} options={uebOptions} />
+        <Select value={ueb} onChange={(e) => onChangeUeb(e.target.value)} options={UEB_OPTIONS_WITH_ALL} />
         <Select
           value={direccionFuncional}
           onChange={(e) => onChangeDireccion(e.target.value)}
-          options={[
-            { label: "Seleccionar Dirección...", value: "0" },
-            ...Object.values(addresses).map((d) => ({
-              label: d.Unidad.trim(),
-              value: d.Area["0"].EstNV1.toString(),
-            })),
-          ]}
-        />
+        >
+          <option value="0">Seleccionar Dirección...</option>
+          {Object.values(addresses).map((d) => (
+            <option key={d.Area["0"].EstNV1.toString()} value={d.Area["0"].EstNV1.toString()}>
+              {d.Unidad.trim()}
+            </option>
+          ))}
+        </Select>
         <CustomDatePicker
           value={fecha}
           onChange={onChangeFecha}

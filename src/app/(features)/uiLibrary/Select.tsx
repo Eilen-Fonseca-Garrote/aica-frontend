@@ -1,28 +1,39 @@
-import { ChangeEvent } from "react";
+import type { ReactNode, SelectHTMLAttributes } from "react"
 
 interface Option {
-  label: string;
-  value: string;
+  label: string
+  value: string
+  disabled?: boolean
 }
 
-interface SelectProps {
-  value: string;
-  options: Option[];
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+interface SelectProps
+  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
+  options?: ReadonlyArray<Option>
+  children?: ReactNode
 }
 
-export default function Select({ value, options, onChange }: SelectProps) {
+const BASE_CLASS_NAME =
+  "w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
+
+export default function Select({
+  options,
+  children,
+  className,
+  ...props
+}: SelectProps) {
+  const selectClassName = className
+    ? `${BASE_CLASS_NAME} ${className}`
+    : BASE_CLASS_NAME
+
   return (
-    <select
-      className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 text-black"
-      value={value}
-      onChange={onChange}
-    >
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
+    <select className={selectClassName} {...props}>
+      {options
+        ? options.map((opt) => (
+            <option key={opt.value} value={opt.value} disabled={opt.disabled}>
+              {opt.label}
+            </option>
+          ))
+        : children}
     </select>
-  );
+  )
 }

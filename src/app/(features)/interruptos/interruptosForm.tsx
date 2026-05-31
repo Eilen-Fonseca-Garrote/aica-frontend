@@ -1,6 +1,7 @@
 import Select from "../uiLibrary/Select";
 import CustomMonthPicker from "../uiLibrary/MonthPicker";
 import InterruptosActions from "@/app/(features)/interruptos/interruptosActions";
+import { UEB_OPTIONS_WITH_ALL } from "@/app/lib/constants/selectOptions";
 
 interface InterruptosFormProps {
   ueb: string;
@@ -19,15 +20,6 @@ export default function InterruptosForm({
   onCalculate,
   onDownload,
 }: InterruptosFormProps) {
-  const uebOptions = [
-    { label: "Todas las UEBs", value: "0" },
-    { label: "AICA", value: "16" },
-    { label: "LIORAD", value: "25" },
-    { label: "CITOX", value: "100" },
-    { label: "JULIO TRIGO", value: "55" },
-    { label: "SH+", value: "57" },
-  ];
-
   const handleCalculate = () => {
     if (!validateInputFields()) return;
     onCalculate();
@@ -58,7 +50,7 @@ const validateInputFields = () => {
         <Select
           value={ueb}
           onChange={(e) => onChangeUeb(e.target.value)}
-          options={uebOptions}
+          options={UEB_OPTIONS_WITH_ALL}
         />
         <CustomMonthPicker
           value={fecha}

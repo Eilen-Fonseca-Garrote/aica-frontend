@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import Card from "@/app/(features)/uiLibrary/Card"
+import Select from "@/app/(features)/uiLibrary/Select"
+import { UEB_OPTIONS_WITH_PLACEHOLDER } from "@/app/lib/constants/selectOptions"
 import { Search } from "lucide-react"
 import ToggleSection from "../uiLibrary/ToggleSection"
 import SearchResultsTable from "./resultados/ResultadosTrabajadores"
@@ -368,19 +370,13 @@ const mapWorkerAchievementsList = (
               {/* UEB, CI, Nombre */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
-                  <select
+                  <Select
                     name="ueb"
                     value={form.ueb}
                     onChange={handleChange}
                     className="w-full border rounded p-2"
-                  >
-                    <option value="">Seleccionar UEB...</option>
-                    <option value="16">AICA</option>
-                    <option value="25">LIORAD</option>
-                    <option value="100">CITOX</option>
-                    <option value="55">JULIO TRIGO</option>
-                    <option value="57">SH+</option>
-                  </select>
+                    options={UEB_OPTIONS_WITH_PLACEHOLDER}
+                  />
                 </div>
 
                 <input

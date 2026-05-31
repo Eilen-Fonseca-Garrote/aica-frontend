@@ -5,6 +5,7 @@ import AusentismoActions from "./ausentismoActions";
 import { useState, useMemo, useEffect } from "react"
 import { ClaveAusentismo } from "./types";
 import MonthPicker from "../uiLibrary/MonthPicker";
+import { UEB_OPTIONS_WITH_ALL } from "@/app/lib/constants/selectOptions";
 
 interface AusentismoFormProps {
   ueb: string;
@@ -30,15 +31,6 @@ export default function AusentismoForm({
   onDownload,
   loading = false,
 }: AusentismoFormProps) {
-  const uebOptions = [
-    { label: "Todas las UEBs", value: "0" },
-    { label: "AICA", value: "16" },
-    { label: "LIORAD", value: "25" },
-    { label: "CITOX", value: "100" },
-    { label: "JULIO TRIGO", value: "55" },
-    { label: "SH+", value: "57" },
-  ];
-
   const [leftFilter, setLeftFilter] = useState("");
   const [rightFilter, setRightFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState<ClaveAusentismo[]>([]);
@@ -138,7 +130,7 @@ const validateInputFields = () => {
         <Select
           value={ueb}
           onChange={(e) => onChangeUeb(e.target.value)}
-          options={uebOptions}
+          options={UEB_OPTIONS_WITH_ALL}
         />
 
         <MonthPicker value={fecha} onChange={onChangeFecha} />
@@ -172,9 +164,9 @@ const validateInputFields = () => {
                 &gt;&gt;
               </button>
             </div>
-            <select
+            <Select
               multiple
-              className="w-full h-32 px-2 py-1 text-sm focus:outline-none"
+              className="w-full h-32 px-2 py-1 text-sm focus:outline-none border-0 rounded-none focus:ring-0"
               size={5}
               title="Elementos disponibles filtrados"
             >
@@ -188,7 +180,7 @@ const validateInputFields = () => {
                   {item.ClvDesc}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         </div>
 
@@ -214,9 +206,9 @@ const validateInputFields = () => {
                 &lt;&lt;
               </button>
             </div>
-            <select
+            <Select
               multiple
-              className="w-full h-32 px-2 py-1 text-sm focus:outline-none"
+              className="w-full h-32 px-2 py-1 text-sm focus:outline-none border-0 rounded-none focus:ring-0"
               size={5}
               title="Elementos seleccionados filtrados"
             >
@@ -230,7 +222,7 @@ const validateInputFields = () => {
                   {item.ClvDesc}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         </div>
       </div>
