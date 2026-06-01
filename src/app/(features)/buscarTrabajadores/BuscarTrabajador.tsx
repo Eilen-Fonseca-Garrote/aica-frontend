@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import Card from "@/app/(features)/uiLibrary/Card"
-import Select from "@/app/(features)/uiLibrary/Select"
+import Card from "@/components/ui/Card"
+import Select from "@/components/ui/Select"
 import { UEB_OPTIONS_WITH_PLACEHOLDER } from "@/app/lib/constants/selectOptions"
 import { Search } from "lucide-react"
-import ToggleSection from "../uiLibrary/ToggleSection"
+import ToggleSection from "@/components/ui/ToggleSection"
 import SearchResultsTable from "./resultados/ResultadosTrabajadores"
 import WorkerProfile from "./perfil/PerfilTrabajador"
 import {

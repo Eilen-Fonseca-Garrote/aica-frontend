@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from '../uiLibrary/Card';
-import Table from '../uiLibrary/Table';
+import Card from '@/components/ui/Card';
+import Table from '@/components/ui/Table';
 import { InterruptosTableRow } from './types';
 
 interface InterruptosResultProps {

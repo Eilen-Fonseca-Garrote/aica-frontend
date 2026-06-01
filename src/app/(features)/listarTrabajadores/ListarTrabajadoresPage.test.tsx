@@ -33,7 +33,7 @@ jest.mock('next/link', () => {
 })
 
 // Mock simplificado para ToggleSection
-jest.mock('../uiLibrary/ToggleSection', () => ({
+jest.mock('@/components/ui/ToggleSection', () => ({
   __esModule: true,
   default: function MockToggleSection({ 
     children, 

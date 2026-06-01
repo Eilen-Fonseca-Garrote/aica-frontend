@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import Card from "@/app/(features)/uiLibrary/Card"
-import { Tabs } from "@/components/ui/tabs"
+import Card from "@/components/ui/Card"
+import { Tabs } from "@/components/ui/Tabs"
 import { TrabajadorEstudiosData, TrabajadorFamilyData, TrabajadorLaborData, TrabajadorMisionesCondecData, TrabajadorPersonalData } from "../types"
 import { DatosPersonales } from "./DatosPersonales"
 import DatosFamiliares from "./DatosFamiliares"

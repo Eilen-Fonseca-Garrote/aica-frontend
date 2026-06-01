@@ -1,5 +1,5 @@
-import Select from "../uiLibrary/Select";
-import CustomMonthPicker from "../uiLibrary/MonthPicker";
+import Select from "@/components/ui/Select";
+import CustomMonthPicker from "@/components/ui/MonthPicker";
 import InterruptosActions from "@/app/(features)/interruptos/interruptosActions";
 import { UEB_OPTIONS_WITH_ALL } from "@/app/lib/constants/selectOptions";
 

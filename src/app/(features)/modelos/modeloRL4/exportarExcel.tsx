@@ -4,7 +4,7 @@
 
 import { useState } from "react"
 import ModeloRl4Actions from "./exportarExcelActions"
-import MonthPicker from "../../uiLibrary/MonthPicker"
+import MonthPicker from "@/components/ui/MonthPicker"
 
 const ModeloRl4Form = () => {
   const [mesAnio, setMesAnio] = useState("2025-09")

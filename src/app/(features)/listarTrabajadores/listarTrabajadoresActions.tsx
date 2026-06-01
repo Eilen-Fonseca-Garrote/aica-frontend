@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
-import CustomDatePicker from "../uiLibrary/DatePicker"
+import CustomDatePicker from "@/components/ui/DatePicker"
 import { FileSpreadsheet, FileText } from "lucide-react"
 import {
   downloadAllWorkersXls,

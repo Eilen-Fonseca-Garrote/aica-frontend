@@ -1,6 +1,6 @@
 'use client'
 
-import ToggleSection from "../uiLibrary/ToggleSection"
+import ToggleSection from "@/components/ui/ToggleSection"
 import Modelo14BPage from "./modelo14B/page"
 import ModeloRl4Page from "./modeloRL4/page"
 

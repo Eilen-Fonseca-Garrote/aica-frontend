@@ -11,7 +11,7 @@ import { PromedioMensual, TotalMensual, Direccion } from './types'
 import { getPromedioDiario, getPromedioMensual, downloadPromedioDiarioPdf, downloadPromedioMensualPdf } from '@/app/lib/api/promedio'
 import { getDireccionesPorUeb } from '@/app/lib/api/external_service'
 import { downloadFile } from '@/app/lib/helpers'
-import ToggleSection from '../uiLibrary/ToggleSection'
+import ToggleSection from '@/components/ui/ToggleSection'
 
 
 const PromedioPage = () => {

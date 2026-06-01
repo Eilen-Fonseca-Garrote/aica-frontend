@@ -1,6 +1,6 @@
 "use client"
 
-import ToggleSection from "../../uiLibrary/ToggleSection"
+import ToggleSection from "@/components/ui/ToggleSection"
 import { TrabajadorMisionesCondecData } from "../types"
 
 interface WorkerAchievementsProps {

@@ -1,7 +1,7 @@
-import Select from "../../uiLibrary/Select"
+import Select from "@/components/ui/Select"
 import PromedioActions from "./PromedioActions"
 import "react-datepicker/dist/react-datepicker.css"
-import CustomMonthPicker from "../../uiLibrary/MonthPicker"
+import CustomMonthPicker from "@/components/ui/MonthPicker"
 import { UEB_OPTIONS_WITH_ALL } from "@/app/lib/constants/selectOptions"
 
 interface PromedioMensualFormProps {

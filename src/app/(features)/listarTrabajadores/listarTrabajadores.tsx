@@ -15,7 +15,7 @@ import {
 import { getDireccionesPorUeb } from "@/app/lib/api/external_service"
 import SearchResultsTable from "../buscarTrabajadores/resultados/ResultadosTrabajadores"
 import WorkerProfile from "../buscarTrabajadores/perfil/PerfilTrabajador"
-import Select from "../uiLibrary/Select"
+import Select from "@/components/ui/Select"
 import {
   BLOOD_GROUP_OPTIONS_WITH_PLACEHOLDER,
   DEFENSE_LOCATION_OPTIONS_WITH_PLACEHOLDER,

@@ -3,8 +3,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { signOut, useSession } from "next-auth/react";
 import { useMemo, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import Button from "@/components/ui/Button";
 import { LogOut, Menu, Settings } from "lucide-react";
 import NoProfilePic from "public/img/nofoto.jpg";
 import Link from "next/link";

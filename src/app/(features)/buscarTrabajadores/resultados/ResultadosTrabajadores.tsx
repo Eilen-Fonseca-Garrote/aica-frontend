@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import Card from "@/app/(features)/uiLibrary/Card"
+import Card from "@/components/ui/Card"
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, X } from "lucide-react"
 import { TrabajadorPersonalData } from "../types"
 

@@ -11,7 +11,7 @@ jest.mock('@/app/lib/api/interruptos');
 jest.mock('@/app/lib/helpers');
 
 // Mock de ToggleSection para simplificar pruebas
-jest.mock('../uiLibrary/ToggleSection', () => ({
+jest.mock('@/components/ui/ToggleSection', () => ({
   __esModule: true,
   default: ({ children, title }: { children: React.ReactNode; title: string }) => (
     <div data-testid="toggle-section">

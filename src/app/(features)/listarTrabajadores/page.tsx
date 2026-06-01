@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import ListarTrabajadores from "./listarTrabajadores"
-import ToggleSection from "../uiLibrary/ToggleSection"
+import ToggleSection from "@/components/ui/ToggleSection"
 
 const ListarTrabajadoresPage = () => {
   return (

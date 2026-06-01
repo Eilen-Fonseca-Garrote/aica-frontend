@@ -1,6 +1,6 @@
 "use client"
 
-import Card from "@/app/(features)/uiLibrary/Card"
+import Card from "@/components/ui/Card"
 import { TrabajadorEstudiosData } from "../types"
 
 

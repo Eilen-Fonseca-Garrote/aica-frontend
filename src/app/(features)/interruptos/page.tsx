@@ -7,7 +7,7 @@ import InterruptosResult from './interrruptosResult'
 import { InterruptosResponse, InterruptosTableRow } from './types'
 import { getInterruptos, downloadInterruptosPdf } from '@/app/lib/api/interruptos'
 import { downloadFile } from '@/app/lib/helpers'
-import ToggleSection from '../uiLibrary/ToggleSection'
+import ToggleSection from '@/components/ui/ToggleSection'
 
 function getDefaultDate(): string {
   const now = new Date()

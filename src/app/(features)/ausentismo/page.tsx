@@ -7,7 +7,7 @@ import AusentismoResult from '@/app/(features)/ausentismo/ausentismoResult'
 import { ClaveAusentismo, AusentismoItem } from './types'
 import { getAusencias, downloadAusenciasPdf } from '@/app/lib/api/ausentismo'
 import { downloadFile } from '@/app/lib/helpers'
-import ToggleSection from '../uiLibrary/ToggleSection'
+import ToggleSection from '@/components/ui/ToggleSection'
 import { getClavesAusentismo } from '@/app/lib/api/external_service'
 
 const AusentismoPage = () => {

@@ -1,10 +1,10 @@
 "use client"
 
-import Select from "@/app/(features)/uiLibrary/Select";
+import Select from "@/components/ui/Select";
 import AusentismoActions from "./ausentismoActions";
 import { useState, useMemo, useEffect } from "react"
 import { ClaveAusentismo } from "./types";
-import MonthPicker from "../uiLibrary/MonthPicker";
+import MonthPicker from "@/components/ui/MonthPicker";
 import { UEB_OPTIONS_WITH_ALL } from "@/app/lib/constants/selectOptions";
 
 interface AusentismoFormProps {

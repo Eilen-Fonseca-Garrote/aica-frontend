@@ -1,6 +1,6 @@
 "use client"
 
-import ToggleSection from "../../uiLibrary/ToggleSection"
+import ToggleSection from "@/components/ui/ToggleSection"
 import { TrabajadorPersonalData } from "../types"
 
 interface DatosPersonalesProps {
