@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { PromedioDiario } from '../types';
+import { PromedioDiario } from './types';
 
 
 interface PromedioDiarioResultProps {

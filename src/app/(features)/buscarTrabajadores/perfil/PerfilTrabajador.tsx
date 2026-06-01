@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Card from "@/components/ui/Card"
-import { Tabs } from "@/components/ui/Tabs"
+import { Tabs } from "@/components/ui/tabs"
 import { TrabajadorEstudiosData, TrabajadorFamilyData, TrabajadorLaborData, TrabajadorMisionesCondecData, TrabajadorPersonalData } from "../types"
 import { DatosPersonales } from "./DatosPersonales"
 import DatosFamiliares from "./DatosFamiliares"

@@ -1,7 +1,7 @@
 import "react-datepicker/dist/react-datepicker.css"
 import Select from "@/components/ui/Select"
 import PromedioActions from "./PromedioActions"
-import { Direccion } from "../types"
+import { Direccion } from "./types"
 import CustomDatePicker from "@/components/ui/DatePicker"
 import { UEB_OPTIONS_WITH_ALL } from "@/app/lib/constants/selectOptions"
 
