@@ -56,7 +56,10 @@ const nextAuth = NextAuth({
         '/oauth2/token/.well-known/openid-configuration',
       authorization: {
         params: {
-          scope: 'openid profile email groups',
+          grant_type: 'authorization_code',
+          response_type: 'code',
+          prompt: 'login',
+          //scope: 'openid profile email groups',
         },
       },
       profile(profile: WSO2Profile): CustomUser {
