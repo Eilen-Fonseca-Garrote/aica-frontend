@@ -7,7 +7,7 @@ import ModeloRl4Actions from "./exportarExcelActions"
 import MonthPicker from "@/components/ui/MonthPicker"
 
 const ModeloRl4Form = () => {
-  const [mesAnio, setMesAnio] = useState("2025-09")
+  const [mesAnio, setMesAnio] = useState("2026-06")
   const [diasNoLaborables, setDiasNoLaborables] = useState("8")
 
   return (
