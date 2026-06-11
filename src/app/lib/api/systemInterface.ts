@@ -55,7 +55,7 @@ export async function fetchSystemInterfaceConfig() {
 
     return normalizeSystemInterfaceConfig(data)
   } catch (error) {
-    console.error("No se pudo cargar la configuracion de interfaz:", error)
+    console.error("No se pudo cargar la configuración de interfaz:", error)
     return DEFAULT_SYSTEM_INTERFACE_CONFIG
   }
 }
