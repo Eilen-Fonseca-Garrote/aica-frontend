@@ -12,7 +12,7 @@ const ModeloRl4Form = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="mb-32 grid grid-cols-1 gap-32 md:grid-cols-2">
         <div>
           <label className="block text-sm font-medium text-[#0a8ca8] mb-2">Mes y Año</label>
           <MonthPicker value={mesAnio} onChange={setMesAnio} />

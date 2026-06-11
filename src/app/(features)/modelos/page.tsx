@@ -8,7 +8,7 @@ import ModeloRl4Page from "./modeloRL4/page"
 
 const ModelosPage = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 p-4 xl:grid-cols-2 items-start">
+    <div className="grid grid-cols-1 gap-4 p-4 xl:grid-cols-1 items-start">
         <div className="h-full">
             <ToggleSection
             title="Modelo de Ausentismo RL4"
