@@ -249,7 +249,7 @@ const SystemInterfaceConfigurationPage = () => {
                   className="rounded-lg px-3 py-2 font-medium"
                   style={{ backgroundColor: previewConfig.primaryColor }}
                 >
-                  Opcion activa
+                  Opción activa
                 </div>
               </div>
             </div>
