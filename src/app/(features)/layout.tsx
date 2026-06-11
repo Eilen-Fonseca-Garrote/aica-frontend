@@ -192,7 +192,7 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="flex items-center space-x-4">
               {AUTH_DISABLED_IN_DEV && (
                 <span className="text-sm text-amber-700 bg-amber-100 px-2 py-1 rounded">
-                  Desarrollo sin autenticacion
+                  Desarrollo sin autenticación
                 </span>
               )}
             </div>
