@@ -156,7 +156,7 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href={"/configuracion/interfaz-del-sistema"}>
                 <div className="app-sidebar-link flex items-center gap-2 p-4 cursor-pointer transition-colors border-l-4 border-transparent">
                   <Settings className="h-4 w-4" />
-                  Configuracion
+                  Configuración
                 </div>
               </Link>
             </nav>
