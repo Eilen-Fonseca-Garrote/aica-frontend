@@ -55,7 +55,7 @@ const PromedioDiarioForm = ({
   }
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-6 space-y-6">
       <div className="grid grid-cols-3 gap-4">
         <Select value={ueb} onChange={(e) => onChangeUeb(e.target.value)} options={UEB_OPTIONS_WITH_ALL} />
         <Select
