@@ -218,7 +218,7 @@ const SystemInterfaceConfigurationPage = () => {
           <div className="grid gap-6 p-6 md:grid-cols-[1.1fr_0.9fr] md:p-8">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[var(--app-primary-color)]">
-                Configuracion
+                Configuración
               </p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950">
                 Interfaz del sistema
