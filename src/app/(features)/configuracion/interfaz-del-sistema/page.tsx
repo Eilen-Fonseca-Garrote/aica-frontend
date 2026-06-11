@@ -168,10 +168,10 @@ const SystemInterfaceConfigurationPage = () => {
       setConfig(restored)
       setLogoFile(null)
       setFaviconFile(null)
-      setStatus({ type: "success", text: "Configuracion restaurada." })
+      setStatus({ type: "success", text: "Configuración restaurada." })
     } catch (error) {
-      console.error("No se pudo restaurar la configuracion:", error)
-      setStatus({ type: "error", text: "No se pudo restaurar la configuracion." })
+      console.error("No se pudo restaurar la configuración:", error)
+      setStatus({ type: "error", text: "No se pudo restaurar la configuración." })
     } finally {
       setSaving(false)
     }
@@ -180,7 +180,7 @@ const SystemInterfaceConfigurationPage = () => {
   const handleSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setSaving(true)
-    setStatus({ type: "info", text: "Guardando configuracion..." })
+    setStatus({ type: "info", text: "Guardando configuración..." })
 
     try {
       const [logo, favicon] = await Promise.all([
@@ -202,10 +202,10 @@ const SystemInterfaceConfigurationPage = () => {
       setConfig(saved)
       setLogoFile(null)
       setFaviconFile(null)
-      setStatus({ type: "success", text: "Configuracion guardada." })
+      setStatus({ type: "success", text: "Configuración guardada." })
     } catch (error) {
-      console.error("No se pudo guardar la configuracion:", error)
-      setStatus({ type: "error", text: "No se pudo guardar la configuracion." })
+      console.error("No se pudo guardar la configuración:", error)
+      setStatus({ type: "error", text: "No se pudo guardar la configuración." })
     } finally {
       setSaving(false)
     }
@@ -225,7 +225,7 @@ const SystemInterfaceConfigurationPage = () => {
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
                 Ajusta los colores principales y los recursos visuales que se
-                usan en la navegacion del sistema.
+                usan en la navegación del sistema.
               </p>
             </div>
 
@@ -352,7 +352,7 @@ const SystemInterfaceConfigurationPage = () => {
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--app-primary-color)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--app-primary-hover)] disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               <Save className="h-4 w-4" />
-              {saving ? "Guardando..." : "Guardar configuracion"}
+              {saving ? "Guardando..." : "Guardar configuración"}
             </button>
           </div>
         </section>
