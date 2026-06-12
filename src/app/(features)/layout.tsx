@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
 import { signOut, useSession } from "next-auth/react";
 import { useMemo, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
@@ -170,7 +169,7 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-4 w-4 mr-2" />
-                  <span className="whitespace-nowrap">Cerrar sesion</span>
+                  <span className="whitespace-nowrap">Cerrar sesión</span>
                 </Button>
               </div>
             )}
