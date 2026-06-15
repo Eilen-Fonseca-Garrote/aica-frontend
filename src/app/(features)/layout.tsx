@@ -168,7 +168,7 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
                   className="w-full justify-start text-white hover:bg-[var(--app-sidebar-hover)] hover:text-white transition-all duration-300"
                   onClick={handleSignOut}
                 >
-                  <LogOut className="h-2 w-2 mr-2" />
+                  <LogOut className="h-4 w-4 mr-1" />
                   <span className="whitespace-nowrap">Cerrar sesión</span>
                 </Button>
               </div>
