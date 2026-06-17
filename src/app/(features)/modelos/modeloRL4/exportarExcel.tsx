@@ -1,7 +1,5 @@
 "use client"
 
-"use client"
-
 import { useState } from "react"
 import ModeloRl4Actions from "./exportarExcelActions"
 import MonthPicker from "@/components/ui/MonthPicker"
@@ -9,6 +7,17 @@ import MonthPicker from "@/components/ui/MonthPicker"
 const ModeloRl4Form = () => {
   const [mesAnio, setMesAnio] = useState("2026-06")
   const [diasNoLaborables, setDiasNoLaborables] = useState("8")
+  const [exportStatus, setExportStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState<string>("")
+
+  const handleExportStatusChange = (status: "idle" | "loading" | "success" | "error", error?: string) => {
+    setExportStatus(status)
+    if (error) {
+      setErrorMessage(error)
+    } else {
+      setErrorMessage("")
+    }
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
@@ -32,7 +41,13 @@ const ModeloRl4Form = () => {
         </div>
       </div>
 
-      <ModeloRl4Actions mesAnio={mesAnio} diasNoLaborables={diasNoLaborables} />
+      <ModeloRl4Actions 
+        mesAnio={mesAnio} 
+        diasNoLaborables={diasNoLaborables}
+        onExportStatusChange={handleExportStatusChange}
+        exportStatus={exportStatus}
+        errorMessage={errorMessage}
+      />
     </div>
   )
 }
