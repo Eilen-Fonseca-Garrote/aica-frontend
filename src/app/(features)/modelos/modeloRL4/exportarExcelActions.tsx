@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { downloadFile } from "@/app/lib/helpers"
 import { downloadModeloRL4Xls } from "@/app/lib/api/reportes"
 import { FileSpreadsheet, Loader2, AlertCircle, CheckCircle } from "lucide-react"
@@ -11,6 +10,7 @@ interface ModeloRl4ActionsProps {
   onExportStatusChange?: (status: "idle" | "loading" | "success" | "error", error?: string) => void
   exportStatus?: "idle" | "loading" | "success" | "error"
   errorMessage?: string
+  isFormValid?: boolean
 }
 
 const TEXT_ACTION_CLASS =
@@ -21,15 +21,16 @@ const ModeloRl4Actions = ({
   diasNoLaborables,
   onExportStatusChange,
   exportStatus = "idle",
-  errorMessage = ""
+  errorMessage = "",
+  isFormValid = true
 }: ModeloRl4ActionsProps) => {
-  const [internalDownloading, setInternalDownloading] = useState(false);
   
-  // Usar el estado externo si está disponible, sino usar el interno
-  const downloading = exportStatus === "loading" || internalDownloading;
+  const downloading = exportStatus === "loading";
+  const isDisabled = downloading || !isFormValid;
   
   const handleExportarExcel = async () => {
-    setInternalDownloading(true);
+    if (!isFormValid) return;
+    
     onExportStatusChange?.("loading");
     
     try {
@@ -37,17 +38,14 @@ const ModeloRl4Actions = ({
       await downloadFile(file, 'modeloRL4.xlsx');
       onExportStatusChange?.("success");
       
-      // Resetear el estado después de 3 segundos
       setTimeout(() => {
         onExportStatusChange?.("idle");
-        setInternalDownloading(false);
       }, 3000);
       
     } catch (error) {
       console.error("Error al exportar Modelo RL4:", error);
       const errorMsg = error instanceof Error ? error.message : "Error al exportar el archivo";
       onExportStatusChange?.("error", errorMsg);
-      setInternalDownloading(false);
     }
   }
 
@@ -64,26 +62,46 @@ const ModeloRl4Actions = ({
     }
   }
 
+  const getButtonText = () => {
+    switch (exportStatus) {
+      case "loading":
+        return "Exportando...";
+      case "success":
+        return "¡Exportado!";
+      case "error":
+        return "Error";
+      default:
+        return "Excel";
+    }
+  }
+
   return (
     <div className="flex flex-col items-end gap-4">
       <div className="flex items-center gap-4">
         <button
           type="button"
-          disabled={downloading}
+          disabled={isDisabled}
           onClick={handleExportarExcel}
           className={TEXT_ACTION_CLASS}
+          title={!isFormValid ? "Complete los campos correctamente" : ""}
         >
           {getStatusIcon()}
-          <span>
-            {exportStatus === "loading" ? "Exportando..." : 
-             exportStatus === "success" ? "¡Exportado!" : 
-             exportStatus === "error" ? "Error" : 
-             "Excel"}
-          </span>
+          <span>{getButtonText()}</span>
         </button>
       </div>
       
-      {/* Mensaje de error */}
+      {/* Mensaje de error de validación del formulario */}
+      {!isFormValid && exportStatus !== "error" && (
+        <div className="flex items-start gap-2 rounded-md bg-yellow-50 p-3 text-sm text-yellow-800 border border-yellow-200 w-full max-w-md">
+          <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="font-medium">Campos inválidos</p>
+            <p>Complete el campo de días no laborables correctamente antes de exportar</p>
+          </div>
+        </div>
+      )}
+      
+      {/* Mensaje de error de exportación */}
       {exportStatus === "error" && errorMessage && (
         <div className="flex items-start gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800 border border-red-200 w-full max-w-md">
           <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />

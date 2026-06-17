@@ -9,6 +9,7 @@ const ModeloRl4Form = () => {
   const [diasNoLaborables, setDiasNoLaborables] = useState("8")
   const [exportStatus, setExportStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
   const [errorMessage, setErrorMessage] = useState<string>("")
+  const [validationError, setValidationError] = useState<string>("")
 
   const handleExportStatusChange = (status: "idle" | "loading" | "success" | "error", error?: string) => {
     setExportStatus(status)
@@ -17,6 +18,51 @@ const ModeloRl4Form = () => {
     } else {
       setErrorMessage("")
     }
+  }
+
+  const handleDiasChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    
+    // Permitir vacío para facilitar la edición
+    if (value === "") {
+      setDiasNoLaborables("")
+      setValidationError("")
+      return
+    }
+    
+    // Verificar que solo contenga números
+    if (!/^\d+$/.test(value)) {
+      setValidationError("Solo se permiten números enteros")
+      return
+    }
+    
+    const numValue = parseInt(value, 10)
+    
+    // Verificar que sea un número positivo
+    if (numValue < 0) {
+      setValidationError("El número debe ser mayor o igual a 0")
+      return
+    }
+    
+    // Si pasa todas las validaciones
+    setDiasNoLaborables(value)
+    setValidationError("")
+  }
+
+  const handleBlur = () => {
+    // Si el campo está vacío o es 0, establecer a "0"
+    if (diasNoLaborables === "" || diasNoLaborables === "0") {
+      setDiasNoLaborables("0")
+      setValidationError("")
+    }
+  }
+
+  // Validar si el botón debe estar habilitado
+  const isFormValid = () => {
+    if (validationError) return false
+    if (diasNoLaborables === "") return false
+    const numValue = parseInt(diasNoLaborables, 10)
+    return !isNaN(numValue) && numValue >= 0
   }
 
   return (
@@ -32,12 +78,25 @@ const ModeloRl4Form = () => {
             Días No Laborables
           </label>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={diasNoLaborables}
-            onChange={(e) => setDiasNoLaborables(e.target.value)}
-            placeholder="8"
-            className="h-10 w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40"
+            onChange={handleDiasChange}
+            onBlur={handleBlur}
+            placeholder="0"
+            className={`h-10 w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0a8ca8]/40 ${
+              validationError 
+                ? "border-red-500 focus:ring-red-500" 
+                : "border-gray-300"
+            }`}
           />
+          {validationError && (
+            <p className="mt-1 text-sm text-red-500">{validationError}</p>
+          )}
+          <p className="mt-1 text-xs text-gray-500">
+            Ingrese un número entero mayor o igual a 0
+          </p>
         </div>
       </div>
 
@@ -47,6 +106,7 @@ const ModeloRl4Form = () => {
         onExportStatusChange={handleExportStatusChange}
         exportStatus={exportStatus}
         errorMessage={errorMessage}
+        isFormValid={isFormValid()}
       />
     </div>
   )
