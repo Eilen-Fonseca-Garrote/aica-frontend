@@ -164,12 +164,12 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
             {!AUTH_DISABLED_IN_DEV && (
               <div className="app-sidebar-divider p-4 border-t mt-auto">
                 <Button
-                  variant="ghost"
-                  className="w-full justify-start text-white hover:bg-[var(--app-sidebar-hover)] hover:text-white transition-all duration-300"
-                  onClick={handleSignOut}
+                 variant="ghost"
+                 className="w-full flex items-center gap-2 justify-start text-white hover:bg-[var(--app-sidebar-hover)] hover:text-white transition-all duration-300"
+                 onClick={handleSignOut}
                 >
-                  <LogOut className="h-4 w-4 mr-1" />
-                  <span className="whitespace-nowrap">Cerrar sesión</span>
+                    <LogOut className="h-4 w-4 shrink-0" />
+                    <span className="whitespace-nowrap">Cerrar sesión</span>
                 </Button>
               </div>
             )}
