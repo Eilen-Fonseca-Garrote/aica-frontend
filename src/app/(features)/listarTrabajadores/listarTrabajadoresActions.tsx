@@ -11,6 +11,27 @@ import {
   downloadTrabajadoresFisicosPdf,
 } from "@/app/lib/api/reportes"
 
+// Nuevo: extrae el mensaje real cuando el error viene como Blob
+const extractErrorMessage = async (error: any, fallback: string): Promise<string> => {
+  const data = error?.response?.data
+
+  // Si la respuesta de error es un Blob (caso típico con responseType: 'blob')
+  if (data instanceof Blob) {
+    try {
+      const text = await data.text()
+      const parsed = JSON.parse(text)
+      return parsed.message || fallback
+    } catch {
+      return fallback
+    }
+  }
+
+  // Si por alguna razón ya viene como JSON normal
+  if (data?.message) return data.message
+
+  return error?.message || fallback
+}
+
 const ListarTrabajadoresActions = () => {
   const [fecha, setFecha] = useState(
     new Date().toISOString().split("T")[0],
@@ -34,35 +55,34 @@ const ListarTrabajadoresActions = () => {
     window.URL.revokeObjectURL(url)
   }
 
-  // ── Excel SIGERH ───────────────────────────────────────────────────────────
   const handleExportExcel = async () => {
     try {
       setIsExportingXls(true)
       const blob = await downloadAllWorkersXls()
       triggerDownload(blob, `trabajadores_${new Date().toISOString().split("T")[0]}.xlsx`)
     } catch (error) {
+      const msg = await extractErrorMessage(error, "Error al exportar el archivo Excel")
       console.error("Error al exportar Excel SIGERH:", error)
-      alert("Error al exportar el archivo Excel")
+      alert(msg)
     } finally {
       setIsExportingXls(false)
     }
   }
 
-  // ── PDF SIGERH ─────────────────────────────────────────────────────────────
   const handleExportPdf = async () => {
     try {
       setIsExportingPdf(true)
       const blob = await downloadAllWorkersPdf()
       triggerDownload(blob, `trabajadores_${new Date().toISOString().split("T")[0]}.pdf`)
     } catch (error) {
+      const msg = await extractErrorMessage(error, "Error al exportar el archivo PDF")
       console.error("Error al exportar PDF SIGERH:", error)
-      alert("Error al exportar el archivo PDF")
+      alert(msg)
     } finally {
       setIsExportingPdf(false)
     }
   }
 
-  // ── Excel Bioadmin ─────────────────────────────────────────────────────────
   const handleExportBioadminXls = async () => {
     if (!fecha) {
       alert("Seleccione una fecha para exportar el reporte Bioadmin.")
@@ -73,14 +93,14 @@ const ListarTrabajadoresActions = () => {
       const blob = await downloadTrabajadoresFisicosXls(fecha)
       triggerDownload(blob, `trabajadores_fisicos_${fecha}.xlsx`)
     } catch (error) {
+      const msg = await extractErrorMessage(error, "Error al exportar el archivo Excel Bioadmin")
       console.error("Error al exportar Excel Bioadmin:", error)
-      alert("Error al exportar el archivo Excel Bioadmin.")
+      alert(msg) // ✅ ahora muestra el mensaje real del backend
     } finally {
       setIsExportingBioadminXls(false)
     }
   }
 
-  // ── PDF Bioadmin ───────────────────────────────────────────────────────────
   const handleExportBioadminPdf = async () => {
     if (!fecha) {
       alert("Seleccione una fecha para exportar el reporte Bioadmin.")
@@ -91,8 +111,9 @@ const ListarTrabajadoresActions = () => {
       const blob = await downloadTrabajadoresFisicosPdf(fecha)
       triggerDownload(blob, `trabajadores_fisicos_${fecha}.pdf`)
     } catch (error) {
+      const msg = await extractErrorMessage(error, "Error al exportar el archivo PDF Bioadmin")
       console.error("Error al exportar PDF Bioadmin:", error)
-      alert("Error al exportar el archivo PDF Bioadmin.")
+      alert(msg)
     } finally {
       setIsExportingBioadminPdf(false)
     }
@@ -100,52 +121,33 @@ const ListarTrabajadoresActions = () => {
 
   return (
     <div className="flex flex-col gap-6">
-
-      {/* ── Fila SIGERH ── */}
       <div className="flex flex-wrap items-center gap-6">
         <span className="text-xs font-semibold uppercase tracking-wide text-gray-400 w-20">
           SIGERH
         </span>
-        <button
-          type="button"
-          onClick={handleExportExcel}
-          disabled={isAnyExporting}
-          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
-        >
+        <button type="button" onClick={handleExportExcel} disabled={isAnyExporting}
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400">
           <FileSpreadsheet className="h-4 w-4" />
           <span>{isExportingXls ? "Exportando..." : "Excel"}</span>
         </button>
-        <button
-          type="button"
-          onClick={handleExportPdf}
-          disabled={isAnyExporting}
-          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
-        >
+        <button type="button" onClick={handleExportPdf} disabled={isAnyExporting}
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400">
           <FileText className="h-4 w-4" />
           <span>{isExportingPdf ? "Exportando..." : "PDF"}</span>
         </button>
       </div>
 
-      {/* ── Fila Bioadmin ── */}
       <div className="flex flex-wrap items-center gap-6">
         <span className="text-xs font-semibold uppercase tracking-wide text-gray-400 w-20">
           Bioadmin
         </span>
-        <button
-          type="button"
-          onClick={handleExportBioadminXls}
-          disabled={isAnyExporting || !fecha}
-          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
-        >
+        <button type="button" onClick={handleExportBioadminXls} disabled={isAnyExporting || !fecha}
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400">
           <FileSpreadsheet className="h-4 w-4" />
           <span>{isExportingBioadminXls ? "Exportando..." : "Excel"}</span>
         </button>
-        <button
-          type="button"
-          onClick={handleExportBioadminPdf}
-          disabled={isAnyExporting || !fecha}
-          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400"
-        >
+        <button type="button" onClick={handleExportBioadminPdf} disabled={isAnyExporting || !fecha}
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#0a8ca8] hover:text-[#08778f] disabled:cursor-not-allowed disabled:text-gray-400">
           <FileText className="h-4 w-4" />
           <span>{isExportingBioadminPdf ? "Exportando..." : "PDF"}</span>
         </button>
@@ -160,7 +162,6 @@ const ListarTrabajadoresActions = () => {
           />
         </span>
       </div>
-
     </div>
   )
 }
