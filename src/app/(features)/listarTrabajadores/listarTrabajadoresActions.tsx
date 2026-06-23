@@ -11,8 +11,16 @@ import {
   downloadTrabajadoresFisicosPdf,
 } from "@/app/lib/api/reportes"
 
+// Definir tipos para el error
+interface ApiError {
+  response?: {
+    data?: Blob | { message?: string }
+  }
+  message?: string
+}
+
 // Nuevo: extrae el mensaje real cuando el error viene como Blob
-const extractErrorMessage = async (error: any, fallback: string): Promise<string> => {
+const extractErrorMessage = async (error: ApiError, fallback: string): Promise<string> => {
   const data = error?.response?.data
 
   // Si la respuesta de error es un Blob (caso típico con responseType: 'blob')
@@ -27,7 +35,9 @@ const extractErrorMessage = async (error: any, fallback: string): Promise<string
   }
 
   // Si por alguna razón ya viene como JSON normal
-  if (data?.message) return data.message
+  if (data && typeof data === 'object' && 'message' in data && data.message) {
+    return data.message
+  }
 
   return error?.message || fallback
 }
@@ -61,7 +71,7 @@ const ListarTrabajadoresActions = () => {
       const blob = await downloadAllWorkersXls()
       triggerDownload(blob, `trabajadores_${new Date().toISOString().split("T")[0]}.xlsx`)
     } catch (error) {
-      const msg = await extractErrorMessage(error, "Error al exportar el archivo Excel")
+      const msg = await extractErrorMessage(error as ApiError, "Error al exportar el archivo Excel")
       console.error("Error al exportar Excel SIGERH:", error)
       alert(msg)
     } finally {
@@ -75,7 +85,7 @@ const ListarTrabajadoresActions = () => {
       const blob = await downloadAllWorkersPdf()
       triggerDownload(blob, `trabajadores_${new Date().toISOString().split("T")[0]}.pdf`)
     } catch (error) {
-      const msg = await extractErrorMessage(error, "Error al exportar el archivo PDF")
+      const msg = await extractErrorMessage(error as ApiError, "Error al exportar el archivo PDF")
       console.error("Error al exportar PDF SIGERH:", error)
       alert(msg)
     } finally {
@@ -93,7 +103,7 @@ const ListarTrabajadoresActions = () => {
       const blob = await downloadTrabajadoresFisicosXls(fecha)
       triggerDownload(blob, `trabajadores_fisicos_${fecha}.xlsx`)
     } catch (error) {
-      const msg = await extractErrorMessage(error, "Error al exportar el archivo Excel Bioadmin")
+      const msg = await extractErrorMessage(error as ApiError, "Error al exportar el archivo Excel Bioadmin")
       console.error("Error al exportar Excel Bioadmin:", error)
       alert(msg) // ✅ ahora muestra el mensaje real del backend
     } finally {
@@ -111,7 +121,7 @@ const ListarTrabajadoresActions = () => {
       const blob = await downloadTrabajadoresFisicosPdf(fecha)
       triggerDownload(blob, `trabajadores_fisicos_${fecha}.pdf`)
     } catch (error) {
-      const msg = await extractErrorMessage(error, "Error al exportar el archivo PDF Bioadmin")
+      const msg = await extractErrorMessage(error as ApiError, "Error al exportar el archivo PDF Bioadmin")
       console.error("Error al exportar PDF Bioadmin:", error)
       alert(msg)
     } finally {
